@@ -1,5 +1,3 @@
-using static Aigamo.Petunia.JsonValue;
-
 namespace Aigamo.Petunia;
 
 internal abstract record JsonValue
