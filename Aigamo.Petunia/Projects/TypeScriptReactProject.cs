@@ -9,6 +9,12 @@ internal sealed record TypeScriptReactProjectOptions :
 	public bool UseAlias { get; init; }
 	public bool UseESLintAndPrettier { get; init; }
 	public bool SortImports { get; init; }
+	public bool InstallAjv { get; init; }
+	public bool InstallFluentUIReactIcons { get; init; }
+	public bool InstallLodashES { get; init; }
+	public bool InstallMobX { get; init; }
+	public bool InstallReactRouter { get; init; }
+	public bool InstallQs { get; init; }
 }
 
 internal sealed class TypeScriptReactProject : TypeScriptProject
@@ -56,6 +62,12 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		bool UseAlias { get; }
 		bool UseESLintAndPrettier { get; }
 		bool SortImports { get; }
+		bool InstallAjv { get; init; }
+		bool InstallFluentUIReactIcons { get; init; }
+		bool InstallLodashES { get; init; }
+		bool InstallMobX { get; init; }
+		bool InstallReactRouter { get; init; }
+		bool InstallQs { get; init; }
 	}
 
 	internal static string GeneratePackageJson(IGeneratePackageJsonOptions options)
@@ -92,6 +104,42 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		if (options.SortImports)
 		{
 			devDependencies.AddEntry("@trivago/prettier-plugin-sort-imports", "^3.4.0");
+		}
+
+		if (options.InstallAjv)
+		{
+			dependencies.AddEntry("ajv", "^8.11.0");
+		}
+
+		if (options.InstallFluentUIReactIcons)
+		{
+			dependencies
+				.AddEntry("@fluentui/react-icons", "^2.0.186")
+				.AddEntry("@fluentui/react-make-styles", "^9.0.0-beta.4");
+		}
+
+		if (options.InstallLodashES)
+		{
+			dependencies.AddEntry("lodash-es", "^4.17.21");
+			devDependencies.AddEntry("@types/lodash-es", "^4.17.6");
+		}
+
+		if (options.InstallMobX)
+		{
+			dependencies
+				.AddEntry("mobx", "^6.6.2")
+				.AddEntry("mobx-react-lite", "^3.4.0");
+		}
+
+		if (options.InstallReactRouter)
+		{
+			dependencies.AddEntry("react-router-dom", "^6.4.3");
+		}
+
+		if (options.InstallQs)
+		{
+			dependencies.AddEntry("qs", "^6.11.0");
+			devDependencies.AddEntry("@types/qs", "^6.9.7");
 		}
 
 		var obj = new JsonObject()

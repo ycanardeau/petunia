@@ -15,6 +15,12 @@ internal class Program
 			UseAlias = true,
 			UseESLintAndPrettier = true,
 			SortImports = true,
+			InstallAjv = true,
+			InstallFluentUIReactIcons = true,
+			InstallLodashES = true,
+			InstallMobX = true,
+			InstallReactRouter = true,
+			InstallQs = true,
 		};
 		var project = new TypeScriptReactProject(projectOptions);
 		var projectFiles = project.GenerateProjectFiles();
