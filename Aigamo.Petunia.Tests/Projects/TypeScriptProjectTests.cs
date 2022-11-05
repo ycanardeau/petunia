@@ -22,7 +22,7 @@ public sealed class TypeScriptProjectTests
 	[Fact]
 	public void GeneratePrettierRcJson()
 	{
-		_project.GeneratePrettierRcJson().Should().Be($$"""
+		_project.GeneratePrettierRcJson().Should().Be("""
 			{
 				"singleQuote": true,
 				"trailingComma": "all",

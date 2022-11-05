@@ -135,7 +135,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 	internal string GenerateESLintRcJS()
 	{
 		// TODO
-		return $$"""
+		return """
 			module.exports = {
 				parser: '@typescript-eslint/parser',
 				parserOptions: {
@@ -168,6 +168,103 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
+	internal string GeneratePublicIndexHtml()
+	{
+		// TODO
+		return """
+			<!DOCTYPE html>
+			<html lang="en">
+				<head>
+					<meta charset="utf-8" />
+					<meta name="viewport" content="width=device-width, initial-scale=1" />
+					<meta name="theme-color" content="#000000" />
+					<meta name="description" content="" />
+					<title></title>
+				</head>
+				<body>
+					<noscript>You need to enable JavaScript to run this app.</noscript>
+					<div id="root"></div>
+				</body>
+			</html>
+			
+			""";
+	}
+
+	internal string GenerateSrcAppTsx()
+	{
+		// TODO
+		return """
+			import React from 'react';
+			
+			const App = (): React.ReactElement => {
+				return <></>;
+			};
+			
+			export default App;
+			
+			""";
+	}
+
+	internal string GenerateSrcReportWebVitalsTS()
+	{
+		// TODO
+		return """
+			import { ReportHandler } from 'web-vitals';
+			
+			const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
+				if (onPerfEntry && onPerfEntry instanceof Function) {
+					import('web-vitals').then(
+						({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+							getCLS(onPerfEntry);
+							getFID(onPerfEntry);
+							getFCP(onPerfEntry);
+							getLCP(onPerfEntry);
+							getTTFB(onPerfEntry);
+						},
+					);
+				}
+			};
+			
+			export default reportWebVitals;
+			
+			""";
+	}
+
+	internal string GenerateSrcIndexTsx()
+	{
+		// TODO
+		return """
+			import App from './App';
+			import reportWebVitals from './reportWebVitals';
+			import React from 'react';
+			import ReactDOM from 'react-dom/client';
+			
+			const root = ReactDOM.createRoot(
+				document.getElementById('root') as HTMLElement,
+			);
+			root.render(
+				<React.StrictMode>
+					<App />
+				</React.StrictMode>,
+			);
+			
+			// If you want to start measuring performance in your app, pass a function
+			// to log results (for example: reportWebVitals(console.log))
+			// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+			reportWebVitals();
+			
+			""";
+	}
+
+	internal string GenerateSrcReactAppEnvDTS()
+	{
+		// TODO
+		return """
+			/// <reference types="react-scripts" />
+			
+			""";
+	}
+
 	public override IEnumerable<ProjectFile> GenerateProjectFiles()
 	{
 		yield return new(".editorconfig", GenerateEditorConfig());
@@ -176,6 +273,11 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		yield return new(".gitignore", GenerateGitignore());
 		yield return new("package.json", GeneratePackageJson());
 		yield return new("tsconfig.json", GenerateTSConfigJson());
-		yield return new(".eslintrc.js", GenerateESLintRcJS());
+		// TODO: yield return new(".eslintrc.js", GenerateESLintRcJS());
+		yield return new("public/index.html", GeneratePublicIndexHtml());
+		yield return new("src/App.tsx", GenerateSrcAppTsx());
+		yield return new("src/reportWebVitals.ts", GenerateSrcReportWebVitalsTS());
+		yield return new("src/index.tsx", GenerateSrcIndexTsx());
+		yield return new("src/react-app-env.d.ts", GenerateSrcReactAppEnvDTS());
 	}
 }
