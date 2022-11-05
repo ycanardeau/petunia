@@ -1,8 +1,14 @@
 namespace Aigamo.Petunia.Projects;
 
-internal sealed record TypeScriptReactProjectOptions
+internal sealed record TypeScriptReactProjectOptions :
+	TypeScriptReactProject.IGeneratePackageJsonOptions,
+	TypeScriptReactProject.IGenerateTSConfigJsonOptions,
+	TypeScriptReactProject.IGenerateSrcIndexTsxOptions,
+	TypeScriptProject.IGeneratePrettierRcJsonOptions
 {
 	public bool UseAlias { get; init; }
+	public bool UseESLintAndPrettier { get; init; }
+	public bool SortImports { get; init; }
 }
 
 internal sealed class TypeScriptReactProject : TypeScriptProject
@@ -45,7 +51,14 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal static string GeneratePackageJson(bool useAlias)
+	public interface IGeneratePackageJsonOptions
+	{
+		bool UseAlias { get; }
+		bool UseESLintAndPrettier { get; }
+		bool SortImports { get; }
+	}
+
+	internal static string GeneratePackageJson(IGeneratePackageJsonOptions options)
 	{
 		var dependencies = new JsonObject()
 			.AddEntry("@testing-library/jest-dom", "^5.14.1")
@@ -63,9 +76,22 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 
 		var devDependencies = new JsonObject();
 
-		if (useAlias)
+		if (options.UseAlias)
 		{
 			devDependencies.AddEntry("@craco/craco", "^7.0.0-alpha.9");
+		}
+
+		if (options.UseESLintAndPrettier)
+		{
+			devDependencies
+				.AddEntry("eslint-config-prettier", "^8.5.0")
+				.AddEntry("eslint-plugin-prettier", "^4.2.1")
+				.AddEntry("prettier", "^2.7.1");
+		}
+
+		if (options.SortImports)
+		{
+			devDependencies.AddEntry("@trivago/prettier-plugin-sort-imports", "^3.4.0");
 		}
 
 		var obj = new JsonObject()
@@ -76,7 +102,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			.AddEntry("devDependencies", devDependencies.Entries.Any() ? devDependencies : null)
 			.AddEntry(
 				"scripts",
-				useAlias
+				options.UseAlias
 					? new JsonObject()
 						.AddEntry("start", "craco start")
 						.AddEntry("build", "craco build")
@@ -120,7 +146,12 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		return $"{obj.ToFormattedString(new())}{Constants.NewLine}";
 	}
 
-	internal static string GenerateTSConfigJson(bool useAlias)
+	public interface IGenerateTSConfigJsonOptions
+	{
+		bool UseAlias { get; }
+	}
+
+	internal static string GenerateTSConfigJson(IGenerateTSConfigJsonOptions options)
 	{
 		var compilerOptions = new JsonObject()
 			.AddEntry("target", "es5")
@@ -145,7 +176,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			.AddEntry("noEmit", true)
 			.AddEntry("jsx", "react-jsx");
 
-		if (useAlias)
+		if (options.UseAlias)
 		{
 			compilerOptions
 				.AddEntry("baseUrl", "./")
@@ -269,10 +300,15 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal static string GenerateSrcIndexTsx(bool useAlias)
+	public interface IGenerateSrcIndexTsxOptions
+	{
+		bool UseAlias { get; }
+	}
+
+	internal static string GenerateSrcIndexTsx(IGenerateSrcIndexTsxOptions options)
 	{
 		// TODO
-		if (useAlias)
+		if (options.UseAlias)
 		{
 			return """
 				import App from '@/App';
@@ -351,21 +387,22 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 	public override IEnumerable<ProjectFile> GenerateProjectFiles()
 	{
 		yield return new(".editorconfig", GenerateEditorConfig());
-		yield return new(".prettierrc.json", GeneratePrettierRcJson());
-
-		var useAlias = Options.UseAlias;
-
 		yield return new(".gitignore", GenerateGitignore());
-		yield return new("package.json", GeneratePackageJson(useAlias));
-		yield return new("tsconfig.json", GenerateTSConfigJson(useAlias));
-		// TODO: yield return new(".eslintrc.js", GenerateESLintRcJS());
+		yield return new("package.json", GeneratePackageJson(Options));
+		yield return new("tsconfig.json", GenerateTSConfigJson(Options));
 		yield return new("public/index.html", GeneratePublicIndexHtml());
 		yield return new("src/App.tsx", GenerateSrcAppTsx());
 		yield return new("src/reportWebVitals.ts", GenerateSrcReportWebVitalsTS());
-		yield return new("src/index.tsx", GenerateSrcIndexTsx(useAlias));
+		yield return new("src/index.tsx", GenerateSrcIndexTsx(Options));
 		yield return new("src/react-app-env.d.ts", GenerateSrcReactAppEnvDTS());
 
-		if (useAlias)
+		if (Options.UseESLintAndPrettier)
+		{
+			yield return new(".eslintrc.js", GenerateESLintRcJS());
+			yield return new(".prettierrc.json", GeneratePrettierRcJson(Options));
+		}
+
+		if (Options.UseAlias)
 		{
 			yield return new("craco.config.js", GenerateCracoConfigJS());
 		}

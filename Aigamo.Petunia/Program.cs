@@ -13,6 +13,8 @@ internal class Program
 		var projectOptions = new TypeScriptReactProjectOptions
 		{
 			UseAlias = true,
+			UseESLintAndPrettier = true,
+			SortImports = true,
 		};
 		var project = new TypeScriptReactProject(projectOptions);
 		var projectFiles = project.GenerateProjectFiles();
