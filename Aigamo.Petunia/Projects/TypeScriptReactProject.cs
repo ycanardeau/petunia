@@ -1,8 +1,19 @@
 namespace Aigamo.Petunia.Projects;
 
+internal sealed record TypeScriptReactProjectOptions
+{
+}
+
 internal sealed class TypeScriptReactProject : TypeScriptProject
 {
-	internal string GenerateGitignore()
+	public TypeScriptReactProjectOptions Options { get; }
+
+	public TypeScriptReactProject(TypeScriptReactProjectOptions options)
+	{
+		Options = options;
+	}
+
+	internal static string GenerateGitignore()
 	{
 		// TODO
 		return """
@@ -33,28 +44,30 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GeneratePackageJson()
+	internal static string GeneratePackageJson()
 	{
+		var dependencies = new JsonObject()
+			.AddEntry("@testing-library/jest-dom", "^5.14.1")
+			.AddEntry("@testing-library/react", "^13.0.0")
+			.AddEntry("@testing-library/user-event", "^13.2.1")
+			.AddEntry("@types/jest", "^27.0.1")
+			.AddEntry("@types/node", "^16.7.13")
+			.AddEntry("@types/react", "^18.0.0")
+			.AddEntry("@types/react-dom", "^18.0.0")
+			.AddEntry("react", "^18.2.0")
+			.AddEntry("react-dom", "^18.2.0")
+			.AddEntry("react-scripts", "5.0.1")
+			.AddEntry("typescript", "^4.4.2")
+			.AddEntry("web-vitals", "^2.1.0");
+
+		var devDependencies = new JsonObject();
+
 		var obj = new JsonObject()
 			.AddEntry("name", "petunia")
 			.AddEntry("version", "0.1.0")
 			.AddEntry("private", true)
-			.AddEntry(
-				"dependencies",
-				new JsonObject()
-					.AddEntry("@testing-library/jest-dom", "^5.14.1")
-					.AddEntry("@testing-library/react", "^13.0.0")
-					.AddEntry("@testing-library/user-event", "^13.2.1")
-					.AddEntry("@types/jest", "^27.0.1")
-					.AddEntry("@types/node", "^16.7.13")
-					.AddEntry("@types/react", "^18.0.0")
-					.AddEntry("@types/react-dom", "^18.0.0")
-					.AddEntry("react", "^18.2.0")
-					.AddEntry("react-dom", "^18.2.0")
-					.AddEntry("react-scripts", "5.0.1")
-					.AddEntry("typescript", "^4.4.2")
-					.AddEntry("web-vitals", "^2.1.0")
-			)
+			.AddEntry("dependencies", dependencies)
+			.AddEntry("devDependencies", devDependencies.Entries.Any() ? devDependencies : null)
 			.AddEntry(
 				"scripts",
 				new JsonObject()
@@ -95,34 +108,33 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		return $"{obj.ToFormattedString(new())}{Constants.NewLine}";
 	}
 
-	internal string GenerateTSConfigJson()
+	internal static string GenerateTSConfigJson()
 	{
-		var obj = new JsonObject()
+		var compilerOptions = new JsonObject()
+			.AddEntry("target", "es5")
 			.AddEntry(
-				"compilerOptions",
-				new JsonObject()
-					.AddEntry("target", "es5")
-					.AddEntry(
-						"lib",
-						new JsonArray()
-							.AddItem("dom")
-							.AddItem("dom.iterable")
-							.AddItem("esnext")
-					)
-					.AddEntry("allowJs", true)
-					.AddEntry("skipLibCheck", true)
-					.AddEntry("esModuleInterop", true)
-					.AddEntry("allowSyntheticDefaultImports", true)
-					.AddEntry("strict", true)
-					.AddEntry("forceConsistentCasingInFileNames", true)
-					.AddEntry("noFallthroughCasesInSwitch", true)
-					.AddEntry("module", "esnext")
-					.AddEntry("moduleResolution", "node")
-					.AddEntry("resolveJsonModule", true)
-					.AddEntry("isolatedModules", true)
-					.AddEntry("noEmit", true)
-					.AddEntry("jsx", "react-jsx")
+				"lib",
+				new JsonArray()
+					.AddItem("dom")
+					.AddItem("dom.iterable")
+					.AddItem("esnext")
 			)
+			.AddEntry("allowJs", true)
+			.AddEntry("skipLibCheck", true)
+			.AddEntry("esModuleInterop", true)
+			.AddEntry("allowSyntheticDefaultImports", true)
+			.AddEntry("strict", true)
+			.AddEntry("forceConsistentCasingInFileNames", true)
+			.AddEntry("noFallthroughCasesInSwitch", true)
+			.AddEntry("module", "esnext")
+			.AddEntry("moduleResolution", "node")
+			.AddEntry("resolveJsonModule", true)
+			.AddEntry("isolatedModules", true)
+			.AddEntry("noEmit", true)
+			.AddEntry("jsx", "react-jsx");
+
+		var obj = new JsonObject()
+			.AddEntry("compilerOptions", compilerOptions)
 			.AddEntry(
 				"include",
 				new JsonArray()
@@ -132,10 +144,10 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		return $"{obj.ToFormattedString(new())}{Constants.NewLine}";
 	}
 
-	internal string GenerateESLintRcJS()
+	internal static string GenerateESLintRcJS()
 	{
 		// TODO
-		return $$"""
+		return """
 			module.exports = {
 				parser: '@typescript-eslint/parser',
 				parserOptions: {
@@ -168,6 +180,103 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
+	internal static string GeneratePublicIndexHtml()
+	{
+		// TODO
+		return """
+			<!DOCTYPE html>
+			<html lang="en">
+				<head>
+					<meta charset="utf-8" />
+					<meta name="viewport" content="width=device-width, initial-scale=1" />
+					<meta name="theme-color" content="#000000" />
+					<meta name="description" content="" />
+					<title></title>
+				</head>
+				<body>
+					<noscript>You need to enable JavaScript to run this app.</noscript>
+					<div id="root"></div>
+				</body>
+			</html>
+			
+			""";
+	}
+
+	internal static string GenerateSrcAppTsx()
+	{
+		// TODO
+		return """
+			import React from 'react';
+			
+			const App = (): React.ReactElement => {
+				return <></>;
+			};
+			
+			export default App;
+			
+			""";
+	}
+
+	internal static string GenerateSrcReportWebVitalsTS()
+	{
+		// TODO
+		return """
+			import { ReportHandler } from 'web-vitals';
+			
+			const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
+				if (onPerfEntry && onPerfEntry instanceof Function) {
+					import('web-vitals').then(
+						({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+							getCLS(onPerfEntry);
+							getFID(onPerfEntry);
+							getFCP(onPerfEntry);
+							getLCP(onPerfEntry);
+							getTTFB(onPerfEntry);
+						},
+					);
+				}
+			};
+			
+			export default reportWebVitals;
+			
+			""";
+	}
+
+	internal static string GenerateSrcIndexTsx()
+	{
+		// TODO
+		return """
+			import App from './App';
+			import reportWebVitals from './reportWebVitals';
+			import React from 'react';
+			import ReactDOM from 'react-dom/client';
+			
+			const root = ReactDOM.createRoot(
+				document.getElementById('root') as HTMLElement,
+			);
+			root.render(
+				<React.StrictMode>
+					<App />
+				</React.StrictMode>,
+			);
+			
+			// If you want to start measuring performance in your app, pass a function
+			// to log results (for example: reportWebVitals(console.log))
+			// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+			reportWebVitals();
+			
+			""";
+	}
+
+	internal static string GenerateSrcReactAppEnvDTS()
+	{
+		// TODO
+		return """
+			/// <reference types="react-scripts" />
+			
+			""";
+	}
+
 	public override IEnumerable<ProjectFile> GenerateProjectFiles()
 	{
 		yield return new(".editorconfig", GenerateEditorConfig());
@@ -176,6 +285,11 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		yield return new(".gitignore", GenerateGitignore());
 		yield return new("package.json", GeneratePackageJson());
 		yield return new("tsconfig.json", GenerateTSConfigJson());
-		yield return new(".eslintrc.js", GenerateESLintRcJS());
+		// TODO: yield return new(".eslintrc.js", GenerateESLintRcJS());
+		yield return new("public/index.html", GeneratePublicIndexHtml());
+		yield return new("src/App.tsx", GenerateSrcAppTsx());
+		yield return new("src/reportWebVitals.ts", GenerateSrcReportWebVitalsTS());
+		yield return new("src/index.tsx", GenerateSrcIndexTsx());
+		yield return new("src/react-app-env.d.ts", GenerateSrcReactAppEnvDTS());
 	}
 }

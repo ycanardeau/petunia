@@ -98,9 +98,9 @@ internal abstract record JsonValue
 	{
 		public List<KeyValuePair<string, JsonValue>> Entries { get; init; } = new();
 
-		public JsonObject AddEntry(string key, JsonValue value)
+		public JsonObject AddEntry(string key, JsonValue? value)
 		{
-			Entries.Add(new(key, value));
+			if (value is not null) Entries.Add(new(key, value));
 			return this;
 		}
 

@@ -2,7 +2,7 @@ namespace Aigamo.Petunia.Projects;
 
 internal abstract class TypeScriptProject : Project
 {
-	internal string GeneratePrettierRcJson()
+	internal static string GeneratePrettierRcJson()
 	{
 		var obj = new JsonObject()
 			.AddEntry("singleQuote", true)
