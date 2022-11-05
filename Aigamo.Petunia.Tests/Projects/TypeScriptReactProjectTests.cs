@@ -4,17 +4,10 @@ namespace Aigamo.Petunia.Tests.Projects;
 
 public sealed class TypeScriptReactProjectTests
 {
-	private readonly TypeScriptReactProject _project;
-
-	public TypeScriptReactProjectTests()
-	{
-		_project = new TypeScriptReactProject();
-	}
-
 	[Fact]
 	public void GenerateGitignore()
 	{
-		_project.GenerateGitignore().Should().Be("""
+		TypeScriptReactProject.GenerateGitignore().Should().Be("""
 			# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 			# dependencies
@@ -45,7 +38,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GeneratePackageJson()
 	{
-		_project.GeneratePackageJson().Should().Be("""
+		TypeScriptReactProject.GeneratePackageJson(useAlias: false).Should().Be("""
 			{
 				"name": "petunia",
 				"version": "0.1.0",
@@ -94,9 +87,63 @@ public sealed class TypeScriptReactProjectTests
 	}
 
 	[Fact]
+	public void GeneratePackageJson_UseAlias()
+	{
+		TypeScriptReactProject.GeneratePackageJson(useAlias: true).Should().Be("""
+			{
+				"name": "petunia",
+				"version": "0.1.0",
+				"private": true,
+				"dependencies": {
+					"@testing-library/jest-dom": "^5.14.1",
+					"@testing-library/react": "^13.0.0",
+					"@testing-library/user-event": "^13.2.1",
+					"@types/jest": "^27.0.1",
+					"@types/node": "^16.7.13",
+					"@types/react": "^18.0.0",
+					"@types/react-dom": "^18.0.0",
+					"react": "^18.2.0",
+					"react-dom": "^18.2.0",
+					"react-scripts": "5.0.1",
+					"typescript": "^4.4.2",
+					"web-vitals": "^2.1.0"
+				},
+				"devDependencies": {
+					"@craco/craco": "^7.0.0-alpha.9"
+				},
+				"scripts": {
+					"start": "craco start",
+					"build": "craco build",
+					"test": "craco test",
+					"eject": "react-scripts eject"
+				},
+				"eslintConfig": {
+					"extends": [
+						"react-app",
+						"react-app/jest"
+					]
+				},
+				"browserslist": {
+					"production": [
+						">0.2%",
+						"not dead",
+						"not op_mini all"
+					],
+					"development": [
+						"last 1 chrome version",
+						"last 1 firefox version",
+						"last 1 safari version"
+					]
+				}
+			}
+
+			""");
+	}
+
+	[Fact]
 	public void GenerateTSConfigJson()
 	{
-		_project.GenerateTSConfigJson().Should().Be("""
+		TypeScriptReactProject.GenerateTSConfigJson(useAlias: false).Should().Be("""
 			{
 				"compilerOptions": {
 					"target": "es5",
@@ -128,9 +175,49 @@ public sealed class TypeScriptReactProjectTests
 	}
 
 	[Fact]
+	public void GenerateTSConfigJson_UseAlias()
+	{
+		TypeScriptReactProject.GenerateTSConfigJson(useAlias: true).Should().Be("""
+			{
+				"compilerOptions": {
+					"target": "es5",
+					"lib": [
+						"dom",
+						"dom.iterable",
+						"esnext"
+					],
+					"allowJs": true,
+					"skipLibCheck": true,
+					"esModuleInterop": true,
+					"allowSyntheticDefaultImports": true,
+					"strict": true,
+					"forceConsistentCasingInFileNames": true,
+					"noFallthroughCasesInSwitch": true,
+					"module": "esnext",
+					"moduleResolution": "node",
+					"resolveJsonModule": true,
+					"isolatedModules": true,
+					"noEmit": true,
+					"jsx": "react-jsx",
+					"baseUrl": "./",
+					"paths": {
+						"@/*": [
+							"./src/*"
+						]
+					}
+				},
+				"include": [
+					"src"
+				]
+			}
+			
+			""");
+	}
+
+	[Fact]
 	public void GenerateESLintRcJS()
 	{
-		_project.GenerateESLintRcJS().Should().Be("""
+		TypeScriptReactProject.GenerateESLintRcJS().Should().Be("""
 			module.exports = {
 				parser: '@typescript-eslint/parser',
 				parserOptions: {
@@ -166,7 +253,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GeneratePublicIndexHtml()
 	{
-		_project.GeneratePublicIndexHtml().Should().Be("""
+		TypeScriptReactProject.GeneratePublicIndexHtml().Should().Be("""
 			<!DOCTYPE html>
 			<html lang="en">
 				<head>
@@ -188,7 +275,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcAppTsx()
 	{
-		_project.GenerateSrcAppTsx().Should().Be("""
+		TypeScriptReactProject.GenerateSrcAppTsx().Should().Be("""
 			import React from 'react';
 			
 			const App = (): React.ReactElement => {
@@ -203,7 +290,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcReportWebVitalsTS()
 	{
-		_project.GenerateSrcReportWebVitalsTS().Should().Be("""
+		TypeScriptReactProject.GenerateSrcReportWebVitalsTS().Should().Be("""
 			import { ReportHandler } from 'web-vitals';
 
 			const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
@@ -228,7 +315,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcIndexTsx()
 	{
-		_project.GenerateSrcIndexTsx().Should().Be("""
+		TypeScriptReactProject.GenerateSrcIndexTsx(useAlias: false).Should().Be("""
 			import App from './App';
 			import reportWebVitals from './reportWebVitals';
 			import React from 'react';
@@ -252,9 +339,35 @@ public sealed class TypeScriptReactProjectTests
 	}
 
 	[Fact]
+	public void GenerateSrcIndexTsx_UseAlias()
+	{
+		TypeScriptReactProject.GenerateSrcIndexTsx(useAlias: true).Should().Be("""
+			import App from '@/App';
+			import reportWebVitals from '@/reportWebVitals';
+			import React from 'react';
+			import ReactDOM from 'react-dom/client';
+			
+			const root = ReactDOM.createRoot(
+				document.getElementById('root') as HTMLElement,
+			);
+			root.render(
+				<React.StrictMode>
+					<App />
+				</React.StrictMode>,
+			);
+			
+			// If you want to start measuring performance in your app, pass a function
+			// to log results (for example: reportWebVitals(console.log))
+			// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+			reportWebVitals();
+			
+			""");
+	}
+
+	[Fact]
 	public void GenerateSrcReactAppEnvDTS()
 	{
-		_project.GenerateSrcReactAppEnvDTS().Should().Be("""
+		TypeScriptReactProject.GenerateSrcReactAppEnvDTS().Should().Be("""
 			/// <reference types="react-scripts" />
 			
 			""");
@@ -263,7 +376,8 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateProjectFiles()
 	{
-		var projectFiles = _project.GenerateProjectFiles();
+		var project = new TypeScriptReactProject(new());
+		var projectFiles = project.GenerateProjectFiles();
 		ProjectFile? SingleOrDefault(string path) => projectFiles.SingleOrDefault(projectFile => projectFile.Path == path);
 		SingleOrDefault(".editorconfig").Should().NotBeNull();
 		SingleOrDefault(".prettierrc.json").Should().NotBeNull();

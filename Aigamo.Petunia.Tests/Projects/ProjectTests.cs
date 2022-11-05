@@ -4,25 +4,10 @@ namespace Aigamo.Petunia.Tests.Projects;
 
 public sealed class ProjectTests
 {
-	private sealed class FakeProject : Project
-	{
-		public override IEnumerable<ProjectFile> GenerateProjectFiles()
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	private readonly FakeProject _project;
-
-	public ProjectTests()
-	{
-		_project = new();
-	}
-
 	[Fact]
 	public void GenerateEditorConfig()
 	{
-		_project.GenerateEditorConfig().Should().Be("""
+		Project.GenerateEditorConfig().Should().Be("""
 			root = true
 
 			[*]

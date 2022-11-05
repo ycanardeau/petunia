@@ -1,8 +1,20 @@
 namespace Aigamo.Petunia.Projects;
 
+internal sealed record TypeScriptReactProjectOptions
+{
+	public bool UseAlias { get; init; }
+}
+
 internal sealed class TypeScriptReactProject : TypeScriptProject
 {
-	internal string GenerateGitignore()
+	public TypeScriptReactProjectOptions Options { get; }
+
+	public TypeScriptReactProject(TypeScriptReactProjectOptions options)
+	{
+		Options = options;
+	}
+
+	internal static string GenerateGitignore()
 	{
 		// TODO
 		return """
@@ -33,35 +45,48 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GeneratePackageJson()
+	internal static string GeneratePackageJson(bool useAlias)
 	{
+		var dependencies = new JsonObject()
+			.AddEntry("@testing-library/jest-dom", "^5.14.1")
+			.AddEntry("@testing-library/react", "^13.0.0")
+			.AddEntry("@testing-library/user-event", "^13.2.1")
+			.AddEntry("@types/jest", "^27.0.1")
+			.AddEntry("@types/node", "^16.7.13")
+			.AddEntry("@types/react", "^18.0.0")
+			.AddEntry("@types/react-dom", "^18.0.0")
+			.AddEntry("react", "^18.2.0")
+			.AddEntry("react-dom", "^18.2.0")
+			.AddEntry("react-scripts", "5.0.1")
+			.AddEntry("typescript", "^4.4.2")
+			.AddEntry("web-vitals", "^2.1.0");
+
+		var devDependencies = new JsonObject();
+
+		if (useAlias)
+		{
+			devDependencies.AddEntry("@craco/craco", "^7.0.0-alpha.9");
+		}
+
 		var obj = new JsonObject()
 			.AddEntry("name", "petunia")
 			.AddEntry("version", "0.1.0")
 			.AddEntry("private", true)
-			.AddEntry(
-				"dependencies",
-				new JsonObject()
-					.AddEntry("@testing-library/jest-dom", "^5.14.1")
-					.AddEntry("@testing-library/react", "^13.0.0")
-					.AddEntry("@testing-library/user-event", "^13.2.1")
-					.AddEntry("@types/jest", "^27.0.1")
-					.AddEntry("@types/node", "^16.7.13")
-					.AddEntry("@types/react", "^18.0.0")
-					.AddEntry("@types/react-dom", "^18.0.0")
-					.AddEntry("react", "^18.2.0")
-					.AddEntry("react-dom", "^18.2.0")
-					.AddEntry("react-scripts", "5.0.1")
-					.AddEntry("typescript", "^4.4.2")
-					.AddEntry("web-vitals", "^2.1.0")
-			)
+			.AddEntry("dependencies", dependencies)
+			.AddEntry("devDependencies", devDependencies.Entries.Any() ? devDependencies : null)
 			.AddEntry(
 				"scripts",
-				new JsonObject()
-					.AddEntry("start", "react-scripts start")
-					.AddEntry("build", "react-scripts build")
-					.AddEntry("test", "react-scripts test")
-					.AddEntry("eject", "react-scripts eject")
+				useAlias
+					? new JsonObject()
+						.AddEntry("start", "craco start")
+						.AddEntry("build", "craco build")
+						.AddEntry("test", "craco test")
+						.AddEntry("eject", "react-scripts eject")
+					: new JsonObject()
+						.AddEntry("start", "react-scripts start")
+						.AddEntry("build", "react-scripts build")
+						.AddEntry("test", "react-scripts test")
+						.AddEntry("eject", "react-scripts eject")
 			)
 			.AddEntry(
 				"eslintConfig",
@@ -95,34 +120,48 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		return $"{obj.ToFormattedString(new())}{Constants.NewLine}";
 	}
 
-	internal string GenerateTSConfigJson()
+	internal static string GenerateTSConfigJson(bool useAlias)
 	{
-		var obj = new JsonObject()
+		var compilerOptions = new JsonObject()
+			.AddEntry("target", "es5")
 			.AddEntry(
-				"compilerOptions",
-				new JsonObject()
-					.AddEntry("target", "es5")
-					.AddEntry(
-						"lib",
-						new JsonArray()
-							.AddItem("dom")
-							.AddItem("dom.iterable")
-							.AddItem("esnext")
-					)
-					.AddEntry("allowJs", true)
-					.AddEntry("skipLibCheck", true)
-					.AddEntry("esModuleInterop", true)
-					.AddEntry("allowSyntheticDefaultImports", true)
-					.AddEntry("strict", true)
-					.AddEntry("forceConsistentCasingInFileNames", true)
-					.AddEntry("noFallthroughCasesInSwitch", true)
-					.AddEntry("module", "esnext")
-					.AddEntry("moduleResolution", "node")
-					.AddEntry("resolveJsonModule", true)
-					.AddEntry("isolatedModules", true)
-					.AddEntry("noEmit", true)
-					.AddEntry("jsx", "react-jsx")
+				"lib",
+				new JsonArray()
+					.AddItem("dom")
+					.AddItem("dom.iterable")
+					.AddItem("esnext")
 			)
+			.AddEntry("allowJs", true)
+			.AddEntry("skipLibCheck", true)
+			.AddEntry("esModuleInterop", true)
+			.AddEntry("allowSyntheticDefaultImports", true)
+			.AddEntry("strict", true)
+			.AddEntry("forceConsistentCasingInFileNames", true)
+			.AddEntry("noFallthroughCasesInSwitch", true)
+			.AddEntry("module", "esnext")
+			.AddEntry("moduleResolution", "node")
+			.AddEntry("resolveJsonModule", true)
+			.AddEntry("isolatedModules", true)
+			.AddEntry("noEmit", true)
+			.AddEntry("jsx", "react-jsx");
+
+		if (useAlias)
+		{
+			compilerOptions
+				.AddEntry("baseUrl", "./")
+				.AddEntry(
+					"paths",
+					new JsonObject()
+						.AddEntry(
+							"@/*",
+							new JsonArray()
+								.AddItem("./src/*")
+						)
+				);
+		}
+
+		var obj = new JsonObject()
+			.AddEntry("compilerOptions", compilerOptions)
 			.AddEntry(
 				"include",
 				new JsonArray()
@@ -132,7 +171,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		return $"{obj.ToFormattedString(new())}{Constants.NewLine}";
 	}
 
-	internal string GenerateESLintRcJS()
+	internal static string GenerateESLintRcJS()
 	{
 		// TODO
 		return """
@@ -168,7 +207,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GeneratePublicIndexHtml()
+	internal static string GeneratePublicIndexHtml()
 	{
 		// TODO
 		return """
@@ -190,7 +229,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GenerateSrcAppTsx()
+	internal static string GenerateSrcAppTsx()
 	{
 		// TODO
 		return """
@@ -205,7 +244,7 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GenerateSrcReportWebVitalsTS()
+	internal static string GenerateSrcReportWebVitalsTS()
 	{
 		// TODO
 		return """
@@ -230,37 +269,81 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 			""";
 	}
 
-	internal string GenerateSrcIndexTsx()
+	internal static string GenerateSrcIndexTsx(bool useAlias)
 	{
 		// TODO
-		return """
-			import App from './App';
-			import reportWebVitals from './reportWebVitals';
-			import React from 'react';
-			import ReactDOM from 'react-dom/client';
+		if (useAlias)
+		{
+			return """
+				import App from '@/App';
+				import reportWebVitals from '@/reportWebVitals';
+				import React from 'react';
+				import ReactDOM from 'react-dom/client';
 			
-			const root = ReactDOM.createRoot(
-				document.getElementById('root') as HTMLElement,
-			);
-			root.render(
-				<React.StrictMode>
-					<App />
-				</React.StrictMode>,
-			);
+				const root = ReactDOM.createRoot(
+					document.getElementById('root') as HTMLElement,
+				);
+				root.render(
+					<React.StrictMode>
+						<App />
+					</React.StrictMode>,
+				);
 			
-			// If you want to start measuring performance in your app, pass a function
-			// to log results (for example: reportWebVitals(console.log))
-			// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-			reportWebVitals();
+				// If you want to start measuring performance in your app, pass a function
+				// to log results (for example: reportWebVitals(console.log))
+				// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+				reportWebVitals();
 			
-			""";
+				""";
+		}
+		else
+		{
+			return """
+				import App from './App';
+				import reportWebVitals from './reportWebVitals';
+				import React from 'react';
+				import ReactDOM from 'react-dom/client';
+			
+				const root = ReactDOM.createRoot(
+					document.getElementById('root') as HTMLElement,
+				);
+				root.render(
+					<React.StrictMode>
+						<App />
+					</React.StrictMode>,
+				);
+			
+				// If you want to start measuring performance in your app, pass a function
+				// to log results (for example: reportWebVitals(console.log))
+				// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+				reportWebVitals();
+			
+				""";
+		}
 	}
 
-	internal string GenerateSrcReactAppEnvDTS()
+	internal static string GenerateSrcReactAppEnvDTS()
 	{
 		// TODO
 		return """
 			/// <reference types="react-scripts" />
+			
+			""";
+	}
+
+	internal static string GenerateCracoConfigJS()
+	{
+		// TODO
+		return """
+			const path = require('path');
+			
+			module.exports = {
+				webpack: {
+					alias: {
+						'@': path.join(__dirname, 'src'),
+					},
+				},
+			};
 			
 			""";
 	}
@@ -270,14 +353,21 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 		yield return new(".editorconfig", GenerateEditorConfig());
 		yield return new(".prettierrc.json", GeneratePrettierRcJson());
 
+		var useAlias = Options.UseAlias;
+
 		yield return new(".gitignore", GenerateGitignore());
-		yield return new("package.json", GeneratePackageJson());
-		yield return new("tsconfig.json", GenerateTSConfigJson());
+		yield return new("package.json", GeneratePackageJson(useAlias));
+		yield return new("tsconfig.json", GenerateTSConfigJson(useAlias));
 		// TODO: yield return new(".eslintrc.js", GenerateESLintRcJS());
 		yield return new("public/index.html", GeneratePublicIndexHtml());
 		yield return new("src/App.tsx", GenerateSrcAppTsx());
 		yield return new("src/reportWebVitals.ts", GenerateSrcReportWebVitalsTS());
-		yield return new("src/index.tsx", GenerateSrcIndexTsx());
+		yield return new("src/index.tsx", GenerateSrcIndexTsx(useAlias));
 		yield return new("src/react-app-env.d.ts", GenerateSrcReactAppEnvDTS());
+
+		if (useAlias)
+		{
+			yield return new("craco.config.js", GenerateCracoConfigJS());
+		}
 	}
 }

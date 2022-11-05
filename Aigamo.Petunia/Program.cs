@@ -10,7 +10,11 @@ internal class Program
 		if (Directory.Exists(projectPath)) Directory.Delete(projectPath, recursive: true);
 		Directory.CreateDirectory(projectPath);
 
-		var project = new TypeScriptReactProject();
+		var projectOptions = new TypeScriptReactProjectOptions
+		{
+			UseAlias = true,
+		};
+		var project = new TypeScriptReactProject(projectOptions);
 		var projectFiles = project.GenerateProjectFiles();
 		await Task.WhenAll(projectFiles.Select(projectFile =>
 		{

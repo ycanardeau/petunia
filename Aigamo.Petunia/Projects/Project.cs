@@ -9,7 +9,7 @@ internal interface IProject
 
 internal abstract class Project : IProject
 {
-	internal string GenerateEditorConfig()
+	internal static string GenerateEditorConfig()
 	{
 		// TODO
 		return $$"""
