@@ -146,38 +146,51 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 
 	internal static string GenerateESLintRcJS()
 	{
-		// TODO
-		return """
-			module.exports = {
-				parser: '@typescript-eslint/parser',
-				parserOptions: {
-					project: 'tsconfig.json',
-					sourceType: 'module',
-					tsconfigRootDir: __dirname,
-				},
-				plugins: ['@typescript-eslint/eslint-plugin'],
-				extends: [
-					'react-app',
-					'react-app/jest',
-					'plugin:@typescript-eslint/recommended',
-					'plugin:prettier/recommended',
-				],
-				root: true,
-				env: {
-					node: true,
-					jest: true,
-				},
-				ignorePatterns: ['.eslintrc.js'],
-				rules: {
-					'@typescript-eslint/interface-name-prefix': 'off',
-					'@typescript-eslint/explicit-function-return-type': 'error',
-					'@typescript-eslint/explicit-module-boundary-types': 'off',
-					'@typescript-eslint/no-explicit-any': 'off',
-					'@typescript-eslint/no-empty-function': 'off',
-				},
-			};
-			
-			""";
+		var obj = new JsonObject()
+			.AddEntry("parser", "@typescript-eslint/parser")
+			.AddEntry(
+				"parserOptions",
+				new JsonObject()
+					.AddEntry("project", "tsconfig.json")
+					.AddEntry("sourceType", "module")
+					.AddEntry("tsconfigRootDir", new JsonLiteral("__dirname"))
+			)
+			.AddEntry(
+				"plugins",
+				new JsonArray()
+					.AddItem("@typescript-eslint/eslint-plugin")
+			)
+			.AddEntry(
+				"extends",
+				new JsonArray()
+					.AddItem("react-app")
+					.AddItem("react-app/jest")
+					.AddItem("plugin:@typescript-eslint/recommended")
+					.AddItem("plugin:prettier/recommended")
+			)
+			.AddEntry("root", true)
+			.AddEntry(
+				"env",
+				new JsonObject()
+					.AddEntry("node", true)
+					.AddEntry("jest", true)
+			)
+			.AddEntry(
+				"ignorePatterns",
+				new JsonArray()
+					.AddItem(".eslintrc.js")
+			)
+			.AddEntry(
+				"rules",
+				new JsonObject()
+					.AddEntry("@typescript-eslint/interface-name-prefix", "off")
+					.AddEntry("@typescript-eslint/explicit-function-return-type", "error")
+					.AddEntry("@typescript-eslint/explicit-module-boundary-types", "off")
+					.AddEntry("@typescript-eslint/no-explicit-any", "off")
+					.AddEntry("@typescript-eslint/no-empty-function", "off")
+			);
+
+		return $"module.exports = {obj.ToFormattedString(new() { Style = FormatStyle.JavaScript })};{Constants.NewLine}";
 	}
 
 	internal static string GeneratePublicIndexHtml()

@@ -1,8 +1,20 @@
+using System.Text;
+
 namespace Aigamo.Petunia;
 
 internal abstract record JsonValue
 {
-	public sealed record FormatOptions(string Tab = "\t", string NewLine = "\n");
+	public enum FormatStyle
+	{
+		Json,
+		JavaScript,
+	}
+
+	public sealed record FormatOptions(
+		string Tab = "\t",
+		string NewLine = "\n",
+		FormatStyle Style = FormatStyle.Json
+	);
 
 	protected virtual string ToFormattedString(FormatOptions options, int tabCount)
 	{
@@ -12,6 +24,14 @@ internal abstract record JsonValue
 	public string ToFormattedString(FormatOptions options)
 	{
 		return ToFormattedString(options, tabCount: 0);
+	}
+
+	public sealed record JsonLiteral(string Value) : JsonValue
+	{
+		public override string ToString()
+		{
+			return Value.ToString();
+		}
 	}
 
 	public sealed record JsonUndefined : JsonValue
@@ -52,6 +72,16 @@ internal abstract record JsonValue
 		{
 			return $@"""{Value}""";
 		}
+
+		protected override string ToFormattedString(FormatOptions options, int tabCount)
+		{
+			return options.Style switch
+			{
+				FormatStyle.Json => $@"""{Value}""",
+				FormatStyle.JavaScript => $"'{Value}'",
+				_ => throw new InvalidOperationException($"Invalid {nameof(FormatOptions.Style)}: {options.Style}")
+			};
+		}
 	}
 
 	public sealed record JsonArray : JsonValue
@@ -79,10 +109,19 @@ internal abstract record JsonValue
 
 			static string ItemsToString(IEnumerable<JsonValue> items, FormatOptions options, int tabCount)
 			{
-				return string.Join(
+				var builder = new StringBuilder();
+
+				builder.Append(string.Join(
 					$",{options.NewLine}",
 					items.Select(item => ItemToString(item, options, tabCount))
-				);
+				));
+
+				if (options.Style == FormatStyle.JavaScript)
+				{
+					builder.Append(',');
+				}
+
+				return builder.ToString();
 			}
 
 			var indent = string.Concat(Enumerable.Repeat(options.Tab, tabCount));
@@ -113,16 +152,53 @@ internal abstract record JsonValue
 		{
 			static string EntryToString(KeyValuePair<string, JsonValue> entry, FormatOptions options, int tabCount)
 			{
+				var builder = new StringBuilder();
+
 				var indent = string.Concat(Enumerable.Repeat(options.Tab, tabCount));
-				return $@"{indent}""{entry.Key}"": {entry.Value.ToFormattedString(options, tabCount)}";
+				builder.Append(indent);
+
+				switch (options.Style)
+				{
+					case FormatStyle.Json:
+						builder.Append('"');
+						builder.Append(entry.Key);
+						builder.Append('"');
+						break;
+
+					case FormatStyle.JavaScript:
+						if (entry.Key.Contains('-'))
+						{
+							builder.Append('\'');
+							builder.Append(entry.Key);
+							builder.Append('\'');
+						}
+						else
+						{
+							builder.Append(entry.Key);
+						}
+						break;
+				}
+
+				builder.Append($": {entry.Value.ToFormattedString(options, tabCount)}");
+
+				return builder.ToString();
 			}
 
 			static string EntriesToString(IEnumerable<KeyValuePair<string, JsonValue>> entries, FormatOptions options, int tabCount)
 			{
-				return string.Join(
+				var builder = new StringBuilder();
+
+				builder.Append(string.Join(
 					$",{options.NewLine}",
 					entries.Select(entry => EntryToString(entry, options, tabCount))
-				);
+				));
+
+				if (options.Style == FormatStyle.JavaScript)
+				{
+					builder.Append(',');
+				}
+
+				return builder.ToString();
 			}
 
 			var indent = string.Concat(Enumerable.Repeat(options.Tab, tabCount));
