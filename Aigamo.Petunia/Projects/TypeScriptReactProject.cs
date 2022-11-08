@@ -217,9 +217,14 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 
 	internal static string GenerateSrcAppTsx()
 	{
+		var imports = new JavaScriptImports()
+			.AddImport(
+				new JavaScriptDefaultImport(moduleName: "react", defaultExport: "React")
+			);
+
 		// TODO
-		return """
-			import React from 'react';
+		return $$"""
+			{{imports}}
 			
 			const App = (): React.ReactElement => {
 				return <></>;
@@ -232,9 +237,15 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 
 	internal static string GenerateSrcReportWebVitalsTS()
 	{
+		var imports = new JavaScriptImports()
+			.AddImport(
+				new JavaScriptNamedImport("web-vitals")
+					.AddExport("ReportHandler")
+			);
+
 		// TODO
-		return """
-			import { ReportHandler } from 'web-vitals';
+		return $$"""
+			{{imports}}
 			
 			const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
 				if (onPerfEntry && onPerfEntry instanceof Function) {
@@ -257,12 +268,15 @@ internal sealed class TypeScriptReactProject : TypeScriptProject
 
 	internal static string GenerateSrcIndexTsx()
 	{
+		var imports = new JavaScriptImports()
+			.AddImport(new JavaScriptDefaultImport(moduleName: "./App", defaultExport: "App"))
+			.AddImport(new JavaScriptDefaultImport(moduleName: "./reportWebVitals", defaultExport: "reportWebVitals"))
+			.AddImport(new JavaScriptDefaultImport(moduleName: "react", defaultExport: "React"))
+			.AddImport(new JavaScriptDefaultImport(moduleName: "react-dom/client", defaultExport: "ReactDOM"));
+
 		// TODO
-		return """
-			import App from './App';
-			import reportWebVitals from './reportWebVitals';
-			import React from 'react';
-			import ReactDOM from 'react-dom/client';
+		return $$"""
+			{{imports}}
 			
 			const root = ReactDOM.createRoot(
 				document.getElementById('root') as HTMLElement,
