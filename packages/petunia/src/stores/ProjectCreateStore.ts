@@ -26,6 +26,7 @@ export class ProjectCreateStore {
 	@observable icon = IconLibrary.None;
 	@observable sortImports = true;
 	@observable configurePathAliases = true;
+	@observable useAjv = false;
 	@observable useLodash = false;
 	@observable useMobX = false;
 	@observable useReactRouter = false;

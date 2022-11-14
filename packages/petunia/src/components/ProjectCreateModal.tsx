@@ -178,6 +178,20 @@ const ProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow label="Ajv" display="rowCompressed">
+					<EuiSwitch
+						label="Use Ajv for this project." /* LOC */
+						checked={projectCreateStore.useAjv}
+						onChange={(event): void => {
+							runInAction(() => {
+								projectCreateStore.useAjv =
+									event.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiFormRow label="Lodash" display="rowCompressed">
 					<EuiSwitch
 						label="Use Lodash for this project." /* LOC */
