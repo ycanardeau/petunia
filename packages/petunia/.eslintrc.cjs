@@ -5,21 +5,18 @@ module.exports = {
 		sourceType: 'module',
 		tsconfigRootDir: __dirname,
 	},
-	plugins: [
-		'@typescript-eslint/eslint-plugin',
-	],
+	plugins: ['@typescript-eslint/eslint-plugin'],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
+		'react-app',
 	],
 	root: true,
 	env: {
 		node: true,
 		jest: true,
 	},
-	ignorePatterns: [
-		'.eslintrc.cjs',
-	],
+	ignorePatterns: ['.eslintrc.cjs'],
 	rules: {
 		'@typescript-eslint/interface-name-prefix': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'error',
