@@ -1,14 +1,14 @@
 namespace Aigamo.Petunia.Projects;
 
-internal sealed record TypeScriptReactProjectOptions
+internal sealed record TypeScriptCreateReactAppProjectOptions
 {
 }
 
-internal sealed class TypeScriptReactProject : TypeScriptProject
+internal sealed class TypeScriptCreateReactAppProject : TypeScriptProject
 {
-	public TypeScriptReactProjectOptions Options { get; }
+	public TypeScriptCreateReactAppProjectOptions Options { get; }
 
-	public TypeScriptReactProject(TypeScriptReactProjectOptions options)
+	public TypeScriptCreateReactAppProject(TypeScriptCreateReactAppProjectOptions options)
 	{
 		Options = options;
 	}

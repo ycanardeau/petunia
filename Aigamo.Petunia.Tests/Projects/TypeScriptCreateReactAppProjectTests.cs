@@ -2,12 +2,12 @@ using Aigamo.Petunia.Projects;
 
 namespace Aigamo.Petunia.Tests.Projects;
 
-public sealed class TypeScriptReactProjectTests
+public sealed class TypeScriptCreateReactAppProjectTests
 {
 	[Fact]
 	public void GenerateGitignore()
 	{
-		TypeScriptReactProject.GenerateGitignore().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateGitignore().Should().Be("""
 			# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 			# dependencies
@@ -38,7 +38,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GeneratePackageJson()
 	{
-		TypeScriptReactProject.GeneratePackageJson().Should().Be("""
+		TypeScriptCreateReactAppProject.GeneratePackageJson().Should().Be("""
 			{
 				"name": "petunia",
 				"version": "0.1.0",
@@ -89,7 +89,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateTSConfigJson()
 	{
-		TypeScriptReactProject.GenerateTSConfigJson().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateTSConfigJson().Should().Be("""
 			{
 				"compilerOptions": {
 					"target": "es5",
@@ -123,7 +123,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateESLintRcJS()
 	{
-		TypeScriptReactProject.GenerateESLintRcJS().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateESLintRcJS().Should().Be("""
 			module.exports = {
 				parser: '@typescript-eslint/parser',
 				parserOptions: {
@@ -163,7 +163,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GeneratePublicIndexHtml()
 	{
-		TypeScriptReactProject.GeneratePublicIndexHtml().Should().Be("""
+		TypeScriptCreateReactAppProject.GeneratePublicIndexHtml().Should().Be("""
 			<!DOCTYPE html>
 			<html lang="en">
 				<head>
@@ -185,7 +185,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcAppTsx()
 	{
-		TypeScriptReactProject.GenerateSrcAppTsx().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateSrcAppTsx().Should().Be("""
 			import React from 'react';
 			
 			const App = (): React.ReactElement => {
@@ -200,7 +200,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcReportWebVitalsTS()
 	{
-		TypeScriptReactProject.GenerateSrcReportWebVitalsTS().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateSrcReportWebVitalsTS().Should().Be("""
 			import { ReportHandler } from 'web-vitals';
 
 			const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
@@ -225,7 +225,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcIndexTsx()
 	{
-		TypeScriptReactProject.GenerateSrcIndexTsx().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateSrcIndexTsx().Should().Be("""
 			import App from './App';
 			import reportWebVitals from './reportWebVitals';
 			import React from 'react';
@@ -251,7 +251,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateSrcReactAppEnvDTS()
 	{
-		TypeScriptReactProject.GenerateSrcReactAppEnvDTS().Should().Be("""
+		TypeScriptCreateReactAppProject.GenerateSrcReactAppEnvDTS().Should().Be("""
 			/// <reference types="react-scripts" />
 			
 			""");
@@ -260,7 +260,7 @@ public sealed class TypeScriptReactProjectTests
 	[Fact]
 	public void GenerateProjectFiles()
 	{
-		var project = new TypeScriptReactProject(new());
+		var project = new TypeScriptCreateReactAppProject(new());
 		var projectFiles = project.GenerateProjectFiles();
 		ProjectFile? SingleOrDefault(string path) => projectFiles.SingleOrDefault(projectFile => projectFile.Path == path);
 		SingleOrDefault(".editorconfig").Should().NotBeNull();

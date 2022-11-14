@@ -10,8 +10,8 @@ internal class Program
 		if (Directory.Exists(projectPath)) Directory.Delete(projectPath, recursive: true);
 		Directory.CreateDirectory(projectPath);
 
-		var projectOptions = new TypeScriptReactProjectOptions();
-		var project = new TypeScriptReactProject(projectOptions);
+		var projectOptions = new TypeScriptCreateReactAppProjectOptions();
+		var project = new TypeScriptCreateReactAppProject(projectOptions);
 		var projectFiles = project.GenerateProjectFiles();
 		await Task.WhenAll(projectFiles.Select(projectFile =>
 		{
