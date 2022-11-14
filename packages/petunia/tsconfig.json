@@ -18,7 +18,8 @@
 		"baseUrl": "./",
 		"paths": {
 			"@/*": ["src/*"]
-		}
+		},
+		"experimentalDecorators": true
 	},
 	"include": ["src"],
 	"references": [
