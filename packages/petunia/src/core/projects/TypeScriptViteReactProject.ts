@@ -1,4 +1,4 @@
-import { JsonArray, JsonObject } from '@/core/JsonValue';
+import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { EditorConfig, Project, ProjectFile } from '@/core/projects/Project';
 import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
 import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
@@ -129,6 +129,55 @@ export class TypeScriptViteReactProject extends Project {
 		})}${newLine}`;
 	};
 
+	static generateESLintRcJS = ({ tab, newLine }: EditorConfig): string => {
+		var obj = new JsonObject()
+			.addEntry('parser', '@typescript-eslint/parser')
+			.addEntry(
+				'parserOptions',
+				new JsonObject()
+					.addEntry('project', 'tsconfig.json')
+					.addEntry('sourceType', 'module')
+					.addEntry('tsconfigRootDir', new JsonLiteral('__dirname')),
+			)
+			.addEntry(
+				'plugins',
+				new JsonArray().addItem('@typescript-eslint/eslint-plugin'),
+			)
+			.addEntry(
+				'extends',
+				new JsonArray()
+					.addItem('plugin:@typescript-eslint/recommended')
+					.addItem('plugin:prettier/recommended'),
+			)
+			.addEntry('root', true)
+			.addEntry(
+				'env',
+				new JsonObject().addEntry('node', true).addEntry('jest', true),
+			)
+			.addEntry('ignorePatterns', new JsonArray().addItem('.eslintrc.js'))
+			.addEntry(
+				'rules',
+				new JsonObject()
+					.addEntry('@typescript-eslint/interface-name-prefix', 'off')
+					.addEntry(
+						'@typescript-eslint/explicit-function-return-type',
+						'error',
+					)
+					.addEntry(
+						'@typescript-eslint/explicit-module-boundary-types',
+						'off',
+					)
+					.addEntry('@typescript-eslint/no-explicit-any', 'off')
+					.addEntry('@typescript-eslint/no-empty-function', 'off'),
+			);
+
+		return `module.exports = ${obj.toFormattedString({
+			tab: tab,
+			newLine: newLine,
+			style: 'JavaScript',
+		})};${newLine}`;
+	};
+
 	static generateIndexHtml = ({ tab, newLine }: EditorConfig): string => {
 		const result: string[] = [];
 		result.push('<!DOCTYPE html>');
@@ -224,6 +273,10 @@ export class TypeScriptViteReactProject extends Project {
 			text: TypeScriptViteReactProject.generateTSConfigNodeJson(
 				editorConfig,
 			),
+		};
+		yield {
+			path: '.eslintrc.js',
+			text: TypeScriptViteReactProject.generateESLintRcJS(editorConfig),
 		};
 		yield {
 			path: 'index.html',
