@@ -1,4 +1,4 @@
-import { JsonObject } from '@/core/JsonValue';
+import { JsonArray, JsonObject } from '@/core/JsonValue';
 import { EditorConfig, Project, ProjectFile } from '@/core/projects/Project';
 import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
 import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
@@ -67,6 +67,65 @@ export class TypeScriptViteReactProject extends Project {
 		})}${editorConfig.newLine}`;
 	};
 
+	static generateTSConfigJson = (editorConfig: EditorConfig): string => {
+		var compilerOptions = new JsonObject()
+			.addEntry('target', 'ESNext')
+			.addEntry('useDefineForClassFields', true)
+			.addEntry(
+				'lib',
+				new JsonArray()
+					.addItem('DOM')
+					.addItem('DOM.Iterable')
+					.addItem('ESNext'),
+			)
+			.addEntry('allowJs', false)
+			.addEntry('skipLibCheck', true)
+			.addEntry('esModuleInterop', false)
+			.addEntry('allowSyntheticDefaultImports', true)
+			.addEntry('strict', true)
+			.addEntry('forceConsistentCasingInFileNames', true)
+			.addEntry('module', 'ESNext')
+			.addEntry('moduleResolution', 'Node')
+			.addEntry('resolveJsonModule', true)
+			.addEntry('isolatedModules', true)
+			.addEntry('noEmit', true)
+			.addEntry('jsx', 'react-jsx');
+
+		var obj = new JsonObject()
+			.addEntry('compilerOptions', compilerOptions)
+			.addEntry('include', new JsonArray().addItem('src'))
+			.addEntry(
+				'references',
+				new JsonArray().addItem(
+					new JsonObject().addEntry('path', './tsconfig.node.json'),
+				),
+			);
+
+		return `${obj.toFormattedString({
+			tab: editorConfig.tab,
+			newLine: editorConfig.newLine,
+			style: 'Json',
+		})}${editorConfig.newLine}`;
+	};
+
+	static generateTSConfigNodeJson = (editorConfig: EditorConfig): string => {
+		var compilerOptions = new JsonObject()
+			.addEntry('composite', true)
+			.addEntry('module', 'ESNext')
+			.addEntry('moduleResolution', 'Node')
+			.addEntry('allowSyntheticDefaultImports', true);
+
+		var obj = new JsonObject()
+			.addEntry('compilerOptions', compilerOptions)
+			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
+
+		return `${obj.toFormattedString({
+			tab: editorConfig.tab,
+			newLine: editorConfig.newLine,
+			style: 'Json',
+		})}${editorConfig.newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
@@ -85,6 +144,16 @@ export class TypeScriptViteReactProject extends Project {
 		yield {
 			path: 'package.json',
 			text: TypeScriptViteReactProject.generatePackageJson(editorConfig),
+		};
+		yield {
+			path: 'tsconfig.json',
+			text: TypeScriptViteReactProject.generateTSConfigJson(editorConfig),
+		};
+		yield {
+			path: 'tsconfig.node.json',
+			text: TypeScriptViteReactProject.generateTSConfigNodeJson(
+				editorConfig,
+			),
 		};
 	}
 }
