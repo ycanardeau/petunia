@@ -174,6 +174,22 @@ export class TypeScriptViteReactProject extends Project {
 		return `${result.join(newLine)}${newLine}`;
 	};
 
+	static generateSrcMainTsx = ({ tab, newLine }: EditorConfig): string => {
+		const result: string[] = [];
+		result.push(`import App from './App';`);
+		result.push(`import React from 'react';`);
+		result.push(`import ReactDOM from 'react-dom/client';`);
+		result.push('');
+		result.push(
+			`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
+		);
+		result.push(`${tab}<React.StrictMode>`);
+		result.push(`${tab}${tab}<App />`);
+		result.push(`${tab}</React.StrictMode>,`);
+		result.push(');');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
@@ -210,6 +226,10 @@ export class TypeScriptViteReactProject extends Project {
 		yield {
 			path: 'vite.config.ts',
 			text: TypeScriptViteReactProject.generateViteConfigTS(editorConfig),
+		};
+		yield {
+			path: 'src/main.tsx',
+			text: TypeScriptViteReactProject.generateSrcMainTsx(editorConfig),
 		};
 	}
 }
