@@ -1,11 +1,14 @@
 import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
-import { describe, expect, test } from 'vitest';
+import { expect, test } from 'vitest';
+
+const defaultEditorConfig = {
+	tab: '\t',
+	newLine: '\n',
+};
 
 test('generateGitignore', () => {
-	const actual = TypeScriptViteReactProject.generateGitignore({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generateGitignore(defaultEditorConfig);
 	expect(actual).toBe(`# Logs
 logs
 *.log
@@ -34,10 +37,8 @@ dist-ssr
 });
 
 test('generatePackageJson', () => {
-	const actual = TypeScriptViteReactProject.generatePackageJson({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generatePackageJson(defaultEditorConfig);
 	expect(actual).toBe(`{
 	"name": "petunia",
 	"private": true,
@@ -64,10 +65,8 @@ test('generatePackageJson', () => {
 });
 
 test('generateTSConfigJson', () => {
-	const actual = TypeScriptViteReactProject.generateTSConfigJson({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generateTSConfigJson(defaultEditorConfig);
 	expect(actual).toBe(`{
 	"compilerOptions": {
 		"target": "ESNext",
@@ -103,10 +102,10 @@ test('generateTSConfigJson', () => {
 });
 
 test('generateTSConfigNodeJson', () => {
-	const actual = TypeScriptViteReactProject.generateTSConfigNodeJson({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generateTSConfigNodeJson(
+			defaultEditorConfig,
+		);
 	expect(actual).toBe(`{
 	"compilerOptions": {
 		"composite": true,
@@ -122,10 +121,8 @@ test('generateTSConfigNodeJson', () => {
 });
 
 test('generateIndexHtml', () => {
-	const actual = TypeScriptViteReactProject.generateIndexHtml({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generateIndexHtml(defaultEditorConfig);
 	expect(actual).toBe(`<!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -142,10 +139,8 @@ test('generateIndexHtml', () => {
 });
 
 test('generateViteConfigTS', () => {
-	const actual = TypeScriptViteReactProject.generateViteConfigTS({
-		tab: '\t',
-		newLine: '\n',
-	});
+	const actual =
+		TypeScriptViteReactProject.generateViteConfigTS(defaultEditorConfig);
 	expect(actual).toBe(`import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 

@@ -4,7 +4,7 @@ import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
 import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
 
 export class TypeScriptViteReactProject extends Project {
-	static generateGitignore = ({ tab, newLine }: EditorConfig): string => {
+	static generateGitignore = ({ newLine }: EditorConfig): string => {
 		const result: string[] = [];
 		result.push('# Logs');
 		result.push('logs');
