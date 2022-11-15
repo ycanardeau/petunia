@@ -15,6 +15,7 @@
 		"@elastic/eui": "^70.2.0",
 		"@emotion/css": "^11.10.5",
 		"@emotion/react": "^11.10.5",
+		"lodash-es": "^4.17.21",
 		"mobx": "^6.6.2",
 		"mobx-react-lite": "^3.4.0",
 		"moment": "^2.29.4",
@@ -24,6 +25,7 @@
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.4.0",
+		"@types/lodash-es": "^4.17.6",
 		"@types/react": "^18.0.24",
 		"@types/react-dom": "^18.0.8",
 		"@typescript-eslint/eslint-plugin": "^5.42.1",

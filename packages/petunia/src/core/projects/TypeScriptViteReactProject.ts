@@ -1,3 +1,8 @@
+import {
+	JavaScriptDefaultImport,
+	JavaScriptImports,
+	JavaScriptNamedImport,
+} from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { EditorConfig, Project, ProjectFile } from '@/core/projects/Project';
 import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
@@ -200,9 +205,18 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generateViteConfigTS = ({ tab, newLine }: EditorConfig): string => {
+		const imports = new JavaScriptImports()
+			.addImport(
+				new JavaScriptNamedImport('vite').addNamedExport(
+					'defineConfig',
+				),
+			)
+			.addImport(
+				new JavaScriptDefaultImport('@vitejs/plugin-react', 'react'),
+			);
+
 		const result: string[] = [];
-		result.push(`import react from '@vitejs/plugin-react';`);
-		result.push(`import { defineConfig } from 'vite';`);
+		result.push(`${imports.toFormattedString({ newLine })}`);
 		result.push('');
 		result.push('// https://vitejs.dev/config/');
 		result.push('export default defineConfig({');
@@ -212,8 +226,12 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generateSrcAppTsx = ({ tab, newLine }: EditorConfig): string => {
+		const imports = new JavaScriptImports().addImport(
+			new JavaScriptDefaultImport('react', 'React'),
+		);
+
 		const result: string[] = [];
-		result.push(`import React from 'react';`);
+		result.push(`${imports.toFormattedString({ newLine })}`);
 		result.push('');
 		result.push('const App = (): React.ReactElement => {');
 		result.push(`${tab}return <></>;`);
@@ -224,10 +242,15 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generateSrcMainTsx = ({ tab, newLine }: EditorConfig): string => {
+		const imports = new JavaScriptImports()
+			.addImport(new JavaScriptDefaultImport('./App', 'App'))
+			.addImport(new JavaScriptDefaultImport('react', 'React'))
+			.addImport(
+				new JavaScriptDefaultImport('react-dom/client', 'ReactDOM'),
+			);
+
 		const result: string[] = [];
-		result.push(`import App from './App';`);
-		result.push(`import React from 'react';`);
-		result.push(`import ReactDOM from 'react-dom/client';`);
+		result.push(`${imports.toFormattedString({ newLine })}`);
 		result.push('');
 		result.push(
 			`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
