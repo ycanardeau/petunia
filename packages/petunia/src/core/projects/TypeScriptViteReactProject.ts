@@ -126,6 +126,27 @@ export class TypeScriptViteReactProject extends Project {
 		})}${editorConfig.newLine}`;
 	};
 
+	static generateIndexHtml = ({ tab, newLine }: EditorConfig): string => {
+		const result: string[] = [];
+		result.push('<!DOCTYPE html>');
+		result.push('<html lang="en">');
+		result.push(`${tab}<head>`);
+		result.push(`${tab}${tab}<meta charset="UTF-8" />`);
+		result.push(
+			`${tab}${tab}<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
+		);
+		result.push(`${tab}${tab}<title></title>`);
+		result.push(`${tab}</head>`);
+		result.push(`${tab}<body>`);
+		result.push(`${tab}${tab}<div id="root"></div>`);
+		result.push(
+			`${tab}${tab}<script type="module" src="/src/main.tsx"></script>`,
+		);
+		result.push(`${tab}</body>`);
+		result.push('</html>');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
@@ -154,6 +175,10 @@ export class TypeScriptViteReactProject extends Project {
 			text: TypeScriptViteReactProject.generateTSConfigNodeJson(
 				editorConfig,
 			),
+		};
+		yield {
+			path: 'index.html',
+			text: TypeScriptViteReactProject.generateIndexHtml(editorConfig),
 		};
 	}
 }
