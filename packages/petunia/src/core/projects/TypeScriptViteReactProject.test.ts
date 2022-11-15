@@ -1,13 +1,12 @@
 import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
 import { describe, expect, test } from 'vitest';
 
-describe('TypeScriptViteReactProject', () => {
-	test('generateGitignore', () => {
-		const actual = TypeScriptViteReactProject.generateGitignore({
-			tab: '\t',
-			newLine: '\n',
-		});
-		expect(actual).toBe(`# Logs
+test('generateGitignore', () => {
+	const actual = TypeScriptViteReactProject.generateGitignore({
+		tab: '\t',
+		newLine: '\n',
+	});
+	expect(actual).toBe(`# Logs
 logs
 *.log
 npm-debug.log*
@@ -32,14 +31,14 @@ dist-ssr
 *.sln
 *.sw?
 `);
-	});
+});
 
-	test('generatePackageJson', () => {
-		const actual = TypeScriptViteReactProject.generatePackageJson({
-			tab: '\t',
-			newLine: '\n',
-		});
-		expect(actual).toBe(`{
+test('generatePackageJson', () => {
+	const actual = TypeScriptViteReactProject.generatePackageJson({
+		tab: '\t',
+		newLine: '\n',
+	});
+	expect(actual).toBe(`{
 	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
@@ -62,14 +61,14 @@ dist-ssr
 	}
 }
 `);
-	});
+});
 
-	test('generateTSConfigJson', () => {
-		const actual = TypeScriptViteReactProject.generateTSConfigJson({
-			tab: '\t',
-			newLine: '\n',
-		});
-		expect(actual).toBe(`{
+test('generateTSConfigJson', () => {
+	const actual = TypeScriptViteReactProject.generateTSConfigJson({
+		tab: '\t',
+		newLine: '\n',
+	});
+	expect(actual).toBe(`{
 	"compilerOptions": {
 		"target": "ESNext",
 		"useDefineForClassFields": true,
@@ -101,14 +100,14 @@ dist-ssr
 	]
 }
 `);
-	});
+});
 
-	test('generateTSConfigNodeJson', () => {
-		const actual = TypeScriptViteReactProject.generateTSConfigNodeJson({
-			tab: '\t',
-			newLine: '\n',
-		});
-		expect(actual).toBe(`{
+test('generateTSConfigNodeJson', () => {
+	const actual = TypeScriptViteReactProject.generateTSConfigNodeJson({
+		tab: '\t',
+		newLine: '\n',
+	});
+	expect(actual).toBe(`{
 	"compilerOptions": {
 		"composite": true,
 		"module": "ESNext",
@@ -120,14 +119,14 @@ dist-ssr
 	]
 }
 `);
-	});
+});
 
-	test('generateIndexHtml', () => {
-		const actual = TypeScriptViteReactProject.generateIndexHtml({
-			tab: '\t',
-			newLine: '\n',
-		});
-		expect(actual).toBe(`<!DOCTYPE html>
+test('generateIndexHtml', () => {
+	const actual = TypeScriptViteReactProject.generateIndexHtml({
+		tab: '\t',
+		newLine: '\n',
+	});
+	expect(actual).toBe(`<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -140,5 +139,4 @@ dist-ssr
 	</body>
 </html>
 `);
-	});
 });
