@@ -1,7 +1,10 @@
 import { JsonArray, JsonObject } from '@/core/JsonValue';
 import { EditorConfig } from '@/core/projects/Project';
 
-export const generatePrettierRcJson = (editorConfig: EditorConfig): string => {
+export const generatePrettierRcJson = ({
+	tab,
+	newLine,
+}: EditorConfig): string => {
 	var obj = new JsonObject()
 		.addEntry('singleQuote', true)
 		.addEntry('trailingComma', 'all')
@@ -17,8 +20,8 @@ export const generatePrettierRcJson = (editorConfig: EditorConfig): string => {
 		.addEntry('importOrderSortSpecifiers', true);
 
 	return `${obj.toFormattedString({
-		tab: editorConfig.tab,
-		newLine: editorConfig.newLine,
+		tab: tab,
+		newLine: newLine,
 		style: 'Json',
-	})}${editorConfig.newLine}`;
+	})}${newLine}`;
 };

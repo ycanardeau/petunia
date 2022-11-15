@@ -1,6 +1,6 @@
 import { EditorConfig } from '@/core/projects/Project';
 
-export const generateEditorConfig = (editorConfig: EditorConfig): string => {
+export const generateEditorConfig = ({ newLine }: EditorConfig): string => {
 	const result: string[] = [];
 	result.push('root = true');
 	result.push('');
@@ -11,5 +11,5 @@ export const generateEditorConfig = (editorConfig: EditorConfig): string => {
 	result.push('insert_final_newline = true');
 	result.push('indent_style = tab');
 	result.push('indent_size = 4');
-	return `${result.join(editorConfig.newLine)}${editorConfig.newLine}`;
+	return `${result.join(newLine)}${newLine}`;
 };

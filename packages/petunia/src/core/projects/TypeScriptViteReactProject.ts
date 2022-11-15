@@ -4,7 +4,7 @@ import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
 import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
 
 export class TypeScriptViteReactProject extends Project {
-	static generateGitignore = (editorConfig: EditorConfig): string => {
+	static generateGitignore = ({ tab, newLine }: EditorConfig): string => {
 		const result: string[] = [];
 		result.push('# Logs');
 		result.push('logs');
@@ -30,10 +30,10 @@ export class TypeScriptViteReactProject extends Project {
 		result.push('*.njsproj');
 		result.push('*.sln');
 		result.push('*.sw?');
-		return `${result.join(editorConfig.newLine)}${editorConfig.newLine}`;
+		return `${result.join(newLine)}${newLine}`;
 	};
 
-	static generatePackageJson = (editorConfig: EditorConfig): string => {
+	static generatePackageJson = ({ tab, newLine }: EditorConfig): string => {
 		var dependencies = new JsonObject()
 			.addEntry('react', '^18.2.0')
 			.addEntry('react-dom', '^18.2.0');
@@ -61,13 +61,13 @@ export class TypeScriptViteReactProject extends Project {
 			.addEntry('devDependencies', devDependencies);
 
 		return `${obj.toFormattedString({
-			tab: editorConfig.tab,
-			newLine: editorConfig.newLine,
+			tab: tab,
+			newLine: newLine,
 			style: 'Json',
-		})}${editorConfig.newLine}`;
+		})}${newLine}`;
 	};
 
-	static generateTSConfigJson = (editorConfig: EditorConfig): string => {
+	static generateTSConfigJson = ({ tab, newLine }: EditorConfig): string => {
 		var compilerOptions = new JsonObject()
 			.addEntry('target', 'ESNext')
 			.addEntry('useDefineForClassFields', true)
@@ -102,13 +102,16 @@ export class TypeScriptViteReactProject extends Project {
 			);
 
 		return `${obj.toFormattedString({
-			tab: editorConfig.tab,
-			newLine: editorConfig.newLine,
+			tab: tab,
+			newLine: newLine,
 			style: 'Json',
-		})}${editorConfig.newLine}`;
+		})}${newLine}`;
 	};
 
-	static generateTSConfigNodeJson = (editorConfig: EditorConfig): string => {
+	static generateTSConfigNodeJson = ({
+		tab,
+		newLine,
+	}: EditorConfig): string => {
 		var compilerOptions = new JsonObject()
 			.addEntry('composite', true)
 			.addEntry('module', 'ESNext')
@@ -120,10 +123,10 @@ export class TypeScriptViteReactProject extends Project {
 			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
 
 		return `${obj.toFormattedString({
-			tab: editorConfig.tab,
-			newLine: editorConfig.newLine,
+			tab: tab,
+			newLine: newLine,
 			style: 'Json',
-		})}${editorConfig.newLine}`;
+		})}${newLine}`;
 	};
 
 	static generateIndexHtml = ({ tab, newLine }: EditorConfig): string => {
@@ -144,6 +147,18 @@ export class TypeScriptViteReactProject extends Project {
 		);
 		result.push(`${tab}</body>`);
 		result.push('</html>');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
+	static generateViteConfigTS = ({ tab, newLine }: EditorConfig): string => {
+		const result: string[] = [];
+		result.push(`import react from '@vitejs/plugin-react';`);
+		result.push(`import { defineConfig } from 'vite';`);
+		result.push('');
+		result.push('// https://vitejs.dev/config/');
+		result.push('export default defineConfig({');
+		result.push(`${tab}plugins: [react()],`);
+		result.push('});');
 		return `${result.join(newLine)}${newLine}`;
 	};
 
@@ -179,6 +194,10 @@ export class TypeScriptViteReactProject extends Project {
 		yield {
 			path: 'index.html',
 			text: TypeScriptViteReactProject.generateIndexHtml(editorConfig),
+		};
+		yield {
+			path: 'vite.config.ts',
+			text: TypeScriptViteReactProject.generateViteConfigTS(editorConfig),
 		};
 	}
 }
