@@ -251,10 +251,10 @@ export class TypeScriptViteReactProject extends Project {
 			path: '.editorconfig',
 			text: generateEditorConfig(editorConfig),
 		};
-		yield {
+		/* TODO: yield {
 			path: '.prettierrc.json',
 			text: generatePrettierRcJson(editorConfig),
-		};
+		};*/
 
 		yield {
 			path: '.gitignore',
@@ -274,10 +274,10 @@ export class TypeScriptViteReactProject extends Project {
 				editorConfig,
 			),
 		};
-		yield {
+		/* TODO: yield {
 			path: '.eslintrc.js',
 			text: TypeScriptViteReactProject.generateESLintRcJS(editorConfig),
-		};
+		};*/
 		yield {
 			path: 'index.html',
 			text: TypeScriptViteReactProject.generateIndexHtml(editorConfig),
