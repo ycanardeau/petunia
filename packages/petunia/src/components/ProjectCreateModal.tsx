@@ -3,6 +3,7 @@ import {
 	IconLibrary,
 	ProjectCreateStore,
 	ProjectType,
+	TestingFramework,
 	UIFramework,
 } from '@/stores/ProjectCreateStore';
 import {
@@ -28,6 +29,11 @@ const projectTypeNames: Record<ProjectType, string> = {
 
 const buildToolNames: Record<BuildTool, string> = {
 	[BuildTool.Vite]: 'Vite',
+};
+
+const testingFrameworkNames: Record<TestingFramework, string> = {
+	[TestingFramework.None]: 'None',
+	[TestingFramework.Vitest]: 'Vitest',
 };
 
 const uiFrameworkNames: Record<UIFramework, string> = {
@@ -100,6 +106,28 @@ const ProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.buildTool = event.target
 									.value as BuildTool;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="Testing framework" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(TestingFramework).map(
+							(testingFramework) => ({
+								value: testingFramework,
+								text: testingFrameworkNames[testingFramework],
+							}),
+						)}
+						value={projectCreateStore.test}
+						onChange={(event): void => {
+							runInAction(() => {
+								projectCreateStore.test = event.target
+									.value as TestingFramework;
 							});
 						}}
 						compressed

@@ -8,6 +8,11 @@ export enum BuildTool {
 	Vite = 'Vite',
 }
 
+export enum TestingFramework {
+	None = 'None',
+	Vitest = 'Vitest',
+}
+
 export enum UIFramework {
 	None = 'None',
 	ElasticUI = 'ElasticUI',
@@ -22,6 +27,7 @@ export class ProjectCreateStore {
 	@observable projectType = ProjectType.React;
 	@observable projectName = '';
 	@observable buildTool = BuildTool.Vite;
+	@observable test = TestingFramework.None;
 	@observable ui = UIFramework.None;
 	@observable icon = IconLibrary.None;
 	@observable sortImports = true;
