@@ -150,3 +150,16 @@ export default defineConfig({
 });
 `);
 });
+
+test('generateSrcAppTsx', () => {
+	const actual =
+		TypeScriptViteReactProject.generateSrcAppTsx(defaultEditorConfig);
+	expect(actual).toBe(`import React from 'react';
+
+const App = (): React.ReactElement => {
+	return <></>;
+};
+
+export default App;
+`);
+});

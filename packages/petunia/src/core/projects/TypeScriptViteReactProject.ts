@@ -162,6 +162,18 @@ export class TypeScriptViteReactProject extends Project {
 		return `${result.join(newLine)}${newLine}`;
 	};
 
+	static generateSrcAppTsx = ({ tab, newLine }: EditorConfig): string => {
+		const result: string[] = [];
+		result.push(`import React from 'react';`);
+		result.push('');
+		result.push('const App = (): React.ReactElement => {');
+		result.push(`${tab}return <></>;`);
+		result.push('};');
+		result.push('');
+		result.push('export default App;');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
