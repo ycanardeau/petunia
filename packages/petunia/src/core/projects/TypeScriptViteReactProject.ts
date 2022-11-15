@@ -1,3 +1,4 @@
+import { JsonObject } from '@/core/JsonValue';
 import { EditorConfig, Project, ProjectFile } from '@/core/projects/Project';
 import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
 import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
@@ -32,6 +33,40 @@ export class TypeScriptViteReactProject extends Project {
 		return `${result.join(editorConfig.newLine)}${editorConfig.newLine}`;
 	};
 
+	static generatePackageJson = (editorConfig: EditorConfig): string => {
+		var dependencies = new JsonObject()
+			.addEntry('react', '^18.2.0')
+			.addEntry('react-dom', '^18.2.0');
+
+		var devDependencies = new JsonObject()
+			.addEntry('@types/react', '^18.0.24')
+			.addEntry('@types/react-dom', '^18.0.8')
+			.addEntry('@vitejs/plugin-react', '^2.2.0')
+			.addEntry('typescript', '^4.6.4')
+			.addEntry('vite', '^3.2.3');
+
+		var obj = new JsonObject()
+			.addEntry('name', 'petunia')
+			.addEntry('private', true)
+			.addEntry('version', '0.0.0')
+			.addEntry('type', 'module')
+			.addEntry(
+				'scripts',
+				new JsonObject()
+					.addEntry('dev', 'vite')
+					.addEntry('build', 'tsc && vite build')
+					.addEntry('preview', 'vite preview'),
+			)
+			.addEntry('dependencies', dependencies)
+			.addEntry('devDependencies', devDependencies);
+
+		return `${obj.toFormattedString({
+			tab: editorConfig.tab,
+			newLine: editorConfig.newLine,
+			style: 'Json',
+		})}${editorConfig.newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
@@ -42,9 +77,14 @@ export class TypeScriptViteReactProject extends Project {
 			path: '.prettierrc.json',
 			text: generatePrettierRcJson(editorConfig),
 		};
+
 		yield {
 			path: '.gitignore',
 			text: TypeScriptViteReactProject.generateGitignore(editorConfig),
+		};
+		yield {
+			path: 'package.json',
+			text: TypeScriptViteReactProject.generatePackageJson(editorConfig),
 		};
 	}
 }
