@@ -190,6 +190,12 @@ export class TypeScriptViteReactProject extends Project {
 		return `${result.join(newLine)}${newLine}`;
 	};
 
+	static generateSrcViteEnvDTS = ({ newLine }: EditorConfig): string => {
+		const result: string[] = [];
+		result.push('/// <reference types="vite/client" />');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		const { editorConfig } = this.options;
 		yield {
@@ -230,6 +236,12 @@ export class TypeScriptViteReactProject extends Project {
 		yield {
 			path: 'src/main.tsx',
 			text: TypeScriptViteReactProject.generateSrcMainTsx(editorConfig),
+		};
+		yield {
+			path: 'src/vite-env.d.ts',
+			text: TypeScriptViteReactProject.generateSrcViteEnvDTS(
+				editorConfig,
+			),
 		};
 	}
 }

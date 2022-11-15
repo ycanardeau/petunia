@@ -178,3 +178,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 );
 `);
 });
+
+test('generateSrcViteEnvDTS', () => {
+	const actual =
+		TypeScriptViteReactProject.generateSrcViteEnvDTS(defaultEditorConfig);
+	expect(actual).toBe(`/// <reference types="vite/client" />
+`);
+});
