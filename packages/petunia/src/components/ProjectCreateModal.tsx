@@ -295,7 +295,7 @@ export const ProjectCreateModal = observer((): React.ReactElement => {
 			</EuiModalBody>
 
 			<EuiModalFooter>
-				<EuiButton fill size="s">
+				<EuiButton fill size="s" onClick={projectCreateStore.submit}>
 					Create{/* LOC */}
 				</EuiButton>
 			</EuiModalFooter>

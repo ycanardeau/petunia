@@ -13,7 +13,7 @@ export interface ProjectFile {
 }
 
 export abstract class Project {
-	protected constructor(readonly options: ProjectOptions) {}
+	constructor(readonly options: ProjectOptions) {}
 
 	abstract generateProjectFiles(): Generator<ProjectFile>;
 }

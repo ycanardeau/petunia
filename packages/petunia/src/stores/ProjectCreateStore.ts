@@ -1,3 +1,6 @@
+import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
+import FileSaver from 'file-saver';
+import JSZip from 'jszip';
 import { makeObservable, observable } from 'mobx';
 
 export enum ProjectType {
@@ -41,4 +44,22 @@ export class ProjectCreateStore {
 	constructor() {
 		makeObservable(this);
 	}
+
+	submit = async (): Promise<void> => {
+		const zip = new JSZip();
+		const project = new TypeScriptViteReactProject({
+			editorConfig: { tab: '\t', newLine: '\n' },
+		});
+		const projectFiles = project.generateProjectFiles();
+		for (const { path, text } of projectFiles) {
+			zip.file(
+				`${this.projectName}/${path}` /* TODO: Use path.join */,
+				text,
+			);
+		}
+		const content = await zip.generateAsync({
+			type: 'blob',
+		});
+		FileSaver.saveAs(content, `${this.projectName}.zip`);
+	};
 }
