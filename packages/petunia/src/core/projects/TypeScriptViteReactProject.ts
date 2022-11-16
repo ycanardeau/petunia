@@ -74,6 +74,41 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			.addEntry('typescript', '^4.6.4')
 			.addEntry('vite', '^3.2.3');
 
+		switch (this.options.test) {
+			case TestingFramework.None:
+				// nop
+				break;
+
+			case TestingFramework.Vitest:
+				devDependencies.addEntry('vitest', '^0.25.2');
+				break;
+		}
+
+		switch (this.options.ui) {
+			case UIFramework.None:
+				// nop
+				break;
+
+			case UIFramework.ElasticUI:
+				dependencies.addEntry('@elastic/eui', '^70.2.0');
+				dependencies.addEntry('@elastic/datemath', '^5.0.3');
+				dependencies.addEntry('@emotion/react', '^11.10.5');
+				dependencies.addEntry('@emotion/css', '^11.10.5');
+				dependencies.addEntry('moment', '^2.29.4');
+				dependencies.addEntry('prop-types', '^15.8.1');
+				break;
+		}
+
+		switch (this.options.icon) {
+			case IconLibrary.None:
+				// nop
+				break;
+
+			case IconLibrary.FluentSystemIcons:
+				dependencies.addEntry('@fluentui/react-icons', '^2.0.187');
+				break;
+		}
+
 		if (this.options.useAjv) {
 			dependencies.addEntry('ajv', '^8.11.2');
 		}
