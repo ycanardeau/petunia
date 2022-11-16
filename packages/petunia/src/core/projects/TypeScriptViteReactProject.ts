@@ -39,18 +39,18 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generatePackageJson = ({ tab, newLine }: EditorConfig): string => {
-		var dependencies = new JsonObject()
+		const dependencies = new JsonObject()
 			.addEntry('react', '^18.2.0')
 			.addEntry('react-dom', '^18.2.0');
 
-		var devDependencies = new JsonObject()
+		const devDependencies = new JsonObject()
 			.addEntry('@types/react', '^18.0.24')
 			.addEntry('@types/react-dom', '^18.0.8')
 			.addEntry('@vitejs/plugin-react', '^2.2.0')
 			.addEntry('typescript', '^4.6.4')
 			.addEntry('vite', '^3.2.3');
 
-		var obj = new JsonObject()
+		const obj = new JsonObject()
 			.addEntry('name', 'petunia')
 			.addEntry('private', true)
 			.addEntry('version', '0.0.0')
@@ -73,7 +73,7 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generateTSConfigJson = ({ tab, newLine }: EditorConfig): string => {
-		var compilerOptions = new JsonObject()
+		const compilerOptions = new JsonObject()
 			.addEntry('target', 'ESNext')
 			.addEntry('useDefineForClassFields', true)
 			.addEntry(
@@ -96,7 +96,7 @@ export class TypeScriptViteReactProject extends Project {
 			.addEntry('noEmit', true)
 			.addEntry('jsx', 'react-jsx');
 
-		var obj = new JsonObject()
+		const obj = new JsonObject()
 			.addEntry('compilerOptions', compilerOptions)
 			.addEntry('include', new JsonArray().addItem('src'))
 			.addEntry(
@@ -117,13 +117,13 @@ export class TypeScriptViteReactProject extends Project {
 		tab,
 		newLine,
 	}: EditorConfig): string => {
-		var compilerOptions = new JsonObject()
+		const compilerOptions = new JsonObject()
 			.addEntry('composite', true)
 			.addEntry('module', 'ESNext')
 			.addEntry('moduleResolution', 'Node')
 			.addEntry('allowSyntheticDefaultImports', true);
 
-		var obj = new JsonObject()
+		const obj = new JsonObject()
 			.addEntry('compilerOptions', compilerOptions)
 			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
 
@@ -135,7 +135,7 @@ export class TypeScriptViteReactProject extends Project {
 	};
 
 	static generateESLintRcJS = ({ tab, newLine }: EditorConfig): string => {
-		var obj = new JsonObject()
+		const obj = new JsonObject()
 			.addEntry('parser', '@typescript-eslint/parser')
 			.addEntry(
 				'parserOptions',
@@ -308,6 +308,10 @@ export class TypeScriptViteReactProject extends Project {
 		yield {
 			path: 'vite.config.ts',
 			text: TypeScriptViteReactProject.generateViteConfigTS(editorConfig),
+		};
+		yield {
+			path: 'src/App.tsx',
+			text: TypeScriptViteReactProject.generateSrcAppTsx(editorConfig),
 		};
 		yield {
 			path: 'src/main.tsx',

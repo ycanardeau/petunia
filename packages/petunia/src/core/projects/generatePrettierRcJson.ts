@@ -5,7 +5,7 @@ export const generatePrettierRcJson = ({
 	tab,
 	newLine,
 }: EditorConfig): string => {
-	var obj = new JsonObject()
+	const obj = new JsonObject()
 		.addEntry('singleQuote', true)
 		.addEntry('trailingComma', 'all')
 		.addEntry(
