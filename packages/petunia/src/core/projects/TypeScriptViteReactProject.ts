@@ -284,13 +284,22 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				new JavaScriptDefaultImport('@vitejs/plugin-react', 'react'),
 			);
 
+		const configObj = new JsonObject().addEntry(
+			'plugins',
+			new JsonArray().addItem(new JsonLiteral('react()')),
+		);
+
 		const result: string[] = [];
 		result.push(`${imports.toFormattedString({ newLine })}`);
 		result.push('');
 		result.push('// https://vitejs.dev/config/');
-		result.push('export default defineConfig({');
-		result.push(`${tab}plugins: [react()],`);
-		result.push('});');
+		result.push(
+			`export default defineConfig(${configObj.toFormattedString({
+				tab: tab,
+				newLine: newLine,
+				style: 'JavaScript',
+			})});`,
+		);
 		return `${result.join(newLine)}${newLine}`;
 	};
 
