@@ -40,8 +40,8 @@ export class ProjectCreateStore {
 	@observable useAjv = false;
 	@observable useLodash = false;
 	@observable useMobX = false;
-	@observable useReactRouter = false;
 	@observable useQs = false;
+	@observable useReactRouter = false;
 
 	constructor() {
 		makeObservable(this);
@@ -49,9 +49,17 @@ export class ProjectCreateStore {
 
 	submit = async (): Promise<void> => {
 		const zip = new JSZip();
-		const project = new TypeScriptViteReactProject({
-			editorConfig: { tab: '\t', newLine: '\n' },
-		});
+		const project = new TypeScriptViteReactProject(
+			{ tab: '\t', newLine: '\n' },
+			{
+				configurePathAliases: this.configurePathAliases,
+				useAjv: this.useAjv,
+				useLodash: this.useLodash,
+				useMobX: this.useMobX,
+				useQs: this.useQs,
+				useReactRouter: this.useReactRouter,
+			},
+		);
 		const projectFiles = project.generateProjectFiles();
 		for (const { path, text } of projectFiles) {
 			zip.file(

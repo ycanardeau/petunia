@@ -276,6 +276,19 @@ const ProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow label="qs" display="rowCompressed">
+					<EuiSwitch
+						label="Use qs for this project." /* LOC */
+						checked={projectCreateStore.useQs}
+						onChange={(event): void => {
+							runInAction(() => {
+								projectCreateStore.useQs = event.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiFormRow label="React Router" display="rowCompressed">
 					<EuiSwitch
 						label="Use React Router for this project." /* LOC */
@@ -284,19 +297,6 @@ const ProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.useReactRouter =
 									event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow label="qs" display="rowCompressed">
-					<EuiSwitch
-						label="Use qs for this project." /* LOC */
-						checked={projectCreateStore.useQs}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useQs = event.target.checked;
 							});
 						}}
 						compressed

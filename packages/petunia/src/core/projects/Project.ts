@@ -3,17 +3,16 @@ export interface EditorConfig {
 	newLine: string;
 }
 
-interface ProjectOptions {
-	editorConfig: EditorConfig;
-}
-
 export interface ProjectFile {
 	path: string;
 	text: string;
 }
 
-export abstract class Project {
-	constructor(readonly options: ProjectOptions) {}
+export abstract class Project<TOptions> {
+	constructor(
+		readonly editorConfig: EditorConfig,
+		readonly options: TOptions,
+	) {}
 
 	abstract generateProjectFiles(): Generator<ProjectFile>;
 }
