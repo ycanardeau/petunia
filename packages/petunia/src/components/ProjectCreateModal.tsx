@@ -180,11 +180,39 @@ const ProjectCreateForm = observer(
 
 				<EuiFormRow display="rowCompressed">
 					<EuiSwitch
+						label="Enable Prettier" /* LOC */
+						checked={projectCreateStore.enablePrettier}
+						onChange={(event): void => {
+							runInAction(() => {
+								projectCreateStore.enablePrettier =
+									event.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
 						label="Sort imports" /* LOC */
 						checked={projectCreateStore.sortImports}
 						onChange={(event): void => {
 							runInAction(() => {
 								projectCreateStore.sortImports =
+									event.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Enable ESLint" /* LOC */
+						checked={projectCreateStore.enableESLint}
+						onChange={(event): void => {
+							runInAction(() => {
+								projectCreateStore.enableESLint =
 									event.target.checked;
 							});
 						}}

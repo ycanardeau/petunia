@@ -33,7 +33,9 @@ export class ProjectCreateStore {
 	@observable test = TestingFramework.None;
 	@observable ui = UIFramework.None;
 	@observable icon = IconLibrary.None;
+	@observable enablePrettier = true;
 	@observable sortImports = true;
+	@observable enableESLint = true;
 	@observable configurePathAliases = true;
 	@observable useAjv = false;
 	@observable useLodash = false;
