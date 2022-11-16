@@ -55,6 +55,8 @@ export class ProjectCreateStore {
 				test: this.test,
 				ui: this.ui,
 				icon: this.icon,
+				enablePrettier: this.enablePrettier,
+				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
 				useAjv: this.useAjv,
 				useLodash: this.useLodash,

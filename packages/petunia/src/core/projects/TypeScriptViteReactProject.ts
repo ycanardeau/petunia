@@ -109,6 +109,30 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 		}
 
+		if (this.options.enablePrettier) {
+			devDependencies.addEntry('prettier', '^2.7.1');
+		}
+
+		if (this.options.enableESLint) {
+			devDependencies.addEntry(
+				'@typescript-eslint/eslint-plugin',
+				'^5.43.0',
+			);
+			devDependencies.addEntry('@typescript-eslint/parser', '^5.43.0');
+			devDependencies.addEntry('eslint', '^8.27.0');
+			devDependencies.addEntry('eslint-config-react-app', '^7.0.1');
+			devDependencies.addEntry('eslint-plugin-flowtype', '^8.0.3');
+			devDependencies.addEntry('eslint-plugin-import', '^2.26.0');
+			devDependencies.addEntry('eslint-plugin-jsx-a11y', '^6.6.1');
+			devDependencies.addEntry('eslint-plugin-react', '^7.31.10');
+			devDependencies.addEntry('eslint-plugin-react-hooks', '^4.6.0');
+		}
+
+		if (this.options.enablePrettier && this.options.enableESLint) {
+			devDependencies.addEntry('eslint-config-prettier', '^8.5.0');
+			devDependencies.addEntry('eslint-plugin-prettier', '^4.2.1');
+		}
+
 		if (this.options.useAjv) {
 			dependencies.addEntry('ajv', '^8.11.2');
 		}
