@@ -284,7 +284,28 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				new JavaScriptDefaultImport('@vitejs/plugin-react', 'react'),
 			);
 
-		const configObj = new JsonObject().addEntry(
+		if (this.options.configurePathAliases) {
+			imports.addImport(
+				new JavaScriptNamedImport('path').addNamedExport('resolve'),
+			);
+		}
+
+		const configObj = new JsonObject();
+
+		if (this.options.configurePathAliases) {
+			configObj.addEntry(
+				'resolve',
+				new JsonObject().addEntry(
+					'alias',
+					new JsonObject().addEntry(
+						'@',
+						new JsonLiteral(`resolve(__dirname, './src')`),
+					),
+				),
+			);
+		}
+
+		configObj.addEntry(
 			'plugins',
 			new JsonArray().addItem(new JsonLiteral('react()')),
 		);

@@ -191,7 +191,7 @@ export class JsonObject extends JsonValue {
 
 	toFormattedString = (options: FormatOptions, tabCount = 0): string => {
 		const entryToString = (
-			entry: JsonObjectEntry,
+			{ key, value }: JsonObjectEntry,
 			options: FormatOptions,
 			tabCount: number,
 		): string => {
@@ -200,22 +200,19 @@ export class JsonObject extends JsonValue {
 
 			switch (options.style) {
 				case 'Json':
-					entryString += `"${entry.key}"`;
+					entryString += `"${key}"`;
 					break;
 
 				case 'JavaScript':
-					if (entry.key.includes('-')) {
-						entryString += `'${entry.key}'`;
+					if (key.includes('-') || key.includes('@')) {
+						entryString += `'${key}'`;
 					} else {
-						entryString += entry.key;
+						entryString += key;
 					}
 					break;
 			}
 
-			entryString += `: ${entry.value.toFormattedString(
-				options,
-				tabCount,
-			)}`;
+			entryString += `: ${value.toFormattedString(options, tabCount)}`;
 
 			return entryString;
 		};
