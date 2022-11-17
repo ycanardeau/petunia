@@ -5,8 +5,6 @@ import {
 } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { Project, ProjectFile } from '@/core/projects/Project';
-import { generateEditorConfig } from '@/core/projects/generateEditorConfig';
-import { generatePrettierRcJson } from '@/core/projects/generatePrettierRcJson';
 import {
 	IconLibrary,
 	TestingFramework,
@@ -29,6 +27,46 @@ interface TypeScriptViteReactProjectOptions {
 }
 
 export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProjectOptions> {
+	generateEditorConfig = (): string => {
+		const { newLine } = this.editorConfig;
+
+		const result: string[] = [];
+		result.push('root = true');
+		result.push('');
+		result.push('[*]');
+		result.push('end_of_line = lf');
+		result.push('charset = utf-8');
+		result.push('trim_trailing_whitespace = true');
+		result.push('insert_final_newline = true');
+		result.push('indent_style = tab');
+		result.push('indent_size = 4');
+		return `${result.join(newLine)}${newLine}`;
+	};
+
+	generatePrettierRcJson = (): string => {
+		const { tab, newLine } = this.editorConfig;
+
+		const obj = new JsonObject()
+			.addEntry('singleQuote', true)
+			.addEntry('trailingComma', 'all')
+			.addEntry(
+				'importOrder',
+				new JsonArray()
+					.addItem('^@core/(.*)$')
+					.addItem('^@server/(.*)$')
+					.addItem('^@ui/(.*)$')
+					.addItem('^[./]'),
+			)
+			.addEntry('importOrderSeparation', true)
+			.addEntry('importOrderSortSpecifiers', true);
+
+		return `${obj.toFormattedString({
+			tab: tab,
+			newLine: newLine,
+			style: 'Json',
+		})}${newLine}`;
+	};
+
 	generateGitignore = (): string => {
 		const { newLine } = this.editorConfig;
 
@@ -440,13 +478,13 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.editorconfig',
-			text: generateEditorConfig(this.editorConfig),
+			text: this.generateEditorConfig(),
 		};
 
 		if (this.options.enablePrettier) {
 			yield {
 				path: '.prettierrc.json',
-				text: generatePrettierRcJson(this.editorConfig),
+				text: this.generatePrettierRcJson(),
 			};
 		}
 

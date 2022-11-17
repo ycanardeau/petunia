@@ -6,6 +6,39 @@ const defaultEditorConfig = {
 	newLine: '\n',
 };
 
+test('generateEditorConfig', () => {
+	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
+	const actual = project.generateEditorConfig();
+	expect(actual).toBe(`root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = tab
+indent_size = 4
+`);
+});
+
+test('generatePrettierRcJson', () => {
+	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
+	const actual = project.generatePrettierRcJson();
+	expect(actual).toBe(`{
+	"singleQuote": true,
+	"trailingComma": "all",
+	"importOrder": [
+		"^@core/(.*)$",
+		"^@server/(.*)$",
+		"^@ui/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
+}
+`);
+});
+
 test('generateGitignore', () => {
 	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
 	const actual = project.generateGitignore();
