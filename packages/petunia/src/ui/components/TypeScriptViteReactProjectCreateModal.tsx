@@ -3,11 +3,7 @@ import {
 	TestingFramework,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import {
-	BuildTool,
-	ProjectType,
-	TypeScriptViteReactProjectCreateStore,
-} from '@/ui/stores/TypeScriptViteReactProjectCreateStore';
+import { TypeScriptViteReactProjectCreateStore } from '@/ui/stores/TypeScriptViteReactProjectCreateStore';
 import {
 	EuiButton,
 	EuiFieldText,
@@ -24,14 +20,6 @@ import {
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-
-const projectTypeNames: Record<ProjectType, string> = {
-	[ProjectType.React]: 'React',
-};
-
-const buildToolNames: Record<BuildTool, string> = {
-	[BuildTool.Vite]: 'Vite',
-};
 
 const testingFrameworkNames: Record<TestingFramework, string> = {
 	[TestingFramework.None]: 'None',
@@ -59,28 +47,6 @@ const TypeScriptViteReactProjectCreateForm = observer(
 		return (
 			<EuiForm>
 				<EuiFormRow
-					label="Project type" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(ProjectType).map(
-							(projectType) => ({
-								value: projectType,
-								text: projectTypeNames[projectType],
-							}),
-						)}
-						value={projectCreateStore.projectType}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.projectType = event.target
-									.value as ProjectType;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
 					label="Project name" /* LOC */
 					display="rowCompressed"
 				>
@@ -90,26 +56,6 @@ const TypeScriptViteReactProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.projectName =
 									event.target.value;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
-					label="Build tool" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(BuildTool).map((buildTool) => ({
-							value: buildTool,
-							text: buildToolNames[buildTool],
-						}))}
-						value={projectCreateStore.buildTool}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.buildTool = event.target
-									.value as BuildTool;
 							});
 						}}
 						compressed

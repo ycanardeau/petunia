@@ -8,18 +8,8 @@ import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { makeObservable, observable } from 'mobx';
 
-export enum ProjectType {
-	React = 'React',
-}
-
-export enum BuildTool {
-	Vite = 'Vite',
-}
-
 export class TypeScriptViteReactProjectCreateStore {
-	@observable projectType = ProjectType.React;
 	@observable projectName = '';
-	@observable buildTool = BuildTool.Vite;
 	@observable test = TestingFramework.None;
 	@observable ui = UIFramework.None;
 	@observable icon = IconLibrary.None;
