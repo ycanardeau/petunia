@@ -1,10 +1,12 @@
 import {
-	BuildTool,
 	IconLibrary,
-	ProjectCreateStore,
-	ProjectType,
 	TestingFramework,
 	UIFramework,
+} from '@/core/projects/TypeScriptViteReactProject';
+import {
+	BuildTool,
+	ProjectCreateStore,
+	ProjectType,
 } from '@/stores/ProjectCreateStore';
 import {
 	EuiButton,
