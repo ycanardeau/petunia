@@ -9,7 +9,9 @@ describe('TypeScriptViteReactProject', () => {
 			tab: '\t',
 			newLine: '\n',
 		};
-		project = new TypeScriptViteReactProject(editorConfig, {});
+		project = new TypeScriptViteReactProject(editorConfig, {
+			projectName: 'petunia',
+		});
 	});
 
 	test('generateEditorConfig', () => {
@@ -251,5 +253,24 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		const expected = `/// <reference types="vite/client" />
 `;
 		expect(actual).toBe(expected);
+	});
+
+	test('generateProjectFiles', () => {
+		const actual = Array.from(project.generateProjectFiles()).map(
+			(projectFile) => projectFile.path,
+		);
+		const expected = [
+			'.editorconfig',
+			'.gitignore',
+			'package.json',
+			'tsconfig.json',
+			'tsconfig.node.json',
+			'index.html',
+			'vite.config.ts',
+			'src/App.tsx',
+			'src/main.tsx',
+			'src/vite-env.d.ts',
+		];
+		expect(actual).toEqual(expected);
 	});
 });
