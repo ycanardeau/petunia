@@ -54,6 +54,10 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	generatePrettierRcJson = (): string => {
+		if (!this.options.enablePrettier) {
+			throw new Error('The `enablePrettier` option must be set to true.');
+		}
+
 		const { tab, newLine } = this.editorConfig;
 
 		const obj = new JsonObject()
@@ -70,7 +74,16 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 					.addItem('^[./]'),
 			)
 				.addEntry('importOrderSeparation', true)
-				.addEntry('importOrderSortSpecifiers', true);
+				.addEntry('importOrderSortSpecifiers', true)
+				.addEntry(
+					'importOrderParserPlugins',
+					new JsonArray()
+						.addItem('jsx')
+						.addItem('typescript')
+						.addItem('importOrderParserPlugins')
+						.addItem('classProperties')
+						.addItem('decorators-legacy'),
+				);
 		}
 
 		return `${obj.toFormattedString({
@@ -160,10 +173,12 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		if (this.options.enablePrettier) {
 			devDependencies.addPackage('prettier');
-		}
 
-		if (this.options.enablePrettier && this.options.sortImports) {
-			devDependencies.addPackage('@trivago/prettier-plugin-sort-imports');
+			if (this.options.sortImports) {
+				devDependencies.addPackage(
+					'@trivago/prettier-plugin-sort-imports',
+				);
+			}
 		}
 
 		if (this.options.enableESLint) {
@@ -307,6 +322,10 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	generateESLintRcJS = (): string => {
+		if (!this.options.enableESLint) {
+			throw new Error('The `enableESLint` option must be set to true.');
+		}
+
 		const { tab, newLine } = this.editorConfig;
 
 		const obj = new JsonObject()
