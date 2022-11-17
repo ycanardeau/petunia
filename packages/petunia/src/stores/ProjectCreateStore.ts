@@ -52,6 +52,7 @@ export class ProjectCreateStore {
 		const project = new TypeScriptViteReactProject(
 			{ tab: '\t', newLine: '\n' },
 			{
+				projectName: this.projectName,
 				test: this.test,
 				ui: this.ui,
 				icon: this.icon,

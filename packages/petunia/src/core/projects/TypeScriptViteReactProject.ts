@@ -13,6 +13,7 @@ import {
 } from '@/stores/ProjectCreateStore';
 
 interface TypeScriptViteReactProjectOptions {
+	projectName?: string;
 	test?: TestingFramework;
 	ui?: UIFramework;
 	icon?: IconLibrary;
@@ -200,7 +201,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		}
 
 		const obj = new JsonObject()
-			.addEntry('name', 'petunia')
+			.addEntry('name', this.options.projectName)
 			.addEntry('private', true)
 			.addEntry('version', '0.0.0')
 			.addEntry('type', 'module')
