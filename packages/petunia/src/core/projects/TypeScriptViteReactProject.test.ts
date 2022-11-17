@@ -31,15 +31,7 @@ indent_size = 4
 		const actual = project.generatePrettierRcJson();
 		const expected = `{
 	"singleQuote": true,
-	"trailingComma": "all",
-	"importOrder": [
-		"^@core/(.*)$",
-		"^@server/(.*)$",
-		"^@ui/(.*)$",
-		"^[./]"
-	],
-	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true
+	"trailingComma": "all"
 }
 `;
 		expect(actual).toBe(expected);

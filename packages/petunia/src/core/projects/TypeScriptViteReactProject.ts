@@ -48,8 +48,10 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		const obj = new JsonObject()
 			.addEntry('singleQuote', true)
-			.addEntry('trailingComma', 'all')
-			.addEntry(
+			.addEntry('trailingComma', 'all');
+
+		if (this.options.sortImports) {
+			obj.addEntry(
 				'importOrder',
 				new JsonArray()
 					.addItem('^@core/(.*)$')
@@ -57,8 +59,9 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 					.addItem('^@ui/(.*)$')
 					.addItem('^[./]'),
 			)
-			.addEntry('importOrderSeparation', true)
-			.addEntry('importOrderSortSpecifiers', true);
+				.addEntry('importOrderSeparation', true)
+				.addEntry('importOrderSortSpecifiers', true);
+		}
 
 		return `${obj.toFormattedString({
 			tab: tab,
@@ -149,6 +152,13 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		if (this.options.enablePrettier) {
 			devDependencies.addEntry('prettier', '^2.7.1');
+		}
+
+		if (this.options.sortImports) {
+			devDependencies.addEntry(
+				'@trivago/prettier-plugin-sort-imports',
+				'^3.4.0',
+			);
 		}
 
 		if (this.options.enableESLint) {
