@@ -345,7 +345,8 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				'extends',
 				new JsonArray()
 					.addItem('plugin:@typescript-eslint/recommended')
-					.addItem('plugin:prettier/recommended'),
+					.addItem('plugin:prettier/recommended')
+					.addItem('react-app'),
 			)
 			.addEntry('root', true)
 			.addEntry(

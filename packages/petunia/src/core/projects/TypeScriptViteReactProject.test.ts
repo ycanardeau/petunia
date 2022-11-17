@@ -727,6 +727,7 @@ dist-ssr
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
+		'react-app',
 	],
 	root: true,
 	env: {
