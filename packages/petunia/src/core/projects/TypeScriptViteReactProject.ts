@@ -40,19 +40,17 @@ interface TypeScriptViteReactProjectOptions {
 
 export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProjectOptions> {
 	generateEditorConfig = (): string => {
-		const { newLine } = this.editorConfig;
-
-		const result: string[] = [];
-		result.push('root = true');
-		result.push('');
-		result.push('[*]');
-		result.push('end_of_line = lf');
-		result.push('charset = utf-8');
-		result.push('trim_trailing_whitespace = true');
-		result.push('insert_final_newline = true');
-		result.push('indent_style = tab');
-		result.push('indent_size = 4');
-		return `${result.join(newLine)}${newLine}`;
+		const lines: string[] = [];
+		lines.push('root = true');
+		lines.push('');
+		lines.push('[*]');
+		lines.push('end_of_line = lf');
+		lines.push('charset = utf-8');
+		lines.push('trim_trailing_whitespace = true');
+		lines.push('insert_final_newline = true');
+		lines.push('indent_style = tab');
+		lines.push('indent_size = 4');
+		return this.joinLines(lines);
 	};
 
 	generatePrettierRcJson = (): string => {
@@ -83,34 +81,32 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	generateGitignore = (): string => {
-		const { newLine } = this.editorConfig;
-
-		const result: string[] = [];
-		result.push('# Logs');
-		result.push('logs');
-		result.push('*.log');
-		result.push('npm-debug.log*');
-		result.push('yarn-debug.log*');
-		result.push('yarn-error.log*');
-		result.push('pnpm-debug.log*');
-		result.push('lerna-debug.log*');
-		result.push('');
-		result.push('node_modules');
-		result.push('dist');
-		result.push('dist-ssr');
-		result.push('*.local');
-		result.push('');
-		result.push('# Editor directories and files');
-		result.push('.vscode/*');
-		result.push('!.vscode/extensions.json');
-		result.push('.idea');
-		result.push('.DS_Store');
-		result.push('*.suo');
-		result.push('*.ntvs*');
-		result.push('*.njsproj');
-		result.push('*.sln');
-		result.push('*.sw?');
-		return `${result.join(newLine)}${newLine}`;
+		const lines: string[] = [];
+		lines.push('# Logs');
+		lines.push('logs');
+		lines.push('*.log');
+		lines.push('npm-debug.log*');
+		lines.push('yarn-debug.log*');
+		lines.push('yarn-error.log*');
+		lines.push('pnpm-debug.log*');
+		lines.push('lerna-debug.log*');
+		lines.push('');
+		lines.push('node_modules');
+		lines.push('dist');
+		lines.push('dist-ssr');
+		lines.push('*.local');
+		lines.push('');
+		lines.push('# Editor directories and files');
+		lines.push('.vscode/*');
+		lines.push('!.vscode/extensions.json');
+		lines.push('.idea');
+		lines.push('.DS_Store');
+		lines.push('*.suo');
+		lines.push('*.ntvs*');
+		lines.push('*.njsproj');
+		lines.push('*.sln');
+		lines.push('*.sw?');
+		return this.joinLines(lines);
 	};
 
 	generatePackageJson = (): string => {
@@ -362,26 +358,26 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	generateIndexHtml = (): string => {
-		const { tab, newLine } = this.editorConfig;
+		const { tab } = this.editorConfig;
 
-		const result: string[] = [];
-		result.push('<!DOCTYPE html>');
-		result.push('<html lang="en">');
-		result.push(`${tab}<head>`);
-		result.push(`${tab}${tab}<meta charset="UTF-8" />`);
-		result.push(
+		const lines: string[] = [];
+		lines.push('<!DOCTYPE html>');
+		lines.push('<html lang="en">');
+		lines.push(`${tab}<head>`);
+		lines.push(`${tab}${tab}<meta charset="UTF-8" />`);
+		lines.push(
 			`${tab}${tab}<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
 		);
-		result.push(`${tab}${tab}<title></title>`);
-		result.push(`${tab}</head>`);
-		result.push(`${tab}<body>`);
-		result.push(`${tab}${tab}<div id="root"></div>`);
-		result.push(
+		lines.push(`${tab}${tab}<title></title>`);
+		lines.push(`${tab}</head>`);
+		lines.push(`${tab}<body>`);
+		lines.push(`${tab}${tab}<div id="root"></div>`);
+		lines.push(
 			`${tab}${tab}<script type="module" src="/src/main.tsx"></script>`,
 		);
-		result.push(`${tab}</body>`);
-		result.push('</html>');
-		return `${result.join(newLine)}${newLine}`;
+		lines.push(`${tab}</body>`);
+		lines.push('</html>');
+		return this.joinLines(lines);
 	};
 
 	generateViteConfigTS = (): string => {
@@ -423,18 +419,18 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			new JsonArray().addItem(new JsonLiteral('react()')),
 		);
 
-		const result: string[] = [];
-		result.push(`${imports.toFormattedString({ newLine })}`);
-		result.push('');
-		result.push('// https://vitejs.dev/config/');
-		result.push(
+		const lines: string[] = [];
+		lines.push(`${imports.toFormattedString({ newLine })}`);
+		lines.push('');
+		lines.push('// https://vitejs.dev/config/');
+		lines.push(
 			`export default defineConfig(${configObj.toFormattedString({
 				tab: tab,
 				newLine: newLine,
 				style: 'JavaScript',
 			})});`,
 		);
-		return `${result.join(newLine)}${newLine}`;
+		return this.joinLines(lines);
 	};
 
 	generateSrcAppTsx = (): string => {
@@ -444,15 +440,15 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			new JavaScriptDefaultImport('react', 'React'),
 		);
 
-		const result: string[] = [];
-		result.push(`${imports.toFormattedString({ newLine })}`);
-		result.push('');
-		result.push('const App = (): React.ReactElement => {');
-		result.push(`${tab}return <></>;`);
-		result.push('};');
-		result.push('');
-		result.push('export default App;');
-		return `${result.join(newLine)}${newLine}`;
+		const lines: string[] = [];
+		lines.push(`${imports.toFormattedString({ newLine })}`);
+		lines.push('');
+		lines.push('const App = (): React.ReactElement => {');
+		lines.push(`${tab}return <></>;`);
+		lines.push('};');
+		lines.push('');
+		lines.push('export default App;');
+		return this.joinLines(lines);
 	};
 
 	generateSrcMainTsx = (): string => {
@@ -470,25 +466,23 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				new JavaScriptDefaultImport('react-dom/client', 'ReactDOM'),
 			);
 
-		const result: string[] = [];
-		result.push(`${imports.toFormattedString({ newLine })}`);
-		result.push('');
-		result.push(
+		const lines: string[] = [];
+		lines.push(`${imports.toFormattedString({ newLine })}`);
+		lines.push('');
+		lines.push(
 			`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
 		);
-		result.push(`${tab}<React.StrictMode>`);
-		result.push(`${tab}${tab}<App />`);
-		result.push(`${tab}</React.StrictMode>,`);
-		result.push(');');
-		return `${result.join(newLine)}${newLine}`;
+		lines.push(`${tab}<React.StrictMode>`);
+		lines.push(`${tab}${tab}<App />`);
+		lines.push(`${tab}</React.StrictMode>,`);
+		lines.push(');');
+		return this.joinLines(lines);
 	};
 
 	generateSrcViteEnvDTS = (): string => {
-		const { newLine } = this.editorConfig;
-
-		const result: string[] = [];
-		result.push('/// <reference types="vite/client" />');
-		return `${result.join(newLine)}${newLine}`;
+		const lines: string[] = [];
+		lines.push('/// <reference types="vite/client" />');
+		return this.joinLines(lines);
 	};
 
 	*generateProjectFiles(): Generator<ProjectFile> {
