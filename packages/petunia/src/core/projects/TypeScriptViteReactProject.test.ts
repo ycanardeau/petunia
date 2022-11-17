@@ -705,15 +705,15 @@ dist-ssr
 		expect(actual).toBe(expected);
 	});
 
-	test('generateESLintRcJS', () => {
-		expect(() => defaultProject.generateESLintRcJS()).toThrowError();
+	test('generateESLintRcCjs', () => {
+		expect(() => defaultProject.generateESLintRcCjs()).toThrowError();
 	});
 
-	test('generateESLintRcJS enableESLint', () => {
+	test('generateESLintRcCjs enableESLint', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			enableESLint: true,
 		});
-		const actual = project.generateESLintRcJS();
+		const actual = project.generateESLintRcCjs();
 		const expected = `module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
@@ -734,7 +734,7 @@ dist-ssr
 		jest: true,
 	},
 	ignorePatterns: [
-		'.eslintrc.js',
+		'.eslintrc.cjs',
 	],
 	rules: {
 		'@typescript-eslint/interface-name-prefix': 'off',
@@ -913,7 +913,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			'package.json',
 			'tsconfig.json',
 			'tsconfig.node.json',
-			'.eslintrc.js',
+			'.eslintrc.cjs',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',

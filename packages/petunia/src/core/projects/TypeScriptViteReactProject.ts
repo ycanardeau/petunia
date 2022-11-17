@@ -321,7 +321,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		})}${newLine}`;
 	};
 
-	generateESLintRcJS = (): string => {
+	generateESLintRcCjs = (): string => {
 		if (!this.options.enableESLint) {
 			throw new Error('The `enableESLint` option must be set to true.');
 		}
@@ -352,7 +352,10 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				'env',
 				new JsonObject().addEntry('node', true).addEntry('jest', true),
 			)
-			.addEntry('ignorePatterns', new JsonArray().addItem('.eslintrc.js'))
+			.addEntry(
+				'ignorePatterns',
+				new JsonArray().addItem('.eslintrc.cjs'),
+			)
 			.addEntry(
 				'rules',
 				new JsonObject()
@@ -536,8 +539,8 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		if (this.options.enableESLint) {
 			yield {
-				path: '.eslintrc.js',
-				text: this.generateESLintRcJS(),
+				path: '.eslintrc.cjs',
+				text: this.generateESLintRcCjs(),
 			};
 		}
 
