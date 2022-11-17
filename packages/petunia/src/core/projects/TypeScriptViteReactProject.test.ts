@@ -1,15 +1,20 @@
 import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
-import { expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
-const defaultEditorConfig = {
-	tab: '\t',
-	newLine: '\n',
-};
+describe('TypeScriptViteReactProject', () => {
+	let project: TypeScriptViteReactProject;
 
-test('generateEditorConfig', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateEditorConfig();
-	const expected = `root = true
+	beforeEach(() => {
+		const editorConfig = {
+			tab: '\t',
+			newLine: '\n',
+		};
+		project = new TypeScriptViteReactProject(editorConfig, {});
+	});
+
+	test('generateEditorConfig', () => {
+		const actual = project.generateEditorConfig();
+		const expected = `root = true
 
 [*]
 end_of_line = lf
@@ -19,13 +24,12 @@ insert_final_newline = true
 indent_style = tab
 indent_size = 4
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generatePrettierRcJson', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generatePrettierRcJson();
-	const expected = `{
+	test('generatePrettierRcJson', () => {
+		const actual = project.generatePrettierRcJson();
+		const expected = `{
 	"singleQuote": true,
 	"trailingComma": "all",
 	"importOrder": [
@@ -38,13 +42,12 @@ test('generatePrettierRcJson', () => {
 	"importOrderSortSpecifiers": true
 }
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateGitignore', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateGitignore();
-	const expected = `# Logs
+	test('generateGitignore', () => {
+		const actual = project.generateGitignore();
+		const expected = `# Logs
 logs
 *.log
 npm-debug.log*
@@ -69,13 +72,12 @@ dist-ssr
 *.sln
 *.sw?
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generatePackageJson', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generatePackageJson();
-	const expected = `{
+	test('generatePackageJson', () => {
+		const actual = project.generatePackageJson();
+		const expected = `{
 	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
@@ -98,13 +100,12 @@ test('generatePackageJson', () => {
 	}
 }
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateTSConfigJson', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateTSConfigJson();
-	const expected = `{
+	test('generateTSConfigJson', () => {
+		const actual = project.generateTSConfigJson();
+		const expected = `{
 	"compilerOptions": {
 		"target": "ESNext",
 		"useDefineForClassFields": true,
@@ -136,13 +137,12 @@ test('generateTSConfigJson', () => {
 	]
 }
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateTSConfigNodeJson', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateTSConfigNodeJson();
-	const expected = `{
+	test('generateTSConfigNodeJson', () => {
+		const actual = project.generateTSConfigNodeJson();
+		const expected = `{
 	"compilerOptions": {
 		"composite": true,
 		"module": "ESNext",
@@ -154,13 +154,12 @@ test('generateTSConfigNodeJson', () => {
 	]
 }
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateESLintRcJS', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateESLintRcJS();
-	const expected = `module.exports = {
+	test('generateESLintRcJS', () => {
+		const actual = project.generateESLintRcJS();
+		const expected = `module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		project: 'tsconfig.json',
@@ -191,13 +190,12 @@ test('generateESLintRcJS', () => {
 	},
 };
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateIndexHtml', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateIndexHtml();
-	const expected = `<!DOCTYPE html>
+	test('generateIndexHtml', () => {
+		const actual = project.generateIndexHtml();
+		const expected = `<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -210,13 +208,12 @@ test('generateIndexHtml', () => {
 	</body>
 </html>
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateViteConfigTS', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateViteConfigTS();
-	const expected = `import react from '@vitejs/plugin-react';
+	test('generateViteConfigTS', () => {
+		const actual = project.generateViteConfigTS();
+		const expected = `import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
@@ -226,13 +223,12 @@ export default defineConfig({
 	],
 });
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateSrcAppTsx', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateSrcAppTsx();
-	const expected = `import React from 'react';
+	test('generateSrcAppTsx', () => {
+		const actual = project.generateSrcAppTsx();
+		const expected = `import React from 'react';
 
 const App = (): React.ReactElement => {
 	return <></>;
@@ -240,13 +236,12 @@ const App = (): React.ReactElement => {
 
 export default App;
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateSrcMainTsx', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateSrcMainTsx();
-	const expected = `import App from './App';
+	test('generateSrcMainTsx', () => {
+		const actual = project.generateSrcMainTsx();
+		const expected = `import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -256,13 +251,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	</React.StrictMode>,
 );
 `;
-	expect(actual).toBe(expected);
-});
+		expect(actual).toBe(expected);
+	});
 
-test('generateSrcViteEnvDTS', () => {
-	const project = new TypeScriptViteReactProject(defaultEditorConfig, {});
-	const actual = project.generateSrcViteEnvDTS();
-	const expected = `/// <reference types="vite/client" />
+	test('generateSrcViteEnvDTS', () => {
+		const actual = project.generateSrcViteEnvDTS();
+		const expected = `/// <reference types="vite/client" />
 `;
-	expect(actual).toBe(expected);
+		expect(actual).toBe(expected);
+	});
 });
