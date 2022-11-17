@@ -1,4 +1,4 @@
-import { ProjectCreateModal } from '@/components/ProjectCreateModal';
+import { TypeScriptViteReactProjectCreateModal } from '@/ui/components/TypeScriptViteReactProjectCreateModal';
 import { EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
@@ -14,7 +14,7 @@ euiCache.compat = true;
 const App = (): React.ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
-			<ProjectCreateModal />
+			<TypeScriptViteReactProjectCreateModal />
 		</EuiProvider>
 	);
 };

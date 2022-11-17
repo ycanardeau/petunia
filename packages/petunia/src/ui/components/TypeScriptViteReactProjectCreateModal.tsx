@@ -5,9 +5,9 @@ import {
 } from '@/core/projects/TypeScriptViteReactProject';
 import {
 	BuildTool,
-	ProjectCreateStore,
 	ProjectType,
-} from '@/stores/ProjectCreateStore';
+	TypeScriptViteReactProjectCreateStore,
+} from '@/ui/stores/TypeScriptViteReactProjectCreateStore';
 import {
 	EuiButton,
 	EuiFieldText,
@@ -48,12 +48,14 @@ const iconLibraryNames: Record<IconLibrary, string> = {
 	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
 };
 
-interface ProjectCreateFormProps {
-	projectCreateStore: ProjectCreateStore;
+interface TypeScriptViteReactProjectCreateFormProps {
+	projectCreateStore: TypeScriptViteReactProjectCreateStore;
 }
 
-const ProjectCreateForm = observer(
-	({ projectCreateStore }: ProjectCreateFormProps): React.ReactElement => {
+const TypeScriptViteReactProjectCreateForm = observer(
+	({
+		projectCreateStore,
+	}: TypeScriptViteReactProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
 				<EuiFormRow
@@ -309,26 +311,36 @@ const ProjectCreateForm = observer(
 	},
 );
 
-export const ProjectCreateModal = observer((): React.ReactElement => {
-	const [projectCreateStore] = React.useState(() => new ProjectCreateStore());
+export const TypeScriptViteReactProjectCreateModal = observer(
+	(): React.ReactElement => {
+		const [projectCreateStore] = React.useState(
+			() => new TypeScriptViteReactProjectCreateStore(),
+		);
 
-	return (
-		<EuiModal onClose={(): void => {}}>
-			<EuiModalHeader>
-				<EuiModalHeaderTitle>
-					Create a new project{/* LOC */}
-				</EuiModalHeaderTitle>
-			</EuiModalHeader>
+		return (
+			<EuiModal onClose={(): void => {}}>
+				<EuiModalHeader>
+					<EuiModalHeaderTitle>
+						Create a new project{/* LOC */}
+					</EuiModalHeaderTitle>
+				</EuiModalHeader>
 
-			<EuiModalBody>
-				<ProjectCreateForm projectCreateStore={projectCreateStore} />
-			</EuiModalBody>
+				<EuiModalBody>
+					<TypeScriptViteReactProjectCreateForm
+						projectCreateStore={projectCreateStore}
+					/>
+				</EuiModalBody>
 
-			<EuiModalFooter>
-				<EuiButton fill size="s" onClick={projectCreateStore.submit}>
-					Create{/* LOC */}
-				</EuiButton>
-			</EuiModalFooter>
-		</EuiModal>
-	);
-});
+				<EuiModalFooter>
+					<EuiButton
+						fill
+						size="s"
+						onClick={projectCreateStore.submit}
+					>
+						Create{/* LOC */}
+					</EuiButton>
+				</EuiModalFooter>
+			</EuiModal>
+		);
+	},
+);

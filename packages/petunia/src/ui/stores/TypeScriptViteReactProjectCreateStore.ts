@@ -16,7 +16,7 @@ export enum BuildTool {
 	Vite = 'Vite',
 }
 
-export class ProjectCreateStore {
+export class TypeScriptViteReactProjectCreateStore {
 	@observable projectType = ProjectType.React;
 	@observable projectName = '';
 	@observable buildTool = BuildTool.Vite;
