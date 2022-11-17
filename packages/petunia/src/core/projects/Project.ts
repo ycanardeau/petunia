@@ -10,7 +10,7 @@ export interface ProjectFile {
 
 export abstract class Project<TOptions> {
 	constructor(
-		readonly editorConfig: EditorConfig,
+		readonly editorConfig: EditorConfig = { tab: '\t', newLine: '\n' },
 		readonly options: TOptions,
 	) {}
 

@@ -7,14 +7,10 @@ import {
 import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptViteReactProject', () => {
-	const defaultEditorConfig = {
-		tab: '\t',
-		newLine: '\n',
-	};
 	let defaultProject: TypeScriptViteReactProject;
 
 	beforeAll(() => {
-		defaultProject = new TypeScriptViteReactProject(defaultEditorConfig, {
+		defaultProject = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 		});
 	});
@@ -39,7 +35,7 @@ indent_size = 4
 	});
 
 	test('generatePrettierRcJson enablePrettier', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 		});
@@ -53,7 +49,7 @@ indent_size = 4
 	});
 
 	test('generatePrettierRcJson enablePrettier sortImports', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 			sortImports: true,
@@ -141,7 +137,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson test Vitest', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			test: TestingFramework.Vitest,
 		});
@@ -174,7 +170,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson ui ElasticUI', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			ui: UIFramework.ElasticUI,
 		});
@@ -212,7 +208,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson icon FluentSystemIcons', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			icon: IconLibrary.FluentSystemIcons,
 		});
@@ -245,7 +241,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson enablePrettier', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 		});
@@ -278,7 +274,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson enablePrettier sortImports', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 			sortImports: true,
@@ -313,7 +309,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson enableESLint', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enableESLint: true,
 		});
@@ -354,7 +350,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson enablePrettier enableESLint', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 			enableESLint: true,
@@ -399,7 +395,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson useAjv', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useAjv: true,
 		});
@@ -432,7 +428,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson useLodash', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useLodash: true,
 		});
@@ -466,7 +462,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson useMobX', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useMobX: true,
 		});
@@ -500,7 +496,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson useQs', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useQs: true,
 		});
@@ -534,7 +530,7 @@ dist-ssr
 	});
 
 	test('generatePackageJson useReactRouter', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useReactRouter: true,
 		});
@@ -604,7 +600,7 @@ dist-ssr
 	});
 
 	test('generateTSConfigJson configurePathAliases', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			configurePathAliases: true,
 		});
@@ -651,7 +647,7 @@ dist-ssr
 	});
 
 	test('generateTSConfigJson useMobX', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			useMobX: true,
 		});
@@ -714,7 +710,7 @@ dist-ssr
 	});
 
 	test('generateESLintRcJS enableESLint', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enableESLint: true,
 		});
@@ -787,7 +783,7 @@ export default defineConfig({
 	});
 
 	test('generateViteConfigTS configurePathAliases', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			configurePathAliases: true,
 		});
@@ -840,7 +836,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	});
 
 	test('generateSrcMainTsx configurePathAliases', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			configurePathAliases: true,
 		});
@@ -885,7 +881,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	});
 
 	test('generateProjectFiles enablePrettier', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enablePrettier: true,
 		});
@@ -909,7 +905,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	});
 
 	test('generateProjectFiles enableESLint', () => {
-		const project = new TypeScriptViteReactProject(defaultEditorConfig, {
+		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
 			enableESLint: true,
 		});
