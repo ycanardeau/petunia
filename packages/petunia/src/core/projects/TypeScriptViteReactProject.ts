@@ -156,7 +156,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			devDependencies.addPackage('prettier');
 		}
 
-		if (this.options.sortImports) {
+		if (this.options.enablePrettier && this.options.sortImports) {
 			devDependencies.addPackage('@trivago/prettier-plugin-sort-imports');
 		}
 
