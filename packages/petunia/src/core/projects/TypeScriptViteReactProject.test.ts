@@ -10,9 +10,7 @@ describe('TypeScriptViteReactProject', () => {
 	let defaultProject: TypeScriptViteReactProject;
 
 	beforeAll(() => {
-		defaultProject = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
-		});
+		defaultProject = new TypeScriptViteReactProject(undefined, {});
 	});
 
 	test('generateEditorConfig', () => {
@@ -36,7 +34,6 @@ indent_size = 4
 
 	test('generatePrettierRcJson enablePrettier', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 		});
 		const actual = project.generatePrettierRcJson();
@@ -50,7 +47,6 @@ indent_size = 4
 
 	test('generatePrettierRcJson enablePrettier sortImports', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 			sortImports: true,
 		});
@@ -111,6 +107,36 @@ dist-ssr
 	test('generatePackageJson', () => {
 		const actual = defaultProject.generatePackageJson();
 		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.24",
+		"@types/react-dom": "^18.0.8",
+		"@vitejs/plugin-react": "^2.2.0",
+		"typescript": "^4.6.4",
+		"vite": "^3.2.3"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson projectName', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			projectName: 'petunia',
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
 	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
@@ -138,12 +164,10 @@ dist-ssr
 
 	test('generatePackageJson test Vitest', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			test: TestingFramework.Vitest,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -171,12 +195,10 @@ dist-ssr
 
 	test('generatePackageJson ui ElasticUI', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			ui: UIFramework.ElasticUI,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -209,12 +231,10 @@ dist-ssr
 
 	test('generatePackageJson icon FluentSystemIcons', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			icon: IconLibrary.FluentSystemIcons,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -242,12 +262,10 @@ dist-ssr
 
 	test('generatePackageJson enablePrettier', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -275,13 +293,11 @@ dist-ssr
 
 	test('generatePackageJson enablePrettier sortImports', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 			sortImports: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -310,12 +326,10 @@ dist-ssr
 
 	test('generatePackageJson enableESLint', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enableESLint: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -351,13 +365,11 @@ dist-ssr
 
 	test('generatePackageJson enablePrettier enableESLint', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 			enableESLint: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -396,12 +408,10 @@ dist-ssr
 
 	test('generatePackageJson useAjv', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useAjv: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -429,12 +439,10 @@ dist-ssr
 
 	test('generatePackageJson useLodash', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useLodash: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -463,12 +471,10 @@ dist-ssr
 
 	test('generatePackageJson useMobX', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useMobX: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -497,12 +503,10 @@ dist-ssr
 
 	test('generatePackageJson useQs', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useQs: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -531,12 +535,10 @@ dist-ssr
 
 	test('generatePackageJson useReactRouter', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useReactRouter: true,
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
-	"name": "petunia",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -601,7 +603,6 @@ dist-ssr
 
 	test('generateTSConfigJson configurePathAliases', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			configurePathAliases: true,
 		});
 		const actual = project.generateTSConfigJson();
@@ -648,7 +649,6 @@ dist-ssr
 
 	test('generateTSConfigJson useMobX', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			useMobX: true,
 		});
 		const actual = project.generateTSConfigJson();
@@ -711,7 +711,6 @@ dist-ssr
 
 	test('generateESLintRcJS enableESLint', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enableESLint: true,
 		});
 		const actual = project.generateESLintRcJS();
@@ -784,7 +783,6 @@ export default defineConfig({
 
 	test('generateViteConfigTS configurePathAliases', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			configurePathAliases: true,
 		});
 		const actual = project.generateViteConfigTS();
@@ -837,7 +835,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 	test('generateSrcMainTsx configurePathAliases', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			configurePathAliases: true,
 		});
 		const actual = project.generateSrcMainTsx();
@@ -882,7 +879,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 	test('generateProjectFiles enablePrettier', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enablePrettier: true,
 		});
 		const actual = Array.from(project.generateProjectFiles()).map(
@@ -906,7 +902,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 	test('generateProjectFiles enableESLint', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
-			projectName: 'petunia',
 			enableESLint: true,
 		});
 		const actual = Array.from(project.generateProjectFiles()).map(
