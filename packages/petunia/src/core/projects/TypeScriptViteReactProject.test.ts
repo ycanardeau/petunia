@@ -1,10 +1,10 @@
 import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptViteReactProject', () => {
 	let project: TypeScriptViteReactProject;
 
-	beforeEach(() => {
+	beforeAll(() => {
 		const editorConfig = {
 			tab: '\t',
 			newLine: '\n',
