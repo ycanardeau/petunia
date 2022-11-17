@@ -1,5 +1,3 @@
-import { orderBy } from 'lodash-es';
-
 type FormatStyle = 'Json' | 'JavaScript';
 
 interface FormatOptions {
@@ -238,9 +236,5 @@ export class JsonObject extends JsonValue {
 					tabCount + 1,
 			  )}${options.newLine}${indent}}`
 			: '{}';
-	};
-
-	orderByKey = (): JsonObject => {
-		return new JsonObject(orderBy(this.entries, (entry) => entry.key));
 	};
 }

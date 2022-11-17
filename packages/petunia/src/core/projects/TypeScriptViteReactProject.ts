@@ -4,6 +4,7 @@ import {
 	JavaScriptNamedImport,
 } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/core/projects/Project';
 import {
 	IconLibrary,
@@ -104,16 +105,16 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	generatePackageJson = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const dependencies = new JsonObject()
-			.addEntry('react', '^18.2.0')
-			.addEntry('react-dom', '^18.2.0');
+		const dependencies = new PackageJsonDependency()
+			.addPackage('react')
+			.addPackage('react-dom');
 
-		const devDependencies = new JsonObject()
-			.addEntry('@types/react', '^18.0.24')
-			.addEntry('@types/react-dom', '^18.0.8')
-			.addEntry('@vitejs/plugin-react', '^2.2.0')
-			.addEntry('typescript', '^4.6.4')
-			.addEntry('vite', '^3.2.3');
+		const devDependencies = new PackageJsonDependency()
+			.addPackage('@types/react')
+			.addPackage('@types/react-dom')
+			.addPackage('@vitejs/plugin-react')
+			.addPackage('typescript')
+			.addPackage('vite');
 
 		switch (this.options.test) {
 			case TestingFramework.None:
@@ -121,7 +122,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case TestingFramework.Vitest:
-				devDependencies.addEntry('vitest', '^0.25.2');
+				devDependencies.addPackage('vitest');
 				break;
 		}
 
@@ -131,12 +132,12 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case UIFramework.ElasticUI:
-				dependencies.addEntry('@elastic/eui', '^70.2.0');
-				dependencies.addEntry('@elastic/datemath', '^5.0.3');
-				dependencies.addEntry('@emotion/react', '^11.10.5');
-				dependencies.addEntry('@emotion/css', '^11.10.5');
-				dependencies.addEntry('moment', '^2.29.4');
-				dependencies.addEntry('prop-types', '^15.8.1');
+				dependencies.addPackage('@elastic/eui');
+				dependencies.addPackage('@elastic/datemath');
+				dependencies.addPackage('@emotion/react');
+				dependencies.addPackage('@emotion/css');
+				dependencies.addPackage('moment');
+				dependencies.addPackage('prop-types');
 				break;
 		}
 
@@ -146,62 +147,56 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case IconLibrary.FluentSystemIcons:
-				dependencies.addEntry('@fluentui/react-icons', '^2.0.187');
+				dependencies.addPackage('@fluentui/react-icons');
 				break;
 		}
 
 		if (this.options.enablePrettier) {
-			devDependencies.addEntry('prettier', '^2.7.1');
+			devDependencies.addPackage('prettier');
 		}
 
 		if (this.options.sortImports) {
-			devDependencies.addEntry(
-				'@trivago/prettier-plugin-sort-imports',
-				'^3.4.0',
-			);
+			devDependencies.addPackage('@trivago/prettier-plugin-sort-imports');
 		}
 
 		if (this.options.enableESLint) {
-			devDependencies.addEntry(
-				'@typescript-eslint/eslint-plugin',
-				'^5.43.0',
-			);
-			devDependencies.addEntry('@typescript-eslint/parser', '^5.43.0');
-			devDependencies.addEntry('eslint', '^8.27.0');
-			devDependencies.addEntry('eslint-config-react-app', '^7.0.1');
-			devDependencies.addEntry('eslint-plugin-flowtype', '^8.0.3');
-			devDependencies.addEntry('eslint-plugin-import', '^2.26.0');
-			devDependencies.addEntry('eslint-plugin-jsx-a11y', '^6.6.1');
-			devDependencies.addEntry('eslint-plugin-react', '^7.31.10');
-			devDependencies.addEntry('eslint-plugin-react-hooks', '^4.6.0');
+			devDependencies.addPackage('@typescript-eslint/eslint-plugin');
+			devDependencies.addPackage('@typescript-eslint/parser');
+			devDependencies.addPackage('eslint');
+			devDependencies.addPackage('eslint-config-react-app');
+			devDependencies.addPackage('eslint-plugin-flowtype');
+			devDependencies.addPackage('eslint-plugin-import');
+			devDependencies.addPackage('eslint-plugin-jsx-a11y');
+			devDependencies.addPackage('eslint-plugin-react');
+			devDependencies.addPackage('eslint-plugin-react-hooks');
 		}
 
 		if (this.options.enablePrettier && this.options.enableESLint) {
-			devDependencies.addEntry('eslint-config-prettier', '^8.5.0');
-			devDependencies.addEntry('eslint-plugin-prettier', '^4.2.1');
+			devDependencies.addPackage('eslint-config-prettier');
+			devDependencies.addPackage('eslint-plugin-prettier');
 		}
 
 		if (this.options.useAjv) {
-			dependencies.addEntry('ajv', '^8.11.2');
+			dependencies.addPackage('ajv');
 		}
 
 		if (this.options.useLodash) {
-			dependencies.addEntry('lodash-es', '^4.17.21');
-			devDependencies.addEntry('@types/lodash-es', '^4.17.6');
+			dependencies.addPackage('lodash-es');
+			devDependencies.addPackage('@types/lodash-es');
 		}
 
 		if (this.options.useMobX) {
-			dependencies.addEntry('mobx', '^6.7.0');
-			dependencies.addEntry('mobx-react-lite', '^3.4.0');
+			dependencies.addPackage('mobx');
+			dependencies.addPackage('mobx-react-lite');
 		}
 
 		if (this.options.useQs) {
-			dependencies.addEntry('qs', '^6.11.0');
-			devDependencies.addEntry('@types/qs', '^6.9.7');
+			dependencies.addPackage('qs');
+			devDependencies.addPackage('@types/qs');
 		}
 
 		if (this.options.useReactRouter) {
-			dependencies.addEntry('react-router-dom', '^6.4.3');
+			dependencies.addPackage('react-router-dom');
 		}
 
 		const obj = new JsonObject()
