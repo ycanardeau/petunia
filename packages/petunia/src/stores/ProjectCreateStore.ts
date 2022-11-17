@@ -1,4 +1,9 @@
-import { TypeScriptViteReactProject } from '@/core/projects/TypeScriptViteReactProject';
+import {
+	IconLibrary,
+	TestingFramework,
+	TypeScriptViteReactProject,
+	UIFramework,
+} from '@/core/projects/TypeScriptViteReactProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { makeObservable, observable } from 'mobx';
@@ -9,21 +14,6 @@ export enum ProjectType {
 
 export enum BuildTool {
 	Vite = 'Vite',
-}
-
-export enum TestingFramework {
-	None = 'None',
-	Vitest = 'Vitest',
-}
-
-export enum UIFramework {
-	None = 'None',
-	ElasticUI = 'ElasticUI',
-}
-
-export enum IconLibrary {
-	None = 'None',
-	FluentSystemIcons = 'FluentSystemIcons',
 }
 
 export class ProjectCreateStore {

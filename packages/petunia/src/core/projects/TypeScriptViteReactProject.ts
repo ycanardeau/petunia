@@ -6,11 +6,21 @@ import {
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/core/projects/Project';
-import {
-	IconLibrary,
-	TestingFramework,
-	UIFramework,
-} from '@/stores/ProjectCreateStore';
+
+export enum TestingFramework {
+	None = 'None',
+	Vitest = 'Vitest',
+}
+
+export enum UIFramework {
+	None = 'None',
+	ElasticUI = 'ElasticUI',
+}
+
+export enum IconLibrary {
+	None = 'None',
+	FluentSystemIcons = 'FluentSystemIcons',
+}
 
 interface TypeScriptViteReactProjectOptions {
 	projectName?: string;
