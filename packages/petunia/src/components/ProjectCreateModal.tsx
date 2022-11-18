@@ -3,34 +3,28 @@ import {
 	TestingFramework,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import {
-	BuildTool,
-	ProjectCreateStore,
-	ProjectType,
-} from '@/stores/ProjectCreateStore';
+import { ProjectCreateStore } from '@/stores/ProjectCreateStore';
 import {
 	EuiButton,
+	EuiCheckbox,
 	EuiFieldText,
+	EuiFlexGroup,
+	EuiFlexItem,
 	EuiForm,
+	EuiFormFieldset,
 	EuiFormRow,
+	EuiIconTip,
 	EuiModalBody,
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
 	EuiSelect,
+	EuiSpacer,
 	EuiSwitch,
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-
-const projectTypeNames: Record<ProjectType, string> = {
-	[ProjectType.React]: 'React',
-};
-
-const buildToolNames: Record<BuildTool, string> = {
-	[BuildTool.Vite]: 'Vite',
-};
 
 const testingFrameworkNames: Record<TestingFramework, string> = {
 	[TestingFramework.None]: 'None',
@@ -56,57 +50,14 @@ const ProjectCreateForm = observer(
 		return (
 			<EuiForm>
 				<EuiFormRow
-					label="Project type" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(ProjectType).map(
-							(projectType) => ({
-								value: projectType,
-								text: projectTypeNames[projectType],
-							}),
-						)}
-						value={projectCreateStore.projectType}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.projectType = event.target
-									.value as ProjectType;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
 					label="Project name" /* LOC */
 					display="rowCompressed"
 				>
 					<EuiFieldText
 						value={projectCreateStore.projectName}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
-								projectCreateStore.projectName =
-									event.target.value;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
-					label="Build tool" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(BuildTool).map((buildTool) => ({
-							value: buildTool,
-							text: buildToolNames[buildTool],
-						}))}
-						value={projectCreateStore.buildTool}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.buildTool = event.target
-									.value as BuildTool;
+								projectCreateStore.projectName = e.target.value;
 							});
 						}}
 						compressed
@@ -125,9 +76,9 @@ const ProjectCreateForm = observer(
 							}),
 						)}
 						value={projectCreateStore.test}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
-								projectCreateStore.test = event.target
+								projectCreateStore.test = e.target
 									.value as TestingFramework;
 							});
 						}}
@@ -147,9 +98,9 @@ const ProjectCreateForm = observer(
 							}),
 						)}
 						value={projectCreateStore.ui}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
-								projectCreateStore.ui = event.target
+								projectCreateStore.ui = e.target
 									.value as UIFramework;
 							});
 						}}
@@ -169,9 +120,9 @@ const ProjectCreateForm = observer(
 							}),
 						)}
 						value={projectCreateStore.icon}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
-								projectCreateStore.icon = event.target
+								projectCreateStore.icon = e.target
 									.value as IconLibrary;
 							});
 						}}
@@ -183,10 +134,10 @@ const ProjectCreateForm = observer(
 					<EuiSwitch
 						label="Enable Prettier" /* LOC */
 						checked={projectCreateStore.enablePrettier}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
 								projectCreateStore.enablePrettier =
-									event.target.checked;
+									e.target.checked;
 							});
 						}}
 						compressed
@@ -197,10 +148,10 @@ const ProjectCreateForm = observer(
 					<EuiSwitch
 						label="Sort imports" /* LOC */
 						checked={projectCreateStore.sortImports}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
 								projectCreateStore.sortImports =
-									event.target.checked;
+									e.target.checked;
 							});
 						}}
 						compressed
@@ -211,10 +162,10 @@ const ProjectCreateForm = observer(
 					<EuiSwitch
 						label="Enable ESLint" /* LOC */
 						checked={projectCreateStore.enableESLint}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
 								projectCreateStore.enableESLint =
-									event.target.checked;
+									e.target.checked;
 							});
 						}}
 						compressed
@@ -225,84 +176,156 @@ const ProjectCreateForm = observer(
 					<EuiSwitch
 						label="Configure path aliases" /* LOC */
 						checked={projectCreateStore.configurePathAliases}
-						onChange={(event): void => {
+						onChange={(e): void => {
 							runInAction(() => {
 								projectCreateStore.configurePathAliases =
-									event.target.checked;
+									e.target.checked;
 							});
 						}}
 						compressed
 					/>
 				</EuiFormRow>
 
-				<EuiFormRow label="Ajv" display="rowCompressed">
-					<EuiSwitch
-						label="Use Ajv for this project." /* LOC */
-						checked={projectCreateStore.useAjv}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useAjv =
-									event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
+				<EuiSpacer size="m" />
 
-				<EuiFormRow label="Lodash" display="rowCompressed">
-					<EuiSwitch
-						label="Use Lodash for this project." /* LOC */
-						checked={projectCreateStore.useLodash}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useLodash =
-									event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
+				<EuiFormFieldset
+					legend={{ children: 'Additional packages' /* LOC */ }}
+				>
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useAjv"
+								label="Ajv"
+								checked={projectCreateStore.useAjv}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useAjv =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
 
-				<EuiFormRow label="MobX" display="rowCompressed">
-					<EuiSwitch
-						label="Use MobX for this project." /* LOC */
-						checked={projectCreateStore.useMobX}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useMobX =
-									event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="The fastest JSON schema Validator."
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
 
-				<EuiFormRow label="qs" display="rowCompressed">
-					<EuiSwitch
-						label="Use qs for this project." /* LOC */
-						checked={projectCreateStore.useQs}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useQs = event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useLodash"
+								label="Lodash"
+								checked={projectCreateStore.useLodash}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useLodash =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
 
-				<EuiFormRow label="React Router" display="rowCompressed">
-					<EuiSwitch
-						label="Use React Router for this project." /* LOC */
-						checked={projectCreateStore.useReactRouter}
-						onChange={(event): void => {
-							runInAction(() => {
-								projectCreateStore.useReactRouter =
-									event.target.checked;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="A modern JavaScript utility library delivering modularity, performance, & extras."
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useMobX"
+								label="MobX"
+								checked={projectCreateStore.useMobX}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useMobX =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="Simple, scalable state management."
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useQs"
+								label="qs"
+								checked={projectCreateStore.useQs}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useQs =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="A querystring parser with nesting support"
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useReactRouter"
+								label="React Router"
+								checked={projectCreateStore.useReactRouter}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useReactRouter =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="Declarative routing for React"
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+				</EuiFormFieldset>
 			</EuiForm>
 		);
 	},
