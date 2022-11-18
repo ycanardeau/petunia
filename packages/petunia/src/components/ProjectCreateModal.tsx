@@ -13,7 +13,6 @@ import {
 	EuiFieldText,
 	EuiForm,
 	EuiFormRow,
-	EuiModal,
 	EuiModalBody,
 	EuiModalFooter,
 	EuiModalHeader,
@@ -313,7 +312,7 @@ export const ProjectCreateModal = observer((): React.ReactElement => {
 	const [projectCreateStore] = React.useState(() => new ProjectCreateStore());
 
 	return (
-		<EuiModal onClose={(): void => {}}>
+		<>
 			<EuiModalHeader>
 				<EuiModalHeaderTitle>
 					Create a new project{/* LOC */}
@@ -329,6 +328,6 @@ export const ProjectCreateModal = observer((): React.ReactElement => {
 					Create{/* LOC */}
 				</EuiButton>
 			</EuiModalFooter>
-		</EuiModal>
+		</>
 	);
 });
