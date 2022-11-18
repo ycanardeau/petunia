@@ -51,6 +51,9 @@ const ProjectCreateForm = observer(
 			<EuiForm>
 				<EuiFormRow
 					label="Project name" /* LOC */
+					isInvalid={
+						projectCreateStore.validationError_invalidProjectName
+					}
 					display="rowCompressed"
 				>
 					<EuiFieldText
@@ -60,6 +63,9 @@ const ProjectCreateForm = observer(
 								projectCreateStore.projectName = e.target.value;
 							});
 						}}
+						isInvalid={
+							projectCreateStore.validationError_invalidProjectName
+						}
 						compressed
 					/>
 				</EuiFormRow>
@@ -154,6 +160,7 @@ const ProjectCreateForm = observer(
 									e.target.checked;
 							});
 						}}
+						disabled={!projectCreateStore.enablePrettier}
 						compressed
 					/>
 				</EuiFormRow>
