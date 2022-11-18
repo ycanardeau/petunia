@@ -9,10 +9,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: packages/petunia
-
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -41,8 +37,6 @@ jobs:
         with:
           node-version: 18.4.0
           cache: "npm"
-          # https://stackoverflow.com/questions/68527897/how-to-specifiy-path-for-actions-setup-node-in-github/69375844#69375844
-          cache-dependency-path: "**/yarn.json"
 
       - name: Install dependencies
         run: yarn
@@ -57,7 +51,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload dist folder
-          path: "./dist"
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
