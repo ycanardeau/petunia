@@ -42,7 +42,7 @@ jobs:
           node-version: 18.4.0
           cache: "npm"
           # https://stackoverflow.com/questions/68527897/how-to-specifiy-path-for-actions-setup-node-in-github/69375844#69375844
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: "**/yarn.json"
 
       - name: Install dependencies
         run: yarn
@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload dist folder
-          path: './dist'
+          path: "./dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
