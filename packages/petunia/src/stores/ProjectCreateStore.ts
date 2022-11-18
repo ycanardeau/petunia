@@ -19,7 +19,7 @@ export enum BuildTool {
 
 export class ProjectCreateStore {
 	@observable projectType = ProjectType.React;
-	@observable projectName = '';
+	@observable projectName = 'react-app';
 	@observable buildTool = BuildTool.Vite;
 	@observable test = TestingFramework.None;
 	@observable ui = UIFramework.None;
@@ -34,10 +34,13 @@ export class ProjectCreateStore {
 	@observable useQs = false;
 	@observable useReactRouter = false;
 
-	@observable validationError_invalidProjectName = false;
-
 	constructor() {
 		makeObservable(this);
+	}
+
+	@computed get validationError_invalidProjectName(): boolean {
+		const { validForNewPackages } = validate(this.projectName);
+		return !validForNewPackages;
 	}
 
 	@computed get hasValidationErrors(): boolean {
@@ -45,9 +48,6 @@ export class ProjectCreateStore {
 	}
 
 	@action submit = async (): Promise<void> => {
-		const { validForNewPackages } = validate(this.projectName);
-		this.validationError_invalidProjectName = !validForNewPackages;
-
 		if (this.hasValidationErrors) {
 			return;
 		}

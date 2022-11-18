@@ -54,6 +54,7 @@ const ProjectCreateForm = observer(
 					isInvalid={
 						projectCreateStore.validationError_invalidProjectName
 					}
+					error={['Empty or invalid project name' /* LOC */]}
 					display="rowCompressed"
 				>
 					<EuiFieldText
@@ -354,7 +355,12 @@ export const ProjectCreateModal = observer((): React.ReactElement => {
 			</EuiModalBody>
 
 			<EuiModalFooter>
-				<EuiButton fill size="s" onClick={projectCreateStore.submit}>
+				<EuiButton
+					fill
+					size="s"
+					onClick={projectCreateStore.submit}
+					disabled={projectCreateStore.hasValidationErrors}
+				>
 					Create{/* LOC */}
 				</EuiButton>
 			</EuiModalFooter>
