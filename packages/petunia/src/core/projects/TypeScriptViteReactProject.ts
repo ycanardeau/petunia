@@ -6,6 +6,7 @@ import {
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/core/projects/Project';
+import validate from 'validate-npm-package-name';
 
 export enum TestingFramework {
 	None = 'None',
@@ -123,6 +124,13 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	generatePackageJson = (): string => {
+		if (this.options.projectName !== undefined) {
+			const { validForNewPackages } = validate(this.options.projectName);
+			if (!validForNewPackages) {
+				throw new Error('Invalid project name');
+			}
+		}
+
 		const { tab, newLine } = this.editorConfig;
 
 		const dependencies = new PackageJsonDependency()

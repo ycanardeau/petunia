@@ -131,6 +131,15 @@ dist-ssr
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson projectName invalid', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			projectName: '@petunia',
+		});
+		expect(() => project.generatePackageJson()).toThrowError(
+			'Invalid project name',
+		);
+	});
+
 	test('generatePackageJson projectName', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			projectName: 'petunia',
