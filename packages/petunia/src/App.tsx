@@ -1,4 +1,5 @@
 import { ProjectCreateModal } from '@/components/ProjectCreateModal';
+import '@/icons';
 import { EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';

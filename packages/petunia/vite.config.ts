@@ -10,4 +10,10 @@ export default defineConfig({
 		},
 	},
 	plugins: [react()],
+	// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
+	build: {
+		dynamicImportVarsOptions: {
+			exclude: [],
+		},
+	},
 });
