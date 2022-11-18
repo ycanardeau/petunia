@@ -17,8 +17,5 @@ export default defineConfig({
 		},
 	},
 	// https://www.asobou.co.jp/blog/web/github-pages
-	base:
-		process.env.NODE_ENV === 'production'
-			? '/<GITHUB_REPOSITORY_NAME>/'
-			: './',
+	base: process.env.NODE_ENV === 'production' ? '/petunia/' : './',
 });
