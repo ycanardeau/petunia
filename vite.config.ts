@@ -16,4 +16,9 @@ export default defineConfig({
 			exclude: [],
 		},
 	},
+	// https://www.asobou.co.jp/blog/web/github-pages
+	base:
+		process.env.NODE_ENV === 'production'
+			? '/<GITHUB_REPOSITORY_NAME>/'
+			: './',
 });
