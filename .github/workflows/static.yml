@@ -41,6 +41,8 @@ jobs:
         with:
           node-version: 18.4.0
           cache: "npm"
+          # https://stackoverflow.com/questions/68527897/how-to-specifiy-path-for-actions-setup-node-in-github/69375844#69375844
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
         run: yarn
