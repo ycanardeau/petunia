@@ -1,5 +1,6 @@
 import {
 	IconLibrary,
+	OutputType,
 	TestingFramework,
 	TypeScriptViteReactProject,
 	UIFramework,
@@ -18,6 +19,7 @@ export enum BuildTool {
 }
 
 export class ProjectCreateStore {
+	@observable outputType = OutputType.ReactApplication;
 	@observable projectType = ProjectType.React;
 	@observable projectName = 'react-app';
 	@observable buildTool = BuildTool.Vite;
@@ -56,6 +58,7 @@ export class ProjectCreateStore {
 		const project = new TypeScriptViteReactProject(
 			{ tab: '\t', newLine: '\n' },
 			{
+				outputType: this.outputType,
 				projectName: this.projectName,
 				test: this.test,
 				ui: this.ui,

@@ -1,10 +1,11 @@
 import {
 	IconLibrary,
+	OutputType,
 	TestingFramework,
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import dependencies from '@/core/projects/dependencies.json';
+import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptViteReactProject', () => {
@@ -35,6 +36,53 @@ describe('TypeScriptViteReactProject', () => {
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson outputType ReactLibrary', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			projectName: 'petunia',
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"name": "petunia",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
 	}
 }
 `;
@@ -356,6 +404,54 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson outputType ReactLibrary useAjv', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			useAjv: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"ajv": "${dependencies['ajv']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"ajv": "${dependencies['ajv']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generatePackageJson useLodash', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			useLodash: true,
@@ -382,6 +478,55 @@ describe('TypeScriptViteReactProject', () => {
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson outputType ReactLibrary useLodash', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			useLodash: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"lodash-es": "${dependencies['lodash-es']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"lodash-es": "${dependencies['lodash-es']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
 	}
 }
 `;
@@ -420,6 +565,56 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson outputType ReactLibrary useMobX', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			useMobX: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"mobx": "${dependencies['mobx']}",
+		"mobx-react-lite": "${dependencies['mobx-react-lite']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"mobx": "${dependencies['mobx']}",
+		"mobx-react-lite": "${dependencies['mobx-react-lite']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generatePackageJson useQs', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			useQs: true,
@@ -452,6 +647,55 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson outputType ReactLibrary useQs', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			useQs: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/qs": "${dependencies['@types/qs']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"qs": "${dependencies['qs']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"qs": "${dependencies['qs']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generatePackageJson useReactRouter', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			useReactRouter: true,
@@ -477,6 +721,54 @@ describe('TypeScriptViteReactProject', () => {
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson outputType ReactLibrary useReactRouter', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+			useReactRouter: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"react-router-dom": "${dependencies['react-router-dom']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+	},
+	"peerDependencies": {
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"react-router-dom": "${dependencies['react-router-dom']}"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.cjs.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.es.js",
+			"require": "./dist/index.cjs.js"
+		}
 	}
 }
 `;
@@ -652,6 +944,49 @@ export default defineConfig({
 	plugins: [
 		react(),
 	],
+});
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateViteConfigTS outputType ReactLibrary', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			outputType: OutputType.ReactLibrary,
+		});
+		const actual = project.generateViteConfigTS();
+		const expected = `import pkg from './package.json' assert { type: 'json' };
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+	plugins: [
+		dts({
+			insertTypesEntry: true,
+		}),
+		react({
+			jsxRuntime: 'classic',
+		}),
+	],
+	build: {
+		lib: {
+			entry: resolve(__dirname, 'src/index.ts'),
+			formats: [
+				'es',
+				'cjs',
+			],
+			fileName: (format) => \`index.\${format}.js\`,
+		},
+		rollupOptions: {
+			external: [
+				...Object.keys(pkg.peerDependencies ?? []),
+				...Object.keys(pkg.dependencies ?? []),
+			],
+		},
+		sourcemap: true,
+	},
 });
 `;
 		expect(actual).toBe(expected);

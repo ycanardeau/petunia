@@ -143,7 +143,7 @@ export class JsonArray extends JsonValue {
 	};
 }
 
-interface JsonObjectEntry {
+export interface JsonObjectEntry {
 	key: string;
 	value: JsonValue;
 }

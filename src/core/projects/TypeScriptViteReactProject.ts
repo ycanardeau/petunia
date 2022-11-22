@@ -10,7 +10,13 @@ import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { PrettierRcJsonGenerator } from '@/core/projects/PrettierRcJsonGenerator';
 import { Project, ProjectFile } from '@/core/projects/Project';
 import { ReactGitignoreGenerator } from '@/core/projects/ReactGitignoreGenerator';
+import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
+
+export enum OutputType {
+	ReactApplication = 'ReactApplication',
+	ReactLibrary = 'ReactLibrary',
+}
 
 export enum TestingFramework {
 	None = 'None',
@@ -28,6 +34,7 @@ export enum IconLibrary {
 }
 
 interface TypeScriptViteReactProjectOptions {
+	outputType?: OutputType;
 	projectName?: string;
 	test?: TestingFramework;
 	ui?: UIFramework;
@@ -54,9 +61,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		const { tab, newLine } = this.editorConfig;
 
-		const dependenciesObj = new PackageJsonDependency()
-			.addPackage('react')
-			.addPackage('react-dom');
+		const dependenciesObj = new PackageJsonDependency();
 
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/react')
@@ -64,6 +69,18 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			.addPackage('@vitejs/plugin-react')
 			.addPackage('typescript')
 			.addPackage('vite');
+
+		const peerDependenciesObj = new PackageJsonDependency();
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			devDependenciesObj
+				.addPackage('react')
+				.addPackage('react-dom')
+				.addPackage('vite-plugin-dts');
+			peerDependenciesObj.addPackage('react').addPackage('react-dom');
+		} else {
+			dependenciesObj.addPackage('react').addPackage('react-dom');
+		}
 
 		switch (this.options.test) {
 			case TestingFramework.None:
@@ -127,27 +144,38 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			devDependenciesObj.addPackage('eslint-plugin-prettier');
 		}
 
+		const addAdditionalPackage = (
+			name: keyof typeof dependencies,
+		): void => {
+			if (this.options.outputType === OutputType.ReactLibrary) {
+				devDependenciesObj.addPackage(name);
+				peerDependenciesObj.addPackage(name);
+			} else {
+				dependenciesObj.addPackage(name);
+			}
+		};
+
 		if (this.options.useAjv) {
-			dependenciesObj.addPackage('ajv');
+			addAdditionalPackage('ajv');
 		}
 
 		if (this.options.useLodash) {
-			dependenciesObj.addPackage('lodash-es');
+			addAdditionalPackage('lodash-es');
 			devDependenciesObj.addPackage('@types/lodash-es');
 		}
 
 		if (this.options.useMobX) {
-			dependenciesObj.addPackage('mobx');
-			dependenciesObj.addPackage('mobx-react-lite');
+			addAdditionalPackage('mobx');
+			addAdditionalPackage('mobx-react-lite');
 		}
 
 		if (this.options.useQs) {
-			dependenciesObj.addPackage('qs');
+			addAdditionalPackage('qs');
 			devDependenciesObj.addPackage('@types/qs');
 		}
 
 		if (this.options.useReactRouter) {
-			dependenciesObj.addPackage('react-router-dom');
+			addAdditionalPackage('react-router-dom');
 		}
 
 		const rootObj = new JsonObject()
@@ -162,8 +190,43 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 					.addEntry('build', 'tsc && vite build')
 					.addEntry('preview', 'vite preview'),
 			)
-			.addEntry('dependencies', dependenciesObj.orderByKey())
-			.addEntry('devDependencies', devDependenciesObj.orderByKey());
+			.addEntry(
+				'dependencies',
+				dependenciesObj.entries.length > 0
+					? dependenciesObj.orderByKey()
+					: undefined,
+			)
+			.addEntry(
+				'devDependencies',
+				devDependenciesObj.entries.length > 0
+					? devDependenciesObj.orderByKey()
+					: undefined,
+			)
+			.addEntry(
+				'peerDependencies',
+				peerDependenciesObj.entries.length > 0
+					? peerDependenciesObj.orderByKey()
+					: undefined,
+			);
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			const cjsFilename = `./dist/index.cjs.js`;
+			const esFilename = `./dist/index.es.js`;
+			rootObj
+				.addEntry('files', new JsonArray().addItem('dist'))
+				.addEntry('main', cjsFilename)
+				.addEntry('module', esFilename)
+				.addEntry('types', './dist/index.d.ts')
+				.addEntry(
+					'exports',
+					new JsonObject().addEntry(
+						'.',
+						new JsonObject()
+							.addEntry('import', esFilename)
+							.addEntry('require', cjsFilename),
+					),
+				);
+		}
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
@@ -283,13 +346,31 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				),
 			)
 			.addImport(
-				new JavaScriptDefaultImport('@vitejs/plugin-react', 'react'),
+				new JavaScriptDefaultImport('react', '@vitejs/plugin-react'),
 			);
 
-		if (this.options.configurePathAliases) {
+		if (
+			this.options.outputType === OutputType.ReactLibrary ||
+			this.options.configurePathAliases
+		) {
 			imports.addImport(
 				new JavaScriptNamedImport('path').addNamedExport('resolve'),
 			);
+		}
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			imports
+				.addImport(
+					new JavaScriptDefaultImport('dts', 'vite-plugin-dts'),
+				)
+				// https://rollupjs.org/guide/en/#importing-packagejson
+				.addImport(
+					new JavaScriptDefaultImport(
+						'pkg',
+						'./package.json',
+						" assert { type: 'json' }",
+					),
+				);
 		}
 
 		const configObj = new JsonObject();
@@ -307,10 +388,87 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			);
 		}
 
-		configObj.addEntry(
-			'plugins',
-			new JsonArray().addItem(new JsonLiteral('react()')),
-		);
+		const pluginsArray = new JsonArray();
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			pluginsArray.addItem(
+				new JsonLiteral(
+					`dts(${new JsonObject()
+						.addEntry('insertTypesEntry', true)
+						.toFormattedString(
+							{
+								tab: tab,
+								newLine: newLine,
+								style: 'JavaScript',
+							},
+							2,
+						)})`,
+				),
+			);
+		}
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			pluginsArray.addItem(
+				new JsonLiteral(
+					`react(${new JsonObject()
+						// https://miyauchi.dev/ja/posts/lib-vite-tailwindcss/
+						.addEntry('jsxRuntime', 'classic')
+						.toFormattedString(
+							{ tab: tab, newLine: newLine, style: 'JavaScript' },
+							2,
+						)})`,
+				),
+			);
+		} else {
+			pluginsArray.addItem(new JsonLiteral('react()'));
+		}
+
+		configObj.addEntry('plugins', pluginsArray);
+
+		if (this.options.outputType === OutputType.ReactLibrary) {
+			const buildObj = new JsonObject()
+				.addEntry(
+					'lib',
+					new JsonObject()
+						.addEntry(
+							'entry',
+							new JsonLiteral(
+								"resolve(__dirname, 'src/index.ts')",
+							),
+						)
+						.addEntry(
+							'formats',
+							new JsonArray().addItem('es').addItem('cjs'),
+						)
+						.addEntry(
+							'fileName',
+							new JsonLiteral(
+								`(format) => \`index.\${format}.js\``,
+							),
+						),
+				)
+				.addEntry(
+					'rollupOptions',
+					// https://rollupjs.org/guide/en/#importing-packagejson
+					new JsonObject().addEntry(
+						'external',
+						new JsonArray()
+							.addItem(
+								new JsonLiteral(
+									'...Object.keys(pkg.peerDependencies ?? [])',
+								),
+							)
+							.addItem(
+								new JsonLiteral(
+									'...Object.keys(pkg.dependencies ?? [])',
+								),
+							),
+					),
+				)
+				.addEntry('sourcemap', true);
+
+			configObj.addEntry('build', buildObj);
+		}
 
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
@@ -330,7 +488,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports().addImport(
-			new JavaScriptDefaultImport('react', 'React'),
+			new JavaScriptDefaultImport('React', 'react'),
 		);
 
 		const lines: string[] = [];
@@ -350,13 +508,13 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		const imports = new JavaScriptImports()
 			.addImport(
 				new JavaScriptDefaultImport(
-					this.options.configurePathAliases ? '@/App' : './App',
 					'App',
+					this.options.configurePathAliases ? '@/App' : './App',
 				),
 			)
-			.addImport(new JavaScriptDefaultImport('react', 'React'))
+			.addImport(new JavaScriptDefaultImport('React', 'react'))
 			.addImport(
-				new JavaScriptDefaultImport('react-dom/client', 'ReactDOM'),
+				new JavaScriptDefaultImport('ReactDOM', 'react-dom/client'),
 			);
 
 		const lines: string[] = [];

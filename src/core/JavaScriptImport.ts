@@ -34,12 +34,16 @@ export class JavaScriptNamedImport extends JavaScriptImport {
 }
 
 export class JavaScriptDefaultImport extends JavaScriptImport {
-	constructor(moduleName: string, readonly defaultExport: string) {
+	constructor(
+		readonly defaultExport: string,
+		moduleName: string,
+		readonly assertions = '',
+	) {
 		super(moduleName);
 	}
 
 	toString = (): string => {
-		return `import ${this.defaultExport} from '${this.moduleName}';`;
+		return `import ${this.defaultExport} from '${this.moduleName}'${this.assertions};`;
 	};
 }
 

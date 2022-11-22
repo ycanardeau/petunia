@@ -32,7 +32,8 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonG
 						.addItem('typescript')
 						.addItem('importOrderParserPlugins')
 						.addItem('classProperties')
-						.addItem('decorators-legacy'),
+						.addItem('decorators-legacy')
+						.addItem('importAssertions'),
 				);
 		}
 

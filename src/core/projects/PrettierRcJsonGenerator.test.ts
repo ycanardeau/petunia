@@ -34,7 +34,8 @@ describe('PrettierRcJsonGenerator', () => {
 		"typescript",
 		"importOrderParserPlugins",
 		"classProperties",
-		"decorators-legacy"
+		"decorators-legacy",
+		"importAssertions"
 	]
 }
 `;

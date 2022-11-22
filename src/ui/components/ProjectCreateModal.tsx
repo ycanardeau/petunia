@@ -1,5 +1,6 @@
 import {
 	IconLibrary,
+	OutputType,
 	TestingFramework,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
@@ -26,6 +27,11 @@ import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
+const outputTypeNames: Record<OutputType, string> = {
+	[OutputType.ReactApplication]: 'React Application' /* LOC */,
+	[OutputType.ReactLibrary]: 'React Library' /* LOC */,
+};
+
 const testingFrameworkNames: Record<TestingFramework, string> = {
 	[TestingFramework.None]: 'None',
 	[TestingFramework.Vitest]: 'Vitest',
@@ -49,6 +55,26 @@ const ProjectCreateForm = observer(
 	({ projectCreateStore }: ProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
+				<EuiFormRow
+					label="Output type" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(OutputType).map((value) => ({
+							value: value,
+							text: outputTypeNames[value],
+						}))}
+						value={projectCreateStore.outputType}
+						onChange={(e): void =>
+							runInAction(() => {
+								projectCreateStore.outputType = e.target
+									.value as OutputType;
+							})
+						}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiFormRow
 					label="Project name" /* LOC */
 					isInvalid={
@@ -77,9 +103,9 @@ const ProjectCreateForm = observer(
 				>
 					<EuiSelect
 						options={Object.values(TestingFramework).map(
-							(testingFramework) => ({
-								value: testingFramework,
-								text: testingFrameworkNames[testingFramework],
+							(value) => ({
+								value: value,
+								text: testingFrameworkNames[value],
 							}),
 						)}
 						value={projectCreateStore.test}
@@ -98,12 +124,10 @@ const ProjectCreateForm = observer(
 					display="rowCompressed"
 				>
 					<EuiSelect
-						options={Object.values(UIFramework).map(
-							(uiFramework) => ({
-								value: uiFramework,
-								text: uiFrameworkNames[uiFramework],
-							}),
-						)}
+						options={Object.values(UIFramework).map((value) => ({
+							value: value,
+							text: uiFrameworkNames[value],
+						}))}
 						value={projectCreateStore.ui}
 						onChange={(e): void => {
 							runInAction(() => {
@@ -120,12 +144,10 @@ const ProjectCreateForm = observer(
 					display="rowCompressed"
 				>
 					<EuiSelect
-						options={Object.values(IconLibrary).map(
-							(iconLibrary) => ({
-								value: iconLibrary,
-								text: iconLibraryNames[iconLibrary],
-							}),
-						)}
+						options={Object.values(IconLibrary).map((value) => ({
+							value: value,
+							text: iconLibraryNames[value],
+						}))}
 						value={projectCreateStore.icon}
 						onChange={(e): void => {
 							runInAction(() => {

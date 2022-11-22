@@ -1,4 +1,4 @@
-import dependencies from '@/core/projects/dependencies.json';
+import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 import { expect, test } from 'vitest';
 
