@@ -4,6 +4,7 @@ import {
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
+import dependencies from '@/core/projects/dependencies.json';
 import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptViteReactProject', () => {
@@ -25,15 +26,15 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -65,15 +66,15 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -95,16 +96,16 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3",
-		"vitest": "^0.25.2"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -126,21 +127,21 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@elastic/datemath": "^5.0.3",
-		"@elastic/eui": "^70.2.0",
-		"@emotion/css": "^11.10.5",
-		"@emotion/react": "^11.10.5",
-		"moment": "^2.29.4",
-		"prop-types": "^15.8.1",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"@elastic/datemath": "${dependencies['@elastic/datemath']}",
+		"@elastic/eui": "${dependencies['@elastic/eui']}",
+		"@emotion/css": "${dependencies['@emotion/css']}",
+		"@emotion/react": "${dependencies['@emotion/react']}",
+		"moment": "${dependencies['moment']}",
+		"prop-types": "${dependencies['prop-types']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -162,16 +163,16 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@fluentui/react-icons": "^2.0.187",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"@fluentui/react-icons": "${dependencies['@fluentui/react-icons']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -193,16 +194,16 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"prettier": "^2.7.1",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"prettier": "${dependencies['prettier']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -225,17 +226,17 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@trivago/prettier-plugin-sort-imports": "^3.4.0",
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"prettier": "^2.7.1",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@trivago/prettier-plugin-sort-imports": "${dependencies['@trivago/prettier-plugin-sort-imports']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"prettier": "${dependencies['prettier']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -257,24 +258,24 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@typescript-eslint/eslint-plugin": "^5.43.0",
-		"@typescript-eslint/parser": "^5.43.0",
-		"@vitejs/plugin-react": "^2.2.0",
-		"eslint": "^8.27.0",
-		"eslint-config-react-app": "^7.0.1",
-		"eslint-plugin-flowtype": "^8.0.3",
-		"eslint-plugin-import": "^2.26.0",
-		"eslint-plugin-jsx-a11y": "^6.6.1",
-		"eslint-plugin-react": "^7.31.10",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
+		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"eslint": "${dependencies['eslint']}",
+		"eslint-config-react-app": "${dependencies['eslint-config-react-app']}",
+		"eslint-plugin-flowtype": "${dependencies['eslint-plugin-flowtype']}",
+		"eslint-plugin-import": "${dependencies['eslint-plugin-import']}",
+		"eslint-plugin-jsx-a11y": "${dependencies['eslint-plugin-jsx-a11y']}",
+		"eslint-plugin-react": "${dependencies['eslint-plugin-react']}",
+		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -297,27 +298,27 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@typescript-eslint/eslint-plugin": "^5.43.0",
-		"@typescript-eslint/parser": "^5.43.0",
-		"@vitejs/plugin-react": "^2.2.0",
-		"eslint": "^8.27.0",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-config-react-app": "^7.0.1",
-		"eslint-plugin-flowtype": "^8.0.3",
-		"eslint-plugin-import": "^2.26.0",
-		"eslint-plugin-jsx-a11y": "^6.6.1",
-		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-react": "^7.31.10",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"prettier": "^2.7.1",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
+		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"eslint": "${dependencies['eslint']}",
+		"eslint-config-prettier": "${dependencies['eslint-config-prettier']}",
+		"eslint-config-react-app": "${dependencies['eslint-config-react-app']}",
+		"eslint-plugin-flowtype": "${dependencies['eslint-plugin-flowtype']}",
+		"eslint-plugin-import": "${dependencies['eslint-plugin-import']}",
+		"eslint-plugin-jsx-a11y": "${dependencies['eslint-plugin-jsx-a11y']}",
+		"eslint-plugin-prettier": "${dependencies['eslint-plugin-prettier']}",
+		"eslint-plugin-react": "${dependencies['eslint-plugin-react']}",
+		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
+		"prettier": "${dependencies['prettier']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -339,16 +340,16 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"ajv": "^8.11.2",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"ajv": "${dependencies['ajv']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -370,17 +371,17 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"lodash-es": "^4.17.21",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"lodash-es": "${dependencies['lodash-es']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/lodash-es": "^4.17.6",
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -402,17 +403,17 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"mobx": "^6.7.0",
-		"mobx-react-lite": "^3.4.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"mobx": "${dependencies['mobx']}",
+		"mobx-react-lite": "${dependencies['mobx-react-lite']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -434,17 +435,17 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"qs": "^6.11.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"qs": "${dependencies['qs']}",
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@types/qs": "^6.9.7",
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/qs": "${dependencies['@types/qs']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
@@ -466,16 +467,16 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.4.3"
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}",
+		"react-router-dom": "${dependencies['react-router-dom']}"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.24",
-		"@types/react-dom": "^18.0.8",
-		"@vitejs/plugin-react": "^2.2.0",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}"
 	}
 }
 `;
