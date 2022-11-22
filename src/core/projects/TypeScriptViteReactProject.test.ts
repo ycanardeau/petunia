@@ -13,52 +13,6 @@ describe('TypeScriptViteReactProject', () => {
 		defaultProject = new TypeScriptViteReactProject(undefined, {});
 	});
 
-	test('generatePrettierRcJson', () => {
-		expect(() => defaultProject.generatePrettierRcJson()).toThrowError();
-	});
-
-	test('generatePrettierRcJson enablePrettier', () => {
-		const project = new TypeScriptViteReactProject(undefined, {
-			enablePrettier: true,
-		});
-		const actual = project.generatePrettierRcJson();
-		const expected = `{
-	"singleQuote": true,
-	"trailingComma": "all"
-}
-`;
-		expect(actual).toBe(expected);
-	});
-
-	test('generatePrettierRcJson enablePrettier sortImports', () => {
-		const project = new TypeScriptViteReactProject(undefined, {
-			enablePrettier: true,
-			sortImports: true,
-		});
-		const actual = project.generatePrettierRcJson();
-		const expected = `{
-	"singleQuote": true,
-	"trailingComma": "all",
-	"importOrder": [
-		"^@core/(.*)$",
-		"^@server/(.*)$",
-		"^@ui/(.*)$",
-		"^[./]"
-	],
-	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true,
-	"importOrderParserPlugins": [
-		"jsx",
-		"typescript",
-		"importOrderParserPlugins",
-		"classProperties",
-		"decorators-legacy"
-	]
-}
-`;
-		expect(actual).toBe(expected);
-	});
-
 	test('generatePackageJson', () => {
 		const actual = defaultProject.generatePackageJson();
 		const expected = `{

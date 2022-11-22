@@ -6,6 +6,7 @@ import {
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { EditorConfigGenerator } from '@/core/projects/EditorConfigGenerator';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
+import { PrettierRcJsonGenerator } from '@/core/projects/PrettierRcJsonGenerator';
 import { Project, ProjectFile } from '@/core/projects/Project';
 import { ReactGitignoreGenerator } from '@/core/projects/ReactGitignoreGenerator';
 import validate from 'validate-npm-package-name';
@@ -42,46 +43,6 @@ interface TypeScriptViteReactProjectOptions {
 }
 
 export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProjectOptions> {
-	generatePrettierRcJson = (): string => {
-		if (!this.options.enablePrettier) {
-			throw new Error('The `enablePrettier` option must be set to true.');
-		}
-
-		const { tab, newLine } = this.editorConfig;
-
-		const obj = new JsonObject()
-			.addEntry('singleQuote', true)
-			.addEntry('trailingComma', 'all');
-
-		if (this.options.sortImports) {
-			obj.addEntry(
-				'importOrder',
-				new JsonArray()
-					.addItem('^@core/(.*)$')
-					.addItem('^@server/(.*)$')
-					.addItem('^@ui/(.*)$')
-					.addItem('^[./]'),
-			)
-				.addEntry('importOrderSeparation', true)
-				.addEntry('importOrderSortSpecifiers', true)
-				.addEntry(
-					'importOrderParserPlugins',
-					new JsonArray()
-						.addItem('jsx')
-						.addItem('typescript')
-						.addItem('importOrderParserPlugins')
-						.addItem('classProperties')
-						.addItem('decorators-legacy'),
-				);
-		}
-
-		return `${obj.toFormattedString({
-			tab: tab,
-			newLine: newLine,
-			style: 'Json',
-		})}${newLine}`;
-	};
-
 	generatePackageJson = (): string => {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);
@@ -484,7 +445,9 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		if (this.options.enablePrettier) {
 			yield {
 				path: '.prettierrc.json',
-				text: this.generatePrettierRcJson(),
+				text: new PrettierRcJsonGenerator(this.editorConfig, {
+					sortImports: this.options.sortImports,
+				}).generate(),
 			};
 		}
 

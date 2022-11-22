@@ -1,8 +1,9 @@
 import { EditorConfig } from '@/core/projects/Project';
 
-export abstract class SourceTextGenerator {
+export abstract class SourceTextGenerator<TOptions = unknown> {
 	constructor(
 		readonly editorConfig: EditorConfig = { tab: '\t', newLine: '\n' },
+		readonly options: TOptions = {} as TOptions,
 	) {}
 
 	protected joinLines = (lines: string[]): string => {
