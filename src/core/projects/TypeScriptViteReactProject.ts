@@ -4,6 +4,7 @@ import {
 	JavaScriptNamedImport,
 } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { ESLintRcCjsGenerator } from '@/core/projects/ESLintRcCjsGenerator';
 import { EditorConfigGenerator } from '@/core/projects/EditorConfigGenerator';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { PrettierRcJsonGenerator } from '@/core/projects/PrettierRcJsonGenerator';
@@ -249,65 +250,6 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		})}${newLine}`;
 	};
 
-	generateESLintRcCjs = (): string => {
-		if (!this.options.enableESLint) {
-			throw new Error('The `enableESLint` option must be set to true.');
-		}
-
-		const { tab, newLine } = this.editorConfig;
-
-		const obj = new JsonObject()
-			.addEntry('parser', '@typescript-eslint/parser')
-			.addEntry(
-				'parserOptions',
-				new JsonObject()
-					.addEntry('project', 'tsconfig.json')
-					.addEntry('sourceType', 'module')
-					.addEntry('tsconfigRootDir', new JsonLiteral('__dirname')),
-			)
-			.addEntry(
-				'plugins',
-				new JsonArray().addItem('@typescript-eslint/eslint-plugin'),
-			)
-			.addEntry(
-				'extends',
-				new JsonArray()
-					.addItem('plugin:@typescript-eslint/recommended')
-					.addItem('plugin:prettier/recommended')
-					.addItem('react-app'),
-			)
-			.addEntry('root', true)
-			.addEntry(
-				'env',
-				new JsonObject().addEntry('node', true).addEntry('jest', true),
-			)
-			.addEntry(
-				'ignorePatterns',
-				new JsonArray().addItem('.eslintrc.cjs'),
-			)
-			.addEntry(
-				'rules',
-				new JsonObject()
-					.addEntry('@typescript-eslint/interface-name-prefix', 'off')
-					.addEntry(
-						'@typescript-eslint/explicit-function-return-type',
-						'error',
-					)
-					.addEntry(
-						'@typescript-eslint/explicit-module-boundary-types',
-						'off',
-					)
-					.addEntry('@typescript-eslint/no-explicit-any', 'off')
-					.addEntry('@typescript-eslint/no-empty-function', 'off'),
-			);
-
-		return `module.exports = ${obj.toFormattedString({
-			tab: tab,
-			newLine: newLine,
-			style: 'JavaScript',
-		})};${newLine}`;
-	};
-
 	generateIndexHtml = (): string => {
 		const { tab } = this.editorConfig;
 
@@ -471,7 +413,9 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		if (this.options.enableESLint) {
 			yield {
 				path: '.eslintrc.cjs',
-				text: this.generateESLintRcCjs(),
+				text: new ESLintRcCjsGenerator(this.editorConfig, {
+					extendsReactApp: true,
+				}).generate(),
 			};
 		}
 
