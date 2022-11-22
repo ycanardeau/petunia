@@ -1,12 +1,12 @@
 import { JsonObject } from '@/core/JsonValue';
-import npmPackages from '@/core/projects/npmPackages';
+import dependencies from '@/core/projects/dependencies.json';
 import { orderBy } from 'lodash-es';
 
 export class PackageJsonDependency {
 	private readonly obj = new JsonObject();
 
-	addPackage = (name: keyof typeof npmPackages): this => {
-		this.obj.addEntry(name, npmPackages[name]);
+	addPackage = (name: keyof typeof dependencies): this => {
+		this.obj.addEntry(name, dependencies[name]);
 		return this;
 	};
 
