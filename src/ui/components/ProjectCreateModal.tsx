@@ -3,7 +3,7 @@ import {
 	TestingFramework,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import { ProjectCreateStore } from '@/stores/ProjectCreateStore';
+import { ProjectCreateStore } from '@/ui/stores/ProjectCreateStore';
 import {
 	EuiButton,
 	EuiCheckbox,
