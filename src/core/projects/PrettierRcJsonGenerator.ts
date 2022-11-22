@@ -9,19 +9,20 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonG
 	generate = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const obj = new JsonObject()
+		const rootObj = new JsonObject()
 			.addEntry('singleQuote', true)
 			.addEntry('trailingComma', 'all');
 
 		if (this.options.sortImports) {
-			obj.addEntry(
-				'importOrder',
-				new JsonArray()
-					.addItem('^@core/(.*)$')
-					.addItem('^@server/(.*)$')
-					.addItem('^@ui/(.*)$')
-					.addItem('^[./]'),
-			)
+			rootObj
+				.addEntry(
+					'importOrder',
+					new JsonArray()
+						.addItem('^@core/(.*)$')
+						.addItem('^@server/(.*)$')
+						.addItem('^@ui/(.*)$')
+						.addItem('^[./]'),
+				)
 				.addEntry('importOrderSeparation', true)
 				.addEntry('importOrderSortSpecifiers', true)
 				.addEntry(
@@ -35,7 +36,7 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonG
 				);
 		}
 
-		return `${obj.toFormattedString({
+		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
 			style: 'Json',

@@ -54,11 +54,11 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		const { tab, newLine } = this.editorConfig;
 
-		const dependencies = new PackageJsonDependency()
+		const dependenciesObj = new PackageJsonDependency()
 			.addPackage('react')
 			.addPackage('react-dom');
 
-		const devDependencies = new PackageJsonDependency()
+		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/react')
 			.addPackage('@types/react-dom')
 			.addPackage('@vitejs/plugin-react')
@@ -71,7 +71,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case TestingFramework.Vitest:
-				devDependencies.addPackage('vitest');
+				devDependenciesObj.addPackage('vitest');
 				break;
 		}
 
@@ -81,12 +81,12 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case UIFramework.ElasticUI:
-				dependencies.addPackage('@elastic/eui');
-				dependencies.addPackage('@elastic/datemath');
-				dependencies.addPackage('@emotion/react');
-				dependencies.addPackage('@emotion/css');
-				dependencies.addPackage('moment');
-				dependencies.addPackage('prop-types');
+				dependenciesObj.addPackage('@elastic/eui');
+				dependenciesObj.addPackage('@elastic/datemath');
+				dependenciesObj.addPackage('@emotion/react');
+				dependenciesObj.addPackage('@emotion/css');
+				dependenciesObj.addPackage('moment');
+				dependenciesObj.addPackage('prop-types');
 				break;
 		}
 
@@ -96,61 +96,61 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				break;
 
 			case IconLibrary.FluentSystemIcons:
-				dependencies.addPackage('@fluentui/react-icons');
+				dependenciesObj.addPackage('@fluentui/react-icons');
 				break;
 		}
 
 		if (this.options.enablePrettier) {
-			devDependencies.addPackage('prettier');
+			devDependenciesObj.addPackage('prettier');
 
 			if (this.options.sortImports) {
-				devDependencies.addPackage(
+				devDependenciesObj.addPackage(
 					'@trivago/prettier-plugin-sort-imports',
 				);
 			}
 		}
 
 		if (this.options.enableESLint) {
-			devDependencies.addPackage('@typescript-eslint/eslint-plugin');
-			devDependencies.addPackage('@typescript-eslint/parser');
-			devDependencies.addPackage('eslint');
-			devDependencies.addPackage('eslint-config-react-app');
-			devDependencies.addPackage('eslint-plugin-flowtype');
-			devDependencies.addPackage('eslint-plugin-import');
-			devDependencies.addPackage('eslint-plugin-jsx-a11y');
-			devDependencies.addPackage('eslint-plugin-react');
-			devDependencies.addPackage('eslint-plugin-react-hooks');
+			devDependenciesObj.addPackage('@typescript-eslint/eslint-plugin');
+			devDependenciesObj.addPackage('@typescript-eslint/parser');
+			devDependenciesObj.addPackage('eslint');
+			devDependenciesObj.addPackage('eslint-config-react-app');
+			devDependenciesObj.addPackage('eslint-plugin-flowtype');
+			devDependenciesObj.addPackage('eslint-plugin-import');
+			devDependenciesObj.addPackage('eslint-plugin-jsx-a11y');
+			devDependenciesObj.addPackage('eslint-plugin-react');
+			devDependenciesObj.addPackage('eslint-plugin-react-hooks');
 		}
 
 		if (this.options.enablePrettier && this.options.enableESLint) {
-			devDependencies.addPackage('eslint-config-prettier');
-			devDependencies.addPackage('eslint-plugin-prettier');
+			devDependenciesObj.addPackage('eslint-config-prettier');
+			devDependenciesObj.addPackage('eslint-plugin-prettier');
 		}
 
 		if (this.options.useAjv) {
-			dependencies.addPackage('ajv');
+			dependenciesObj.addPackage('ajv');
 		}
 
 		if (this.options.useLodash) {
-			dependencies.addPackage('lodash-es');
-			devDependencies.addPackage('@types/lodash-es');
+			dependenciesObj.addPackage('lodash-es');
+			devDependenciesObj.addPackage('@types/lodash-es');
 		}
 
 		if (this.options.useMobX) {
-			dependencies.addPackage('mobx');
-			dependencies.addPackage('mobx-react-lite');
+			dependenciesObj.addPackage('mobx');
+			dependenciesObj.addPackage('mobx-react-lite');
 		}
 
 		if (this.options.useQs) {
-			dependencies.addPackage('qs');
-			devDependencies.addPackage('@types/qs');
+			dependenciesObj.addPackage('qs');
+			devDependenciesObj.addPackage('@types/qs');
 		}
 
 		if (this.options.useReactRouter) {
-			dependencies.addPackage('react-router-dom');
+			dependenciesObj.addPackage('react-router-dom');
 		}
 
-		const obj = new JsonObject()
+		const rootObj = new JsonObject()
 			.addEntry('name', this.options.projectName)
 			.addEntry('private', true)
 			.addEntry('version', '0.0.0')
@@ -162,10 +162,10 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 					.addEntry('build', 'tsc && vite build')
 					.addEntry('preview', 'vite preview'),
 			)
-			.addEntry('dependencies', dependencies.orderByKey())
-			.addEntry('devDependencies', devDependencies.orderByKey());
+			.addEntry('dependencies', dependenciesObj.orderByKey())
+			.addEntry('devDependencies', devDependenciesObj.orderByKey());
 
-		return `${obj.toFormattedString({
+		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
 			style: 'Json',
@@ -175,7 +175,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	generateTSConfigJson = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const compilerOptions = new JsonObject()
+		const compilerOptionsObj = new JsonObject()
 			.addEntry('target', 'ESNext')
 			.addEntry('useDefineForClassFields', true)
 			.addEntry(
@@ -199,8 +199,8 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			.addEntry('jsx', 'react-jsx');
 
 		if (this.options.configurePathAliases) {
-			compilerOptions.addEntry('baseUrl', './');
-			compilerOptions.addEntry(
+			compilerOptionsObj.addEntry('baseUrl', './');
+			compilerOptionsObj.addEntry(
 				'paths',
 				new JsonObject().addEntry(
 					'@/*',
@@ -210,11 +210,11 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 		}
 
 		if (this.options.useMobX) {
-			compilerOptions.addEntry('experimentalDecorators', true);
+			compilerOptionsObj.addEntry('experimentalDecorators', true);
 		}
 
-		const obj = new JsonObject()
-			.addEntry('compilerOptions', compilerOptions)
+		const rootObj = new JsonObject()
+			.addEntry('compilerOptions', compilerOptionsObj)
 			.addEntry('include', new JsonArray().addItem('src'))
 			.addEntry(
 				'references',
@@ -223,7 +223,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 				),
 			);
 
-		return `${obj.toFormattedString({
+		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
 			style: 'Json',
@@ -233,17 +233,17 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	generateTSConfigNodeJson = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const compilerOptions = new JsonObject()
+		const compilerOptionsObj = new JsonObject()
 			.addEntry('composite', true)
 			.addEntry('module', 'ESNext')
 			.addEntry('moduleResolution', 'Node')
 			.addEntry('allowSyntheticDefaultImports', true);
 
-		const obj = new JsonObject()
-			.addEntry('compilerOptions', compilerOptions)
+		const rootObj = new JsonObject()
+			.addEntry('compilerOptions', compilerOptionsObj)
 			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
 
-		return `${obj.toFormattedString({
+		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
 			style: 'Json',

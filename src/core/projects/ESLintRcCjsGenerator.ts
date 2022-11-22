@@ -9,15 +9,15 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsGenerat
 	generate = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const _extends = new JsonArray()
+		const extendsArray = new JsonArray()
 			.addItem('plugin:@typescript-eslint/recommended')
 			.addItem('plugin:prettier/recommended');
 
 		if (this.options.extendsReactApp) {
-			_extends.addItem('react-app');
+			extendsArray.addItem('react-app');
 		}
 
-		const obj = new JsonObject()
+		const rootObj = new JsonObject()
 			.addEntry('parser', '@typescript-eslint/parser')
 			.addEntry(
 				'parserOptions',
@@ -30,7 +30,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsGenerat
 				'plugins',
 				new JsonArray().addItem('@typescript-eslint/eslint-plugin'),
 			)
-			.addEntry('extends', _extends)
+			.addEntry('extends', extendsArray)
 			.addEntry('root', true)
 			.addEntry(
 				'env',
@@ -56,7 +56,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsGenerat
 					.addEntry('@typescript-eslint/no-empty-function', 'off'),
 			);
 
-		return `module.exports = ${obj.toFormattedString({
+		return `module.exports = ${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
 			style: 'JavaScript',
