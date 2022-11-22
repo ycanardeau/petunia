@@ -4,8 +4,10 @@ import {
 	JavaScriptNamedImport,
 } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { EditorConfigGenerator } from '@/core/projects/EditorConfigGenerator';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/core/projects/Project';
+import { ReactGitignoreGenerator } from '@/core/projects/ReactGitignoreGenerator';
 import validate from 'validate-npm-package-name';
 
 export enum TestingFramework {
@@ -40,20 +42,6 @@ interface TypeScriptViteReactProjectOptions {
 }
 
 export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProjectOptions> {
-	generateEditorConfig = (): string => {
-		const lines: string[] = [];
-		lines.push('root = true');
-		lines.push('');
-		lines.push('[*]');
-		lines.push('end_of_line = lf');
-		lines.push('charset = utf-8');
-		lines.push('trim_trailing_whitespace = true');
-		lines.push('insert_final_newline = true');
-		lines.push('indent_style = tab');
-		lines.push('indent_size = 4');
-		return this.joinLines(lines);
-	};
-
 	generatePrettierRcJson = (): string => {
 		if (!this.options.enablePrettier) {
 			throw new Error('The `enablePrettier` option must be set to true.');
@@ -92,35 +80,6 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
-
-	generateGitignore = (): string => {
-		const lines: string[] = [];
-		lines.push('# Logs');
-		lines.push('logs');
-		lines.push('*.log');
-		lines.push('npm-debug.log*');
-		lines.push('yarn-debug.log*');
-		lines.push('yarn-error.log*');
-		lines.push('pnpm-debug.log*');
-		lines.push('lerna-debug.log*');
-		lines.push('');
-		lines.push('node_modules');
-		lines.push('dist');
-		lines.push('dist-ssr');
-		lines.push('*.local');
-		lines.push('');
-		lines.push('# Editor directories and files');
-		lines.push('.vscode/*');
-		lines.push('!.vscode/extensions.json');
-		lines.push('.idea');
-		lines.push('.DS_Store');
-		lines.push('*.suo');
-		lines.push('*.ntvs*');
-		lines.push('*.njsproj');
-		lines.push('*.sln');
-		lines.push('*.sw?');
-		return this.joinLines(lines);
 	};
 
 	generatePackageJson = (): string => {
@@ -519,7 +478,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.editorconfig',
-			text: this.generateEditorConfig(),
+			text: new EditorConfigGenerator(this.editorConfig).generate(),
 		};
 
 		if (this.options.enablePrettier) {
@@ -531,7 +490,7 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 
 		yield {
 			path: '.gitignore',
-			text: this.generateGitignore(),
+			text: new ReactGitignoreGenerator(this.editorConfig).generate(),
 		};
 		yield {
 			path: 'package.json',

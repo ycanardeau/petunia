@@ -13,21 +13,6 @@ describe('TypeScriptViteReactProject', () => {
 		defaultProject = new TypeScriptViteReactProject(undefined, {});
 	});
 
-	test('generateEditorConfig', () => {
-		const actual = defaultProject.generateEditorConfig();
-		const expected = `root = true
-
-[*]
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-indent_style = tab
-indent_size = 4
-`;
-		expect(actual).toBe(expected);
-	});
-
 	test('generatePrettierRcJson', () => {
 		expect(() => defaultProject.generatePrettierRcJson()).toThrowError();
 	});
@@ -70,36 +55,6 @@ indent_size = 4
 		"decorators-legacy"
 	]
 }
-`;
-		expect(actual).toBe(expected);
-	});
-
-	test('generateGitignore', () => {
-		const actual = defaultProject.generateGitignore();
-		const expected = `# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 `;
 		expect(actual).toBe(expected);
 	});
