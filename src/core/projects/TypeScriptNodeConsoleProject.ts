@@ -1,3 +1,4 @@
+import { NodeGitignoreGenerator } from '@/core/projects/NodeGitignoreGenerator';
 import { ProjectFile } from '@/core/projects/Project';
 import {
 	TypeScriptProject,
@@ -13,5 +14,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
+
+		yield {
+			path: '.gitignore',
+			text: new NodeGitignoreGenerator(this.editorConfig).generate(),
+		};
 	}
 }
