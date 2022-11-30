@@ -4,23 +4,20 @@ import {
 	JavaScriptNamedImport,
 } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
-import { ESLintRcCjsGenerator } from '@/core/projects/ESLintRcCjsGenerator';
-import { EditorConfigGenerator } from '@/core/projects/EditorConfigGenerator';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
-import { PrettierRcJsonGenerator } from '@/core/projects/PrettierRcJsonGenerator';
-import { Project, ProjectFile } from '@/core/projects/Project';
+import { ProjectFile } from '@/core/projects/Project';
 import { ReactGitignoreGenerator } from '@/core/projects/ReactGitignoreGenerator';
+import {
+	TestingFramework,
+	TypeScriptProject,
+	TypeScriptProjectOptions,
+} from '@/core/projects/TypeScriptProject';
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
 export enum OutputType {
 	ReactApplication = 'ReactApplication',
 	ReactLibrary = 'ReactLibrary',
-}
-
-export enum TestingFramework {
-	None = 'None',
-	Vitest = 'Vitest',
 }
 
 export enum UIFramework {
@@ -33,24 +30,19 @@ export enum IconLibrary {
 	FluentSystemIcons = 'FluentSystemIcons',
 }
 
-interface TypeScriptViteReactProjectOptions {
+interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	outputType?: OutputType;
-	projectName?: string;
-	test?: TestingFramework;
 	ui?: UIFramework;
 	icon?: IconLibrary;
-	enablePrettier?: boolean;
-	sortImports?: boolean;
-	enableESLint?: boolean;
-	configurePathAliases?: boolean;
-	useAjv?: boolean;
-	useLodash?: boolean;
 	useMobX?: boolean;
 	useReactRouter?: boolean;
-	useQs?: boolean;
 }
 
-export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProjectOptions> {
+export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
+	get isReactProject(): boolean {
+		return true;
+	}
+
 	generatePackageJson = (): string => {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);
@@ -537,23 +529,11 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 	};
 
 	*generateProjectFiles(): Generator<ProjectFile> {
-		yield {
-			path: '.editorconfig',
-			text: new EditorConfigGenerator(this.editorConfig).generate(),
-		};
-
-		if (this.options.enablePrettier) {
-			yield {
-				path: '.prettierrc.json',
-				text: new PrettierRcJsonGenerator(this.editorConfig, {
-					sortImports: this.options.sortImports,
-				}).generate(),
-			};
-		}
+		yield* super.generateProjectFiles();
 
 		yield {
 			path: '.gitignore',
-			text: new ReactGitignoreGenerator(this.editorConfig).generate(),
+			text: new ReactGitignoreGenerator(this.editorConfig, {}).generate(),
 		};
 		yield {
 			path: 'package.json',
@@ -567,15 +547,6 @@ export class TypeScriptViteReactProject extends Project<TypeScriptViteReactProje
 			path: 'tsconfig.node.json',
 			text: this.generateTSConfigNodeJson(),
 		};
-
-		if (this.options.enableESLint) {
-			yield {
-				path: '.eslintrc.cjs',
-				text: new ESLintRcCjsGenerator(this.editorConfig, {
-					extendsReactApp: true,
-				}).generate(),
-			};
-		}
 
 		yield {
 			path: 'index.html',

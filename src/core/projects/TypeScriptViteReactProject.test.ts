@@ -1,7 +1,7 @@
+import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
 	OutputType,
-	TestingFramework,
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
@@ -13,6 +13,11 @@ describe('TypeScriptViteReactProject', () => {
 
 	beforeAll(() => {
 		defaultProject = new TypeScriptViteReactProject(undefined, {});
+	});
+
+	test('isReactProject', () => {
+		const actual = defaultProject.isReactProject;
+		expect(actual).toBe(true);
 	});
 
 	test('generatePackageJson', () => {
@@ -1120,11 +1125,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		);
 		const expected = [
 			'.editorconfig',
+			'.eslintrc.cjs',
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
 			'tsconfig.node.json',
-			'.eslintrc.cjs',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',

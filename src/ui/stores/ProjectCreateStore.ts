@@ -1,8 +1,8 @@
 import { ProjectFile } from '@/core/projects/Project';
+import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
 	OutputType,
-	TestingFramework,
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';

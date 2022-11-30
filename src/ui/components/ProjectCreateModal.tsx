@@ -1,7 +1,7 @@
+import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
 	OutputType,
-	TestingFramework,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
 import { ProjectCreateStore } from '@/ui/stores/ProjectCreateStore';
