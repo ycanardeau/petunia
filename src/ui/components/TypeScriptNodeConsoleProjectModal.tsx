@@ -1,11 +1,6 @@
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
-import {
-	IconLibrary,
-	OutputType,
-	UIFramework,
-} from '@/core/projects/TypeScriptViteReactProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
-import { TypeScriptViteReactProjectCreateStore } from '@/ui/stores/TypeScriptViteReactProjectCreateStore';
+import { TypeScriptNodeConsoleProjectCreateStore } from '@/ui/stores/TypeScriptNodeConsoleProjectCreateStore';
 import {
 	EuiButton,
 	EuiCheckbox,
@@ -28,51 +23,16 @@ import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-const outputTypeNames: Record<OutputType, string> = {
-	[OutputType.ReactApplication]: 'React Application' /* LOC */,
-	[OutputType.ReactLibrary]: 'React Library' /* LOC */,
-};
-
-const uiFrameworkNames: Record<UIFramework, string> = {
-	[UIFramework.None]: 'None',
-	[UIFramework.ElasticUI]: 'Elastic UI',
-};
-
-const iconLibraryNames: Record<IconLibrary, string> = {
-	[IconLibrary.None]: 'None',
-	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
-};
-
-interface TypeScriptViteReactProjectCreateFormProps {
-	projectCreateStore: TypeScriptViteReactProjectCreateStore;
+interface TypeScriptNodeConsoleProjectCreateFormProps {
+	projectCreateStore: TypeScriptNodeConsoleProjectCreateStore;
 }
 
-const TypeScriptViteReactProjectCreateForm = observer(
+const TypeScriptNodeConsoleProjectCreateForm = observer(
 	({
 		projectCreateStore,
-	}: TypeScriptViteReactProjectCreateFormProps): React.ReactElement => {
+	}: TypeScriptNodeConsoleProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
-				<EuiFormRow
-					label="Output type" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(OutputType).map((value) => ({
-							value: value,
-							text: outputTypeNames[value],
-						}))}
-						value={projectCreateStore.outputType}
-						onChange={(e): void =>
-							runInAction(() => {
-								projectCreateStore.outputType = e.target
-									.value as OutputType;
-							})
-						}
-						compressed
-					/>
-				</EuiFormRow>
-
 				<EuiFormRow
 					label="Project name" /* LOC */
 					isInvalid={
@@ -111,46 +71,6 @@ const TypeScriptViteReactProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.test = e.target
 									.value as TestingFramework;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
-					label="UI framework" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(UIFramework).map((value) => ({
-							value: value,
-							text: uiFrameworkNames[value],
-						}))}
-						value={projectCreateStore.ui}
-						onChange={(e): void => {
-							runInAction(() => {
-								projectCreateStore.ui = e.target
-									.value as UIFramework;
-							});
-						}}
-						compressed
-					/>
-				</EuiFormRow>
-
-				<EuiFormRow
-					label="Icon library" /* LOC */
-					display="rowCompressed"
-				>
-					<EuiSelect
-						options={Object.values(IconLibrary).map((value) => ({
-							value: value,
-							text: iconLibraryNames[value],
-						}))}
-						value={projectCreateStore.icon}
-						onChange={(e): void => {
-							runInAction(() => {
-								projectCreateStore.icon = e.target
-									.value as IconLibrary;
 							});
 						}}
 						compressed
@@ -280,33 +200,6 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					>
 						<EuiFlexItem grow={false}>
 							<EuiCheckbox
-								id="useMobX"
-								label="MobX"
-								checked={projectCreateStore.useMobX}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useMobX =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="Simple, scalable state management."
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
-
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
 								id="useQs"
 								label="qs"
 								checked={projectCreateStore.useQs}
@@ -326,43 +219,16 @@ const TypeScriptViteReactProjectCreateForm = observer(
 							/>
 						</EuiFlexItem>
 					</EuiFlexGroup>
-
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
-								id="useReactRouter"
-								label="React Router"
-								checked={projectCreateStore.useReactRouter}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useReactRouter =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="Declarative routing for React"
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
 				</EuiFormFieldset>
 			</EuiForm>
 		);
 	},
 );
 
-export const TypeScriptViteReactProjectCreateModal = observer(
+export const TypeScriptNodeConsoleProjectCreateModal = observer(
 	(): React.ReactElement => {
 		const [projectCreateStore] = React.useState(
-			() => new TypeScriptViteReactProjectCreateStore(),
+			() => new TypeScriptNodeConsoleProjectCreateStore(),
 		);
 
 		return (
@@ -374,7 +240,7 @@ export const TypeScriptViteReactProjectCreateModal = observer(
 				</EuiModalHeader>
 
 				<EuiModalBody>
-					<TypeScriptViteReactProjectCreateForm
+					<TypeScriptNodeConsoleProjectCreateForm
 						projectCreateStore={projectCreateStore}
 					/>
 				</EuiModalBody>
