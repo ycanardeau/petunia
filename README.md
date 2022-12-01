@@ -1,6 +1,6 @@
 # Petunia
 
-Petunia is an opinionated TypeScript project generator for React. Generated project files can be downloaded as a ZIP file.
+Petunia is an opinionated TypeScript project generator for React and Node.js. Generated project files can be downloaded as a ZIP file.
 
 ## Live demo
 
