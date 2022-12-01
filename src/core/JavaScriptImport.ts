@@ -17,9 +17,7 @@ export class JavaScriptNamedImport extends JavaScriptImport {
 	addNamedExports = (...names: (string | undefined)[]): this => {
 		if (names !== undefined) {
 			this.names.push(
-				...names
-					.filter((name) => name !== undefined)
-					.map((name) => name!),
+				...names.filter((name): name is string => name !== undefined),
 			);
 		}
 		return this;
@@ -62,9 +60,9 @@ export class JavaScriptImports {
 	addImports = (...values: (JavaScriptImport | undefined)[]): this => {
 		if (values !== undefined) {
 			this.values.push(
-				...values
-					.filter((value) => value !== undefined)
-					.map((value) => value!),
+				...values.filter(
+					(value): value is JavaScriptImport => value !== undefined,
+				),
 			);
 		}
 		return this;
