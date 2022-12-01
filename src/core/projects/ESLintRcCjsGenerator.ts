@@ -1,11 +1,11 @@
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 
-interface ESLintRcCjsGeneratorOptions {
+interface ESLintRcCjsOptions {
 	extendsReactApp?: boolean;
 }
 
-export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsGeneratorOptions> {
+export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions> {
 	generate = (): string => {
 		const { tab, newLine } = this.editorConfig;
 

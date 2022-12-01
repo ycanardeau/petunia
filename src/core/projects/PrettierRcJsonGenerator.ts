@@ -1,11 +1,11 @@
 import { JsonArray, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 
-interface PrettierRcJsonGeneratorOptions {
+interface PrettierRcJsonOptions {
 	sortImports?: boolean;
 }
 
-export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonGeneratorOptions> {
+export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonOptions> {
 	generate = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
