@@ -65,6 +65,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			devDependenciesObj.addPackage('eslint-plugin-prettier');
 		}
 
+		if (this.options.configurePathAliases) {
+			devDependenciesObj.addPackage('tsc-alias');
+		}
+
 		const addAdditionalPackage = (
 			name: keyof typeof dependencies,
 		): void => {
@@ -89,7 +93,6 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			.addEntry('name', this.options.projectName)
 			.addEntry('version', '1.0.0')
 			//.addEntry('description', '')
-			.addEntry('main', 'index.js')
 			//.addEntry('repository', '')
 			//.addEntry('author', '')
 			//.addEntry('license', '')
@@ -105,6 +108,17 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				dependenciesObj.entries.length > 0
 					? dependenciesObj.orderByKey()
 					: undefined,
+			)
+			.addEntry(
+				'scripts',
+				new JsonObject()
+					.addEntry(
+						'build',
+						this.options.configurePathAliases
+							? 'tsc && tsc-alias'
+							: 'tsc',
+					)
+					.addEntry('start', 'node dist/index.js'),
 			);
 
 		return `${rootObj.toFormattedString({
@@ -120,6 +134,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const compilerOptionsObj = new JsonObject()
 			.addEntry('target', 'es2016')
 			.addEntry('module', 'commonjs')
+			.addEntry('outDir', './dist')
 			.addEntry('esModuleInterop', true)
 			.addEntry('forceConsistentCasingInFileNames', true)
 			.addEntry('strict', true)
@@ -148,6 +163,12 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		})}${newLine}`;
 	};
 
+	generateSrcIndexTS = (): string => {
+		const lines: string[] = [];
+		lines.push("console.log('Hello, World!');");
+		return this.joinLines(lines);
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
 
@@ -164,6 +185,11 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		yield {
 			path: 'tsconfig.json',
 			text: this.generateTSConfigJson(),
+		};
+
+		yield {
+			path: 'src/index.ts',
+			text: this.generateSrcIndexTS(),
 		};
 	}
 }

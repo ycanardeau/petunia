@@ -18,10 +18,34 @@ describe('TypeScriptNodeConsoleProject', () => {
 		const actual = defaultProject.generatePackageJson();
 		const expected = `{
 	"version": "1.0.0",
-	"main": "index.js",
 	"private": true,
 	"devDependencies": {
 		"typescript": "${dependencies['typescript']}"
+	},
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson configurePathAliases', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			configurePathAliases: true,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"version": "1.0.0",
+	"private": true,
+	"devDependencies": {
+		"tsc-alias": "${dependencies['tsc-alias']}",
+		"typescript": "${dependencies['typescript']}"
+	},
+	"scripts": {
+		"build": "tsc && tsc-alias",
+		"start": "node dist/index.js"
 	}
 }
 `;
@@ -34,12 +58,20 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"compilerOptions": {
 		"target": "es2016",
 		"module": "commonjs",
+		"outDir": "./dist",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true
 	}
 }
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateSrcIndexTS', () => {
+		const actual = defaultProject.generateSrcIndexTS();
+		const expected = `console.log('Hello, World!');
 `;
 		expect(actual).toBe(expected);
 	});
@@ -53,6 +85,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'src/index.ts',
 		];
 		expect(actual).toEqual(expected);
 	});
@@ -70,6 +103,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'src/index.ts',
 		];
 		expect(actual).toEqual(expected);
 	});
@@ -87,6 +121,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'src/index.ts',
 		];
 		expect(actual).toEqual(expected);
 	});
