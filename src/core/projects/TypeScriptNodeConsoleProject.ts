@@ -66,7 +66,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		}
 
 		if (this.options.configurePathAliases) {
-			devDependenciesObj.addPackage('tsc-alias');
+			devDependenciesObj
+				.addPackage('tsc-alias')
+				.addPackage('concurrently');
 		}
 
 		const addAdditionalPackage = (
@@ -89,6 +91,19 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			devDependenciesObj.addPackage('@types/qs');
 		}
 
+		const scriptsObj = new JsonObject();
+		if (this.options.configurePathAliases) {
+			scriptsObj
+				.addEntry('build', 'tsc && tsc-alias')
+				.addEntry(
+					'build:watch',
+					'tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
+				);
+		} else {
+			scriptsObj.addEntry('build', 'tsc');
+		}
+		scriptsObj.addEntry('start', 'node dist/index.js');
+
 		const rootObj = new JsonObject()
 			.addEntry('name', this.options.projectName)
 			.addEntry('version', '1.0.0')
@@ -109,17 +124,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					? dependenciesObj.orderByKey()
 					: undefined,
 			)
-			.addEntry(
-				'scripts',
-				new JsonObject()
-					.addEntry(
-						'build',
-						this.options.configurePathAliases
-							? 'tsc && tsc-alias'
-							: 'tsc',
-					)
-					.addEntry('start', 'node dist/index.js'),
-			);
+			.addEntry('scripts', scriptsObj);
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
