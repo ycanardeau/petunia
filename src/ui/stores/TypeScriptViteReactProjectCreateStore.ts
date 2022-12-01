@@ -23,7 +23,7 @@ export enum BuildTool {
 	Vite = 'Vite',
 }
 
-export class ProjectCreateStore {
+export class TypeScriptViteReactProjectCreateStore {
 	@observable outputType = OutputType.ReactApplication;
 	@observable projectType = ProjectType.React;
 	@observable projectName = 'react-app';

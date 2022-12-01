@@ -4,7 +4,7 @@ import {
 	OutputType,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import { ProjectCreateStore } from '@/ui/stores/ProjectCreateStore';
+import { TypeScriptViteReactProjectCreateStore } from '@/ui/stores/TypeScriptViteReactProjectCreateStore';
 import {
 	EuiButton,
 	EuiCheckbox,
@@ -47,12 +47,14 @@ const iconLibraryNames: Record<IconLibrary, string> = {
 	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
 };
 
-interface ProjectCreateFormProps {
-	projectCreateStore: ProjectCreateStore;
+interface TypeScriptViteReactProjectCreateFormProps {
+	projectCreateStore: TypeScriptViteReactProjectCreateStore;
 }
 
-const ProjectCreateForm = observer(
-	({ projectCreateStore }: ProjectCreateFormProps): React.ReactElement => {
+const TypeScriptViteReactProjectCreateForm = observer(
+	({
+		projectCreateStore,
+	}: TypeScriptViteReactProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
 				<EuiFormRow
@@ -361,38 +363,44 @@ const ProjectCreateForm = observer(
 	},
 );
 
-export const ProjectCreateModal = observer((): React.ReactElement => {
-	const [projectCreateStore] = React.useState(() => new ProjectCreateStore());
+export const TypeScriptViteReactProjectCreateModal = observer(
+	(): React.ReactElement => {
+		const [projectCreateStore] = React.useState(
+			() => new TypeScriptViteReactProjectCreateStore(),
+		);
 
-	return (
-		<>
-			<EuiModalHeader>
-				<EuiModalHeaderTitle>
-					Create a new project{/* LOC */}
-				</EuiModalHeaderTitle>
-			</EuiModalHeader>
+		return (
+			<>
+				<EuiModalHeader>
+					<EuiModalHeaderTitle>
+						Create a new project{/* LOC */}
+					</EuiModalHeaderTitle>
+				</EuiModalHeader>
 
-			<EuiModalBody>
-				<ProjectCreateForm projectCreateStore={projectCreateStore} />
-			</EuiModalBody>
+				<EuiModalBody>
+					<TypeScriptViteReactProjectCreateForm
+						projectCreateStore={projectCreateStore}
+					/>
+				</EuiModalBody>
 
-			<EuiModalFooter>
-				<EuiButton
-					fill
-					size="s"
-					onClick={projectCreateStore.submit}
-					disabled={projectCreateStore.hasValidationErrors}
-				>
-					Create{/* LOC */}
-				</EuiButton>
-				<EuiButton
-					size="s"
-					href="https://github.com/ycanardeau/petunia"
-					target="_blank"
-				>
-					GitHub
-				</EuiButton>
-			</EuiModalFooter>
-		</>
-	);
-});
+				<EuiModalFooter>
+					<EuiButton
+						fill
+						size="s"
+						onClick={projectCreateStore.submit}
+						disabled={projectCreateStore.hasValidationErrors}
+					>
+						Create{/* LOC */}
+					</EuiButton>
+					<EuiButton
+						size="s"
+						href="https://github.com/ycanardeau/petunia"
+						target="_blank"
+					>
+						GitHub
+					</EuiButton>
+				</EuiModalFooter>
+			</>
+		);
+	},
+);
