@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 describe('ReactGitignoreGenerator', () => {
 	test('generate', () => {
-		const actual = new ReactGitignoreGenerator().generate();
+		const actual = new ReactGitignoreGenerator(undefined, {}).generate();
 		const expected = `# Logs
 logs
 *.log

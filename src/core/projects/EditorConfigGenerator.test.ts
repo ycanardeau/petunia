@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 describe('EditorConfigGenerator', () => {
 	test('generate', () => {
-		const actual = new EditorConfigGenerator().generate();
+		const actual = new EditorConfigGenerator(undefined, {}).generate();
 		const expected = `root = true
 
 [*]

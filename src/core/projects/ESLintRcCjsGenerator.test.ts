@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 describe('ESLintRcCjsGenerator', () => {
 	test('generate', () => {
-		const generator = new ESLintRcCjsGenerator(undefined);
+		const generator = new ESLintRcCjsGenerator(undefined, {});
 		const actual = generator.generate();
 		const expected = `module.exports = {
 	parser: '@typescript-eslint/parser',

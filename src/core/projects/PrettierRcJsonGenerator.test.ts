@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 
 describe('PrettierRcJsonGenerator', () => {
 	test('generate', () => {
-		const generator = new PrettierRcJsonGenerator(undefined);
+		const generator = new PrettierRcJsonGenerator(undefined, {});
 		const actual = generator.generate();
 		const expected = `{
 	"singleQuote": true,
