@@ -1,6 +1,7 @@
+import { AppSideNav } from '@/AppSideNav';
 import '@/icons';
 import { TypeScriptViteReactProjectCreateModal } from '@/ui/components/TypeScriptViteReactProjectCreateModal';
-import { EuiProvider } from '@elastic/eui';
+import { EuiPageTemplate, EuiProvider } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import React from 'react';
@@ -15,7 +16,14 @@ euiCache.compat = true;
 const App = (): React.ReactElement => {
 	return (
 		<EuiProvider colorMode="dark" cache={euiCache}>
-			<TypeScriptViteReactProjectCreateModal />
+			<EuiPageTemplate panelled restrictWidth>
+				<EuiPageTemplate.Sidebar sticky>
+					<AppSideNav />
+				</EuiPageTemplate.Sidebar>
+				<EuiPageTemplate.Section>
+					<TypeScriptViteReactProjectCreateModal />
+				</EuiPageTemplate.Section>
+			</EuiPageTemplate>
 		</EuiProvider>
 	);
 };
