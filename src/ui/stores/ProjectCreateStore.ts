@@ -1,3 +1,4 @@
+import { ProjectFile } from '@/core/projects/Project';
 import {
 	IconLibrary,
 	OutputType,
@@ -8,6 +9,10 @@ import {
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';
+import prettier from 'prettier';
+import babelParser from 'prettier/parser-babel';
+import htmlParser from 'prettier/parser-html';
+import typescriptParser from 'prettier/parser-typescript';
 import validate from 'validate-npm-package-name';
 
 export enum ProjectType {
@@ -49,6 +54,21 @@ export class ProjectCreateStore {
 		return this.validationError_invalidProjectName;
 	}
 
+	private tryFormat = ({ path, text }: ProjectFile): string | undefined => {
+		try {
+			return prettier.format(text, {
+				filepath: path,
+				plugins: [babelParser, htmlParser, typescriptParser],
+				singleQuote: true,
+				trailingComma: 'all',
+				endOfLine: 'lf',
+				useTabs: true,
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	@action submit = async (): Promise<void> => {
 		if (this.hasValidationErrors) {
 			return;
@@ -74,7 +94,14 @@ export class ProjectCreateStore {
 				useReactRouter: this.useReactRouter,
 			},
 		);
-		const projectFiles = project.generateProjectFiles();
+		const projectFiles = Array.from(project.generateProjectFiles()).map(
+			(projectFile) => {
+				return {
+					path: projectFile.path,
+					text: this.tryFormat(projectFile) ?? projectFile.text,
+				};
+			},
+		);
 		for (const { path, text } of projectFiles) {
 			zip.file(path, text);
 		}
