@@ -3,6 +3,7 @@ import ReactIcon from '@/ui/favicons/reactjs.org.ico';
 import TypeScriptIcon from '@/ui/favicons/www.typescriptlang.org.png';
 import { EuiIcon, EuiSideNav, slugify } from '@elastic/eui';
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const AppSideNav = (): React.ReactElement => {
 	const [isSideNavOpenOnMobile, setIsSideNavOpenOnMobile] =
@@ -10,6 +11,9 @@ export const AppSideNav = (): React.ReactElement => {
 
 	const toggleOpenOnMobile = (): void =>
 		setIsSideNavOpenOnMobile(!isSideNavOpenOnMobile);
+
+	const navigate = useNavigate();
+	const { pathname } = useLocation();
 
 	return (
 		<EuiSideNav
@@ -26,17 +30,26 @@ export const AppSideNav = (): React.ReactElement => {
 							id: slugify('React'),
 							name: 'React',
 							icon: <EuiIcon type={ReactIcon} />,
-							href: '/typescript/react',
-							// TODO: onClick
-							isSelected: true /* TODO */,
+							href: '/#/projects/typescript-vite-react',
+							onClick: (e): void => {
+								e.preventDefault();
+								navigate('/projects/typescript-vite-react');
+							},
+							isSelected:
+								pathname === '/projects/typescript-vite-react',
 						},
 						{
 							id: slugify('Node.js'),
 							name: 'Node.js',
 							icon: <EuiIcon type={NodeIcon} />,
-							href: '/typescript/node',
-							// TODO: onClick
-							isSelected: false /* TODO */,
+							href: '/#/projects/typescript-node-console',
+							onClick: (e): void => {
+								e.preventDefault();
+								navigate('/projects/typescript-node-console');
+							},
+							isSelected:
+								pathname ===
+								'/projects/typescript-node-console',
 						},
 					],
 				},
