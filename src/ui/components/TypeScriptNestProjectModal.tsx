@@ -1,3 +1,4 @@
+import { OrmFramework } from '@/core/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
 import { TypeScriptNestProjectCreateStore } from '@/ui/stores/TypeScriptNestProjectCreateStore';
@@ -22,6 +23,11 @@ import {
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+
+const ormFrameworkNames = {
+	[OrmFramework.None]: 'None',
+	[OrmFramework.MikroOrm]: 'MikroORM',
+};
 
 interface TypeScriptNestProjectCreateFormProps {
 	projectCreateStore: TypeScriptNestProjectCreateStore;
@@ -72,6 +78,26 @@ const TypeScriptNestProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.test = e.target
 									.value as TestingFramework;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="ORM Framework" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(OrmFramework).map((value) => ({
+							value: value,
+							text: ormFrameworkNames[value],
+						}))}
+						value={projectCreateStore.orm}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.orm = e.target
+									.value as OrmFramework;
 							});
 						}}
 						compressed

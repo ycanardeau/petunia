@@ -13,7 +13,14 @@ import {
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
-type TypeScriptNestProjectOptions = TypeScriptProjectOptions;
+export enum OrmFramework {
+	None = 'None',
+	MikroOrm = 'MikroOrm',
+}
+
+interface TypeScriptNestProjectOptions extends TypeScriptProjectOptions {
+	orm?: OrmFramework;
+}
 
 export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProjectOptions> {
 	generateGitignore = (): string => {
@@ -53,6 +60,14 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		lines.push('!.vscode/tasks.json');
 		lines.push('!.vscode/launch.json');
 		lines.push('!.vscode/extensions.json');
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			lines.push('');
+			lines.push('.env.local');
+			lines.push('.env.development.local');
+			lines.push('.env.test.local');
+			lines.push('.env.production.local');
+			lines.push('/temp');
+		}
 		return this.joinLines(lines);
 	};
 
@@ -111,6 +126,24 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				break;
 		}
 
+		switch (this.options.orm) {
+			case OrmFramework.None:
+				// nop
+				break;
+
+			case OrmFramework.MikroOrm:
+				dependenciesObj
+					.addPackage('@mikro-orm/core')
+					.addPackage('@mikro-orm/reflection')
+					.addPackage('@mikro-orm/sql-highlighter');
+				switch (true /* TODO */) {
+					case true /* TODO */:
+						dependenciesObj.addPackage('@mikro-orm/mariadb');
+						break;
+				}
+				break;
+		}
+
 		if (this.options.enablePrettier) {
 			devDependenciesObj.addPackage('prettier');
 
@@ -159,33 +192,99 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			devDependenciesObj.addPackage('@types/qs');
 		}
 
-		const scriptsObj = new JsonObject()
-			.addEntry('prebuild', 'rimraf dist')
-			.addEntry('build', 'nest build')
-			.addEntry(
-				'format',
-				`prettier --write \\"src/**/*.ts\\" \\"test/**/*.ts\\"`,
-			)
-			.addEntry('start', 'nest start')
-			.addEntry('start:dev', 'nest start --watch')
-			.addEntry('start:debug', 'nest start --debug --watch')
-			.addEntry('start:prod', 'node dist/main')
-			.addEntry(
-				'lint',
-				'eslint \\"{src,apps,libs,test}/**/*.ts\\" --fix',
-			);
+		const scriptsObj = new JsonObject();
+		switch (this.options.orm) {
+			case OrmFramework.MikroOrm:
+				scriptsObj
+					.addEntry('prebuild', 'rimraf dist')
+					.addEntry('build', 'nest build')
+					.addEntry(
+						'format',
+						`prettier --write \\"src/**/*.ts\\" \\"test/**/*.ts\\"`,
+					)
+					.addEntry(
+						'start',
+						'cross-env MIKRO_ORM_ENV=.env.development.local nest start',
+					)
+					.addEntry(
+						'start:dev',
+						'cross-env MIKRO_ORM_ENV=.env.development.local nest start --watch',
+					)
+					.addEntry(
+						'start:debug',
+						'cross-env MIKRO_ORM_ENV=.env.development.local nest start --debug --watch',
+					)
+					.addEntry(
+						'start:prod',
+						'cross-env MIKRO_ORM_ENV=.env.production.local node dist/main',
+					)
+					.addEntry(
+						'lint',
+						'eslint \\"{src,apps,libs,test}/**/*.ts\\" --fix',
+					);
+				break;
+
+			default:
+				scriptsObj
+					.addEntry('prebuild', 'rimraf dist')
+					.addEntry('build', 'nest build')
+					.addEntry(
+						'format',
+						`prettier --write \\"src/**/*.ts\\" \\"test/**/*.ts\\"`,
+					)
+					.addEntry('start', 'nest start')
+					.addEntry('start:dev', 'nest start --watch')
+					.addEntry('start:debug', 'nest start --debug --watch')
+					.addEntry('start:prod', 'node dist/main')
+					.addEntry(
+						'lint',
+						'eslint \\"{src,apps,libs,test}/**/*.ts\\" --fix',
+					);
+				break;
+		}
 
 		switch (this.options.test) {
 			case TestingFramework.Jest:
-				scriptsObj
-					.addEntry('test', 'jest')
-					.addEntry('test:watch', 'jest --watch')
-					.addEntry('test:cov', 'jest --coverage')
-					.addEntry(
-						'test:debug',
-						'node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand',
-					)
-					.addEntry('test:e2e', 'jest --config ./test/jest-e2e.json');
+				switch (this.options.orm) {
+					case OrmFramework.MikroOrm:
+						scriptsObj
+							.addEntry(
+								'test',
+								'cross-env MIKRO_ORM_ENV=.env.test.local jest',
+							)
+							.addEntry(
+								'test:watch',
+								'cross-env MIKRO_ORM_ENV=.env.test.local jest --watch',
+							)
+							.addEntry(
+								'test:cov',
+								'cross-env MIKRO_ORM_ENV=.env.test.local jest --coverage',
+							)
+							.addEntry(
+								'test:debug',
+								'cross-env MIKRO_ORM_ENV=.env.test.local node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand',
+							)
+							.addEntry(
+								'test:e2e',
+								'cross-env MIKRO_ORM_ENV=.env.test.local jest --config ./test/jest-e2e.json',
+							);
+						break;
+
+					default:
+						scriptsObj
+							.addEntry('test', 'jest')
+							.addEntry('test:watch', 'jest --watch')
+							.addEntry('test:cov', 'jest --coverage')
+							.addEntry(
+								'test:debug',
+								'node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand',
+							)
+							.addEntry(
+								'test:e2e',
+								'jest --config ./test/jest-e2e.json',
+							);
+						break;
+				}
 				break;
 		}
 
@@ -237,6 +336,20 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			);
 		}
 
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			rootObj.addEntry(
+				'mikro-orm',
+				new JsonObject()
+					.addEntry('useTsNode', true)
+					.addEntry(
+						'configPaths',
+						new JsonArray()
+							.addItem('./src/mikro-orm.config.ts')
+							.addItem('./dist/mikro-orm.config.js'),
+					),
+			);
+		}
+
 		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
@@ -274,6 +387,10 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 					new JsonArray().addItem('src/*'),
 				),
 			);
+		}
+
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			compilerOptionsObj.addEntry('esModuleInterop', true);
 		}
 
 		const rootObj = new JsonObject().addEntry(
@@ -363,12 +480,25 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				).addNamedExport('AppController'),
 			);
 
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			imports.addImport(
+				new JavaScriptNamedImport('@mikro-orm/nestjs').addNamedExport(
+					'MikroOrmModule',
+				),
+			);
+		}
+
+		const importsArray = new JsonArray();
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			importsArray.addItem(new JsonLiteral('MikroOrmModule.forRoot()'));
+		}
+
 		const lines: string[] = [];
 		lines.push(imports.toFormattedString({ newLine: newLine }));
 		lines.push('');
 		lines.push(
 			`@Module(${new JsonObject()
-				.addEntry('imports', new JsonArray())
+				.addEntry('imports', importsArray)
 				.addEntry(
 					'controllers',
 					new JsonArray().addItem(new JsonLiteral('AppController')),
@@ -412,6 +542,86 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		return this.joinLines(lines);
 	};
 
+	generateEnvLocal = (environment: string): string => {
+		const lines: string[] = [];
+
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			lines.push('MIKRO_ORM_TYPE =');
+			lines.push('MIKRO_ORM_DB_NAME =');
+			lines.push(
+				`MIKRO_ORM_DEBUG = ${
+					environment === 'development' || environment === 'test'
+						? true
+						: false
+				}`,
+			);
+			lines.push('MIKRO_ORM_USER =');
+			lines.push('MIKRO_ORM_PASSWORD =');
+			lines.push('MIKRO_ORM_ENTITIES = ./dist/entities/**/*.js');
+			lines.push('MIKRO_ORM_ENTITIES_TS = ./src/entities/**/*.ts');
+			lines.push('MIKRO_ORM_MIGRATIONS_PATH = ./src/migrations');
+			lines.push('MIKRO_ORM_MIGRATIONS_DISABLE_FOREIGN_KEYS = false');
+			lines.push(
+				'MIKRO_ORM_SCHEMA_GENERATOR_DISABLE_FOREIGN_KEYS = false',
+			);
+			lines.push('MIKRO_ORM_FORCE_UNDEFINED = true');
+			lines.push('MIKRO_ORM_FORCE_UTC_TIMEZONE = true');
+			lines.push(
+				`MIKRO_ORM_ALLOW_GLOBAL_CONTEXT = ${
+					environment === 'test' ? true : false
+				}`,
+			);
+			lines.push('MIKRO_ORM_AUTO_JOIN_ONE_TO_ONE_OWNER = false');
+		}
+
+		return this.joinLines(lines);
+	};
+
+	generateSrcMikroOrmConfigTS = (): string => {
+		const { tab, newLine } = this.editorConfig;
+
+		const imports = new JavaScriptImports()
+			.addImport(
+				new JavaScriptNamedImport(
+					'@mikro-orm/reflection',
+				).addNamedExport('TsMorphMetadataProvider'),
+			)
+			.addImport(
+				new JavaScriptNamedImport(
+					'@mikro-orm/sql-highlighter',
+				).addNamedExport('SqlHighlighter'),
+			)
+			.addImport(
+				new JavaScriptNamedImport('@nestjs/common').addNamedExport(
+					'Logger',
+				),
+			);
+
+		const lines: string[] = [];
+		lines.push(imports.toFormattedString({ newLine: newLine }));
+		lines.push('');
+		lines.push("const logger = new Logger('MikroORM');");
+		lines.push('');
+		lines.push(
+			`export default ${new JsonObject()
+				.addEntry(
+					'highlighter',
+					new JsonLiteral('new SqlHighlighter()'),
+				)
+				.addEntry('logger', new JsonLiteral('logger.log.bind(logger)'))
+				.addEntry(
+					'metadataProvider',
+					new JsonLiteral('TsMorphMetadataProvider'),
+				)
+				.toFormattedString({
+					tab: tab,
+					newLine: newLine,
+					style: 'JavaScript',
+				})};`,
+		);
+		return this.joinLines(lines);
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
 
@@ -439,5 +649,26 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			path: 'src/main.ts',
 			text: this.generateSrcMainTS(),
 		};
+
+		switch (this.options.orm) {
+			case OrmFramework.MikroOrm:
+				yield {
+					path: '.env.development.local',
+					text: this.generateEnvLocal('development'),
+				};
+				yield {
+					path: '.env.production.local',
+					text: this.generateEnvLocal('production'),
+				};
+				yield {
+					path: '.env.test.local',
+					text: this.generateEnvLocal('test'),
+				};
+				yield {
+					path: 'src/mikro-orm.config.ts',
+					text: this.generateSrcMikroOrmConfigTS(),
+				};
+				break;
+		}
 	}
 }

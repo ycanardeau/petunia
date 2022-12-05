@@ -1,5 +1,8 @@
 import { ProjectFile } from '@/core/projects/Project';
-import { TypeScriptNestProject } from '@/core/projects/TypeScriptNestProject';
+import {
+	OrmFramework,
+	TypeScriptNestProject,
+} from '@/core/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
@@ -13,6 +16,7 @@ import validate from 'validate-npm-package-name';
 export class TypeScriptNestProjectCreateStore {
 	@observable projectName = 'nest-app';
 	@observable test = TestingFramework.None;
+	@observable orm = OrmFramework.None;
 	@observable enablePrettier = true;
 	@observable sortImports = true;
 	@observable enableESLint = true;
@@ -60,6 +64,7 @@ export class TypeScriptNestProjectCreateStore {
 			{
 				projectName: this.projectName,
 				test: this.test,
+				orm: this.orm,
 				enablePrettier: this.enablePrettier,
 				sortImports: this.enablePrettier && this.sortImports,
 				enableESLint: this.enableESLint,
