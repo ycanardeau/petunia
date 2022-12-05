@@ -1,6 +1,6 @@
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
-import { TypeScriptNodeConsoleProjectCreateStore } from '@/ui/stores/TypeScriptNodeConsoleProjectCreateStore';
+import { TypeScriptNestProjectCreateStore } from '@/ui/stores/TypeScriptNestProjectCreateStore';
 import {
 	EuiButton,
 	EuiCheckbox,
@@ -23,14 +23,14 @@ import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-interface TypeScriptNodeConsoleProjectCreateFormProps {
-	projectCreateStore: TypeScriptNodeConsoleProjectCreateStore;
+interface TypeScriptNestProjectCreateFormProps {
+	projectCreateStore: TypeScriptNestProjectCreateStore;
 }
 
-const TypeScriptNodeConsoleProjectCreateForm = observer(
+const TypeScriptNestProjectCreateForm = observer(
 	({
 		projectCreateStore,
-	}: TypeScriptNodeConsoleProjectCreateFormProps): React.ReactElement => {
+	}: TypeScriptNestProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
 				<EuiFormRow
@@ -62,7 +62,7 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 					<EuiSelect
 						options={[
 							TestingFramework.None,
-							TestingFramework.Vitest,
+							TestingFramework.Jest,
 						].map((value) => ({
 							value: value,
 							text: testingFrameworkNames[value],
@@ -226,10 +226,10 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 	},
 );
 
-export const TypeScriptNodeConsoleProjectCreateModal = observer(
+export const TypeScriptNestProjectCreateModal = observer(
 	(): React.ReactElement => {
 		const [projectCreateStore] = React.useState(
-			() => new TypeScriptNodeConsoleProjectCreateStore(),
+			() => new TypeScriptNestProjectCreateStore(),
 		);
 
 		return (
@@ -241,7 +241,7 @@ export const TypeScriptNodeConsoleProjectCreateModal = observer(
 				</EuiModalHeader>
 
 				<EuiModalBody>
-					<TypeScriptNodeConsoleProjectCreateForm
+					<TypeScriptNestProjectCreateForm
 						projectCreateStore={projectCreateStore}
 					/>
 				</EuiModalBody>

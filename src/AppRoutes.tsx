@@ -1,3 +1,4 @@
+import { TypeScriptNestProjectCreateModal } from '@/ui/components/TypeScriptNestProjectModal';
 import { TypeScriptNodeConsoleProjectCreateModal } from '@/ui/components/TypeScriptNodeConsoleProjectModal';
 import { TypeScriptViteReactProjectCreateModal } from '@/ui/components/TypeScriptViteReactProjectCreateModal';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -25,6 +26,10 @@ export const AppRoutes = (): React.ReactElement => {
 							element={
 								<TypeScriptNodeConsoleProjectCreateModal />
 							}
+						/>
+						<Route
+							path="typescript-nest"
+							element={<TypeScriptNestProjectCreateModal />}
 						/>
 					</Routes>
 				}

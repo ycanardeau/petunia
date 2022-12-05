@@ -13,10 +13,6 @@ import validate from 'validate-npm-package-name';
 type TypeScriptNodeConsoleProjectOptions = TypeScriptProjectOptions;
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
-	get isReactProject(): boolean {
-		return false;
-	}
-
 	generatePackageJson = (): string => {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);

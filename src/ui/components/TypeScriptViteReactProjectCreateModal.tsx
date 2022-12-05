@@ -100,12 +100,13 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					display="rowCompressed"
 				>
 					<EuiSelect
-						options={Object.values(TestingFramework).map(
-							(value) => ({
-								value: value,
-								text: testingFrameworkNames[value],
-							}),
-						)}
+						options={[
+							TestingFramework.None,
+							TestingFramework.Vitest,
+						].map((value) => ({
+							value: value,
+							text: testingFrameworkNames[value],
+						}))}
 						value={projectCreateStore.test}
 						onChange={(e): void => {
 							runInAction(() => {

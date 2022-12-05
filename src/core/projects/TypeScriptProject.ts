@@ -6,6 +6,7 @@ import { Project, ProjectFile } from '@/core/projects/Project';
 export enum TestingFramework {
 	None = 'None',
 	Vitest = 'Vitest',
+	Jest = 'Jest',
 }
 
 export interface TypeScriptProjectOptions {
@@ -23,7 +24,9 @@ export interface TypeScriptProjectOptions {
 export abstract class TypeScriptProject<
 	TOptions extends TypeScriptProjectOptions,
 > extends Project<TOptions> {
-	abstract get isReactProject(): boolean;
+	get isReactProject(): boolean {
+		return false;
+	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {

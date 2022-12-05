@@ -1,3 +1,4 @@
+import NestIcon from '@/ui/favicons/nestjs.com.png';
 import NodeIcon from '@/ui/favicons/nodejs.org.ico';
 import ReactIcon from '@/ui/favicons/reactjs.org.ico';
 import TypeScriptIcon from '@/ui/favicons/www.typescriptlang.org.png';
@@ -54,6 +55,10 @@ export const AppSideNav = (): React.ReactElement => {
 						createItem('Node.js', {
 							icon: <EuiIcon type={NodeIcon} />,
 							href: '/projects/typescript-node-console',
+						}),
+						createItem('NestJS', {
+							icon: <EuiIcon type={NestIcon} />,
+							href: '/projects/typescript-nest',
 						}),
 					],
 				},
