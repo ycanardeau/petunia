@@ -258,6 +258,7 @@ lerna-debug.log*
 	"dependencies": {
 		"@mikro-orm/core": "^5.5.3",
 		"@mikro-orm/mariadb": "^5.5.3",
+		"@mikro-orm/nestjs": "^5.1.2",
 		"@mikro-orm/reflection": "^5.5.3",
 		"@mikro-orm/sql-highlighter": "^1.0.1",
 		"@nestjs/common": "^9.0.0",
@@ -276,6 +277,7 @@ lerna-debug.log*
 		"@types/supertest": "^2.0.11",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
 		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"cross-env": "^7.0.3",
 		"eslint": "${dependencies['eslint']}",
 		"eslint-config-prettier": "${dependencies['eslint-config-prettier']}",
 		"eslint-plugin-prettier": "${dependencies['eslint-plugin-prettier']}",
@@ -329,6 +331,7 @@ lerna-debug.log*
 	"dependencies": {
 		"@mikro-orm/core": "^5.5.3",
 		"@mikro-orm/mariadb": "^5.5.3",
+		"@mikro-orm/nestjs": "^5.1.2",
 		"@mikro-orm/reflection": "^5.5.3",
 		"@mikro-orm/sql-highlighter": "^1.0.1",
 		"@nestjs/common": "^9.0.0",
@@ -348,6 +351,7 @@ lerna-debug.log*
 		"@types/supertest": "^2.0.11",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
 		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"cross-env": "^7.0.3",
 		"eslint": "${dependencies['eslint']}",
 		"eslint-config-prettier": "${dependencies['eslint-config-prettier']}",
 		"eslint-plugin-prettier": "${dependencies['eslint-plugin-prettier']}",

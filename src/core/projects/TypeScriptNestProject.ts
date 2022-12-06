@@ -129,8 +129,10 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				break;
 
 			case OrmFramework.MikroOrm:
+				devDependenciesObj.addPackage('cross-env');
 				dependenciesObj
 					.addPackage('@mikro-orm/core')
+					.addPackage('@mikro-orm/nestjs')
 					.addPackage('@mikro-orm/reflection')
 					.addPackage('@mikro-orm/sql-highlighter');
 				switch (true /* TODO */) {
