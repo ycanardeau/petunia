@@ -1,7 +1,4 @@
-import {
-	JavaScriptImports,
-	JavaScriptNamedImport,
-} from '@/core/JavaScriptImport';
+import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { ProjectFile } from '@/core/projects/Project';
@@ -444,10 +441,10 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 	generateSrcAppControllerTS = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const imports = new JavaScriptImports().addImport(
-			new JavaScriptNamedImport('@nestjs/common')
-				.addNamedExport('Controller')
-				.addNamedExport('Get'),
+		const imports = new JavaScriptImports().addNamedImport(
+			'@nestjs/common',
+			(builder) =>
+				builder.addNamedExport('Controller').addNamedExport('Get'),
 		);
 
 		const lines: string[] = [];
@@ -467,24 +464,19 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addImport(
-				new JavaScriptNamedImport('@nestjs/common').addNamedExport(
-					'Module',
-				),
+			.addNamedImport('@nestjs/common', (builder) =>
+				builder.addNamedExport('Module'),
 			)
-			.addImport(
-				new JavaScriptNamedImport(
-					this.options.configurePathAliases
-						? '@/AppController'
-						: './AppController',
-				).addNamedExport('AppController'),
+			.addNamedImport(
+				this.options.configurePathAliases
+					? '@/AppController'
+					: './AppController',
+				(builder) => builder.addNamedExport('AppController'),
 			);
 
 		if (this.options.orm === OrmFramework.MikroOrm) {
-			imports.addImport(
-				new JavaScriptNamedImport('@mikro-orm/nestjs').addNamedExport(
-					'MikroOrmModule',
-				),
+			imports.addNamedImport('@mikro-orm/nestjs', (builder) =>
+				builder.addNamedExport('MikroOrmModule'),
 			);
 		}
 
@@ -518,17 +510,14 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addImport(
-				new JavaScriptNamedImport('@nestjs/core').addNamedExport(
-					'NestFactory',
-				),
+			.addNamedImport('@nestjs/core', (builder) =>
+				builder.addNamedExport('NestFactory'),
 			)
-			.addImport(
-				new JavaScriptNamedImport(
-					this.options.configurePathAliases
-						? '@/AppModule'
-						: './AppModule',
-				).addNamedExport('AppModule'),
+			.addNamedImport(
+				this.options.configurePathAliases
+					? '@/AppModule'
+					: './AppModule',
+				(builder) => builder.addNamedExport('AppModule'),
 			);
 
 		const lines: string[] = [];
@@ -581,20 +570,14 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addImport(
-				new JavaScriptNamedImport(
-					'@mikro-orm/reflection',
-				).addNamedExport('TsMorphMetadataProvider'),
+			.addNamedImport('@mikro-orm/reflection', (builder) =>
+				builder.addNamedExport('TsMorphMetadataProvider'),
 			)
-			.addImport(
-				new JavaScriptNamedImport(
-					'@mikro-orm/sql-highlighter',
-				).addNamedExport('SqlHighlighter'),
+			.addNamedImport('@mikro-orm/sql-highlighter', (builder) =>
+				builder.addNamedExport('SqlHighlighter'),
 			)
-			.addImport(
-				new JavaScriptNamedImport('@nestjs/common').addNamedExport(
-					'Logger',
-				),
+			.addNamedImport('@nestjs/common', (builder) =>
+				builder.addNamedExport('Logger'),
 			);
 
 		const lines: string[] = [];

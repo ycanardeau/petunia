@@ -6,7 +6,7 @@ abstract class JavaScriptImport {
 	abstract toString(): string;
 }
 
-export class JavaScriptNamedImport extends JavaScriptImport {
+class JavaScriptNamedImport extends JavaScriptImport {
 	private readonly names: string[] = [];
 
 	addNamedExport = (name?: string): this => {
@@ -31,7 +31,7 @@ export class JavaScriptNamedImport extends JavaScriptImport {
 	};
 }
 
-export class JavaScriptDefaultImport extends JavaScriptImport {
+class JavaScriptDefaultImport extends JavaScriptImport {
 	constructor(
 		readonly defaultExport: string,
 		moduleName: string,
@@ -55,6 +55,25 @@ export class JavaScriptImports {
 	addImport = (value?: JavaScriptImport): this => {
 		if (value !== undefined) this.values.push(value);
 		return this;
+	};
+
+	addDefaultImport = (
+		defaultExport: string,
+		moduleName: string,
+		assertions?: string,
+	): this => {
+		return this.addImport(
+			new JavaScriptDefaultImport(defaultExport, moduleName, assertions),
+		);
+	};
+
+	addNamedImport = (
+		moduleName: string,
+		callback: (builder: JavaScriptNamedImport) => void,
+	): this => {
+		const builder = new JavaScriptNamedImport(moduleName);
+		callback(builder);
+		return this.addImport(builder);
 	};
 
 	addImports = (...values: (JavaScriptImport | undefined)[]): this => {

@@ -1,8 +1,4 @@
-import {
-	JavaScriptDefaultImport,
-	JavaScriptImports,
-	JavaScriptNamedImport,
-} from '@/core/JavaScriptImport';
+import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { ProjectFile } from '@/core/projects/Project';
@@ -332,36 +328,28 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addImport(
-				new JavaScriptNamedImport('vite').addNamedExport(
-					'defineConfig',
-				),
+			.addNamedImport('vite', (builder) =>
+				builder.addNamedExport('defineConfig'),
 			)
-			.addImport(
-				new JavaScriptDefaultImport('react', '@vitejs/plugin-react'),
-			);
+			.addDefaultImport('react', '@vitejs/plugin-react');
 
 		if (
 			this.options.outputType === OutputType.ReactLibrary ||
 			this.options.configurePathAliases
 		) {
-			imports.addImport(
-				new JavaScriptNamedImport('path').addNamedExport('resolve'),
+			imports.addNamedImport('path', (builder) =>
+				builder.addNamedExport('resolve'),
 			);
 		}
 
 		if (this.options.outputType === OutputType.ReactLibrary) {
 			imports
-				.addImport(
-					new JavaScriptDefaultImport('dts', 'vite-plugin-dts'),
-				)
+				.addDefaultImport('dts', 'vite-plugin-dts')
 				// https://rollupjs.org/guide/en/#importing-packagejson
-				.addImport(
-					new JavaScriptDefaultImport(
-						'pkg',
-						'./package.json',
-						" assert { type: 'json' }",
-					),
+				.addDefaultImport(
+					'pkg',
+					'./package.json',
+					" assert { type: 'json' }",
 				);
 		}
 
@@ -479,8 +467,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 	generateSrcAppTsx = (): string => {
 		const { tab, newLine } = this.editorConfig;
 
-		const imports = new JavaScriptImports().addImport(
-			new JavaScriptDefaultImport('React', 'react'),
+		const imports = new JavaScriptImports().addDefaultImport(
+			'React',
+			'react',
 		);
 
 		const lines: string[] = [];
@@ -498,16 +487,12 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addImport(
-				new JavaScriptDefaultImport(
-					'App',
-					this.options.configurePathAliases ? '@/App' : './App',
-				),
+			.addDefaultImport(
+				'App',
+				this.options.configurePathAliases ? '@/App' : './App',
 			)
-			.addImport(new JavaScriptDefaultImport('React', 'react'))
-			.addImport(
-				new JavaScriptDefaultImport('ReactDOM', 'react-dom/client'),
-			);
+			.addDefaultImport('React', 'react')
+			.addDefaultImport('ReactDOM', 'react-dom/client');
 
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
