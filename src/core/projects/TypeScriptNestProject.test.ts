@@ -571,6 +571,7 @@ import { NestFactory } from '@nestjs/core';
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create(AppModule);
+
 	await app.listen(3000);
 }
 bootstrap();
@@ -588,6 +589,34 @@ import { NestFactory } from '@nestjs/core';
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create(AppModule);
+
+	await app.listen(3000);
+}
+bootstrap();
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateSrcMainTS orm MikroOrm', () => {
+		const project = new TypeScriptNestProject(undefined, {
+			orm: OrmFramework.MikroOrm,
+		});
+		const actual = project.generateSrcMainTS();
+		const expected = `import { AppModule } from './AppModule';
+import { MikroORM, RequestContext } from '@mikro-orm/core';
+import { NestFactory } from '@nestjs/core';
+import { NextFunction, Request, Response } from 'express';
+
+async function bootstrap(): Promise<void> {
+	const app = await NestFactory.create(AppModule);
+
+	const orm = app.get<MikroORM>(MikroORM);
+
+	// https://mikro-orm.io/docs/identity-map#-requestcontext-helper
+	app.use((_request: Request, _response: Response, next: NextFunction) => {
+		RequestContext.create(orm.em, next);
+	});
+
 	await app.listen(3000);
 }
 bootstrap();

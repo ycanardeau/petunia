@@ -516,11 +516,40 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				(builder) => builder.addNamedExport('AppModule'),
 			);
 
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			imports
+				.addNamedImport('@mikro-orm/core', (builder) =>
+					builder
+						.addNamedExport('MikroORM')
+						.addNamedExport('RequestContext'),
+				)
+				.addNamedImport('express', (builder) =>
+					builder
+						.addNamedExport('NextFunction')
+						.addNamedExport('Request')
+						.addNamedExport('Response'),
+				);
+		}
+
 		const lines: string[] = [];
 		lines.push(imports.toFormattedString({ newLine: newLine }));
 		lines.push('');
 		lines.push('async function bootstrap(): Promise<void> {');
 		lines.push(`${tab}const app = await NestFactory.create(AppModule);`);
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			lines.push('');
+			lines.push(`${tab}const orm = app.get<MikroORM>(MikroORM);`);
+			lines.push('');
+			lines.push(
+				`${tab}// https://mikro-orm.io/docs/identity-map#-requestcontext-helper`,
+			);
+			lines.push(
+				`${tab}app.use((_request: Request, _response: Response, next: NextFunction) => {`,
+			);
+			lines.push(`${tab}${tab}RequestContext.create(orm.em, next);`);
+			lines.push(`${tab}});`);
+		}
+		lines.push('');
 		lines.push(`${tab}await app.listen(3000);`);
 		lines.push('}');
 		lines.push('bootstrap();');
