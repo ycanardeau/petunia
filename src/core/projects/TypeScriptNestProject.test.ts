@@ -258,6 +258,7 @@ lerna-debug.log*
 	},
 	"devDependencies": {
 		"@mikro-orm/cli": "^5.5.3",
+		"@mikro-orm/migrations": "^5.5.3",
 		"@nestjs/cli": "^9.0.0",
 		"@nestjs/schematics": "^9.0.0",
 		"@nestjs/testing": "^9.0.0",
@@ -326,6 +327,7 @@ lerna-debug.log*
 	},
 	"devDependencies": {
 		"@mikro-orm/cli": "^5.5.3",
+		"@mikro-orm/migrations": "^5.5.3",
 		"@nestjs/cli": "^9.0.0",
 		"@nestjs/schematics": "^9.0.0",
 		"@nestjs/testing": "^9.0.0",

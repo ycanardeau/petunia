@@ -125,7 +125,8 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			case OrmFramework.MikroOrm:
 				devDependenciesObj
 					.addPackage('cross-env')
-					.addPackage('@mikro-orm/cli');
+					.addPackage('@mikro-orm/cli')
+					.addPackage('@mikro-orm/migrations');
 				dependenciesObj
 					.addPackage('@mikro-orm/core')
 					.addPackage('@mikro-orm/nestjs')
