@@ -257,6 +257,7 @@ lerna-debug.log*
 		"rxjs": "^7.2.0"
 	},
 	"devDependencies": {
+		"@mikro-orm/cli": "^5.5.3",
 		"@nestjs/cli": "^9.0.0",
 		"@nestjs/schematics": "^9.0.0",
 		"@nestjs/testing": "^9.0.0",
@@ -324,6 +325,7 @@ lerna-debug.log*
 		"rxjs": "^7.2.0"
 	},
 	"devDependencies": {
+		"@mikro-orm/cli": "^5.5.3",
 		"@nestjs/cli": "^9.0.0",
 		"@nestjs/schematics": "^9.0.0",
 		"@nestjs/testing": "^9.0.0",
@@ -386,9 +388,7 @@ lerna-debug.log*
 		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
-		"strictNullChecks": true,
-		"noImplicitAny": true,
-		"strictBindCallApply": true,
+		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true
 	}
@@ -416,9 +416,7 @@ lerna-debug.log*
 		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
-		"strictNullChecks": true,
-		"noImplicitAny": true,
-		"strictBindCallApply": true,
+		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
@@ -451,9 +449,7 @@ lerna-debug.log*
 		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
-		"strictNullChecks": true,
-		"noImplicitAny": true,
-		"strictBindCallApply": true,
+		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"esModuleInterop": true

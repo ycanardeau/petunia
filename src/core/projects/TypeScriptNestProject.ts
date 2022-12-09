@@ -123,7 +123,9 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				break;
 
 			case OrmFramework.MikroOrm:
-				devDependenciesObj.addPackage('cross-env');
+				devDependenciesObj
+					.addPackage('cross-env')
+					.addPackage('@mikro-orm/cli');
 				dependenciesObj
 					.addPackage('@mikro-orm/core')
 					.addPackage('@mikro-orm/nestjs')
@@ -366,9 +368,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			.addEntry('baseUrl', './')
 			.addEntry('incremental', true)
 			.addEntry('skipLibCheck', true)
-			.addEntry('strictNullChecks', true)
-			.addEntry('noImplicitAny', true)
-			.addEntry('strictBindCallApply', true)
+			.addEntry('strict', true)
 			.addEntry('forceConsistentCasingInFileNames', true)
 			.addEntry('noFallthroughCasesInSwitch', true);
 
