@@ -40,6 +40,7 @@ export class TypeScriptViteReactProjectCreateStore {
 	@observable useMobX = false;
 	@observable useQs = false;
 	@observable useReactRouter = false;
+	@observable useSwc = false;
 
 	constructor() {
 		makeObservable(this);
@@ -92,6 +93,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				useMobX: this.useMobX,
 				useQs: this.useQs,
 				useReactRouter: this.useReactRouter,
+				useSwc: this.useSwc,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

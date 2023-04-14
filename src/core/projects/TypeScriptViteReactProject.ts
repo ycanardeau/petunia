@@ -32,6 +32,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	icon?: IconLibrary;
 	useMobX?: boolean;
 	useReactRouter?: boolean;
+	useSwc?: boolean;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -54,9 +55,14 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/react')
 			.addPackage('@types/react-dom')
-			.addPackage('@vitejs/plugin-react')
 			.addPackage('typescript')
 			.addPackage('vite');
+
+		if (this.options.useSwc) {
+			devDependenciesObj.addPackage('@vitejs/plugin-react-swc');
+		} else {
+			devDependenciesObj.addPackage('@vitejs/plugin-react');
+		}
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
@@ -331,7 +337,12 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addNamedImport('vite', (builder) =>
 				builder.addNamedExport('defineConfig'),
 			)
-			.addDefaultImport('react', '@vitejs/plugin-react');
+			.addDefaultImport(
+				'react',
+				this.options.useSwc
+					? '@vitejs/plugin-react-swc'
+					: '@vitejs/plugin-react',
+			);
 
 		if (
 			this.options.outputType === OutputType.ReactLibrary ||

@@ -215,6 +215,19 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Use SWC during development" /* LOC */
+						checked={projectCreateStore.useSwc}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.useSwc = e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiSpacer size="m" />
 
 				<EuiFormFieldset
