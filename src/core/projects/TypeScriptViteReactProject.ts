@@ -484,27 +484,56 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 	};
 
 	generateSrcMainTsx = (): string => {
-		const { tab, newLine } = this.editorConfig;
+		const reactVersion = 17 as 17 | 18; /* TODO */
+		switch (reactVersion) {
+			case 17:
+				const { tab, newLine } = this.editorConfig;
 
-		const imports = new JavaScriptImports()
-			.addDefaultImport(
-				'App',
-				this.options.configurePathAliases ? '@/App' : './App',
-			)
-			.addDefaultImport('React', 'react')
-			.addDefaultImport('ReactDOM', 'react-dom/client');
+				const imports = new JavaScriptImports()
+					.addDefaultImport(
+						'App',
+						this.options.configurePathAliases ? '@/App' : './App',
+					)
+					.addDefaultImport('React', 'react')
+					.addDefaultImport('ReactDOM', 'react-dom');
 
-		const lines: string[] = [];
-		lines.push(`${imports.toFormattedString({ newLine })}`);
-		lines.push('');
-		lines.push(
-			`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
-		);
-		lines.push(`${tab}<React.StrictMode>`);
-		lines.push(`${tab}${tab}<App />`);
-		lines.push(`${tab}</React.StrictMode>,`);
-		lines.push(');');
-		return this.joinLines(lines);
+				const lines: string[] = [];
+				lines.push(`${imports.toFormattedString({ newLine })}`);
+				lines.push('');
+				lines.push(`ReactDOM.render(`);
+				lines.push(`${tab}<React.StrictMode>`);
+				lines.push(`${tab}${tab}<App />`);
+				lines.push(`${tab}</React.StrictMode>,`);
+				lines.push(
+					`${tab}document.getElementById('root') as HTMLElement,`,
+				);
+				lines.push(');');
+				return this.joinLines(lines);
+
+			case 18: {
+				const { tab, newLine } = this.editorConfig;
+
+				const imports = new JavaScriptImports()
+					.addDefaultImport(
+						'App',
+						this.options.configurePathAliases ? '@/App' : './App',
+					)
+					.addDefaultImport('React', 'react')
+					.addDefaultImport('ReactDOM', 'react-dom/client');
+
+				const lines: string[] = [];
+				lines.push(`${imports.toFormattedString({ newLine })}`);
+				lines.push('');
+				lines.push(
+					`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
+				);
+				lines.push(`${tab}<React.StrictMode>`);
+				lines.push(`${tab}${tab}<App />`);
+				lines.push(`${tab}</React.StrictMode>,`);
+				lines.push(');');
+				return this.joinLines(lines);
+			}
+		}
 	};
 
 	generateSrcViteEnvDTS = (): string => {

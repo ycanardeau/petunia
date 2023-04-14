@@ -1036,7 +1036,27 @@ export default App;
 
 	test('generateSrcMainTsx', () => {
 		const actual = defaultProject.generateSrcMainTsx();
-		const expected = `import App from './App';
+
+		const reactVersion = 17 as 17 | 18; /* TODO */
+		switch (reactVersion) {
+			case 17: {
+				const expected = `import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root') as HTMLElement,
+);
+`;
+				expect(actual).toBe(expected);
+				break;
+			}
+
+			case 18: {
+				const expected = `import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -1046,7 +1066,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	</React.StrictMode>,
 );
 `;
-		expect(actual).toBe(expected);
+				expect(actual).toBe(expected);
+				break;
+			}
+		}
 	});
 
 	test('generateSrcMainTsx configurePathAliases', () => {
@@ -1054,7 +1077,27 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			configurePathAliases: true,
 		});
 		const actual = project.generateSrcMainTsx();
-		const expected = `import App from '@/App';
+
+		const reactVersion = 17 as 17 | 18; /* TODO */
+		switch (reactVersion) {
+			case 17: {
+				const expected = `import App from '@/App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root') as HTMLElement,
+);
+`;
+				expect(actual).toBe(expected);
+				break;
+			}
+
+			case 18: {
+				const expected = `import App from '@/App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -1064,7 +1107,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	</React.StrictMode>,
 );
 `;
-		expect(actual).toBe(expected);
+				expect(actual).toBe(expected);
+				break;
+			}
+		}
 	});
 
 	test('generateSrcViteEnvDTS', () => {
