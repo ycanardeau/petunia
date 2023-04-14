@@ -1,6 +1,10 @@
 import App from '@/App';
-import ReactDOM from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	/* TODO: <React.StrictMode> */ <App /> /* TODO: </React.StrictMode> */,
+ReactDOM.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root') as HTMLElement,
 );
