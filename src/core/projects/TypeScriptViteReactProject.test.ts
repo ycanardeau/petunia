@@ -193,7 +193,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
-		"typescript": "${dependencies['typescript']}",
+		"typescript": "^4.5.3",
 		"vite": "${dependencies['vite']}"
 	}
 }

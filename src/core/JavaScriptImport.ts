@@ -45,6 +45,12 @@ class JavaScriptDefaultImport extends JavaScriptImport {
 	};
 }
 
+class JavaScriptModuleNameImport extends JavaScriptImport {
+	toString = (): string => {
+		return `import '${this.moduleName}';`;
+	};
+}
+
 interface FormatOptions {
 	newLine: string;
 }
@@ -74,6 +80,10 @@ export class JavaScriptImports {
 		const builder = new JavaScriptNamedImport(moduleName);
 		callback(builder);
 		return this.addImport(builder);
+	};
+
+	addModuleNameImport = (moduleName: string): this => {
+		return this.addImport(new JavaScriptModuleNameImport(moduleName));
 	};
 
 	addImports = (...values: (JavaScriptImport | undefined)[]): this => {

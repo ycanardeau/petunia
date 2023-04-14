@@ -55,7 +55,13 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/react')
 			.addPackage('@types/react-dom')
-			.addPackage('typescript')
+			.addPackage(
+				'typescript',
+				// TODO: remove
+				this.options.ui === UIFramework.ElasticUI
+					? '^4.5.3'
+					: undefined,
+			)
 			.addPackage('vite');
 
 		if (this.options.useSwc) {
@@ -483,11 +489,40 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			'react',
 		);
 
+		if (this.options.ui === UIFramework.ElasticUI) {
+			imports.addNamedImport('@elastic/eui', (builder) => {
+				builder.addNamedExport('EuiProvider');
+			});
+			imports.addModuleNameImport('@elastic/eui/dist/eui_theme_dark.css');
+			imports.addDefaultImport('createCache', '@emotion/cache');
+		}
+
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
+
+		if (this.options.ui === UIFramework.ElasticUI) {
+			lines.push('');
+			lines.push('// https://elastic.github.io/eui/#/utilities/provider');
+			lines.push('const euiCache = createCache({');
+			lines.push(`${tab}key: 'eui',`);
+			lines.push(
+				`${tab}container: document.querySelector('meta[name="eui-style-insert"]') as Node,`,
+			);
+			lines.push('});');
+			lines.push('euiCache.compat = true;');
+		}
+
 		lines.push('');
 		lines.push('const App = (): React.ReactElement => {');
-		lines.push(`${tab}return <></>;`);
+
+		if (this.options.ui === UIFramework.ElasticUI) {
+			lines.push(
+				`${tab}return <EuiProvider colorMode="dark" cache={euiCache}></EuiProvider>;`,
+			);
+		} else {
+			lines.push(`${tab}return <></>;`);
+		}
+
 		lines.push('};');
 		lines.push('');
 		lines.push('export default App;');

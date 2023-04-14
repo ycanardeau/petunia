@@ -9,8 +9,8 @@ export class PackageJsonDependency {
 		return this.obj.entries;
 	}
 
-	addPackage = (name: keyof typeof dependencies): this => {
-		this.obj.addEntry(name, dependencies[name]);
+	addPackage = (name: keyof typeof dependencies, version?: string): this => {
+		this.obj.addEntry(name, version ?? dependencies[name]);
 		return this;
 	};
 
