@@ -325,6 +325,11 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			`${tab}${tab}<meta name="viewport" content="width=device-width, initial-scale=1.0" />`,
 		);
 		lines.push(`${tab}${tab}<title></title>`);
+
+		if (this.options.ui === UIFramework.ElasticUI) {
+			lines.push(`${tab}${tab}<meta name="eui-style-insert" />`);
+		}
+
 		lines.push(`${tab}</head>`);
 		lines.push(`${tab}<body>`);
 		lines.push(`${tab}${tab}<div id="root"></div>`);
