@@ -1,4 +1,4 @@
-import { OrmFramework } from '@/core/projects/TypeScriptNestProject';
+import { OrmFramework, ormFrameworkNames } from '@/core/projects/OrmFramework';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
 import { TypeScriptNestProjectCreateStore } from '@/ui/stores/TypeScriptNestProjectCreateStore';
@@ -23,11 +23,6 @@ import {
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-
-const ormFrameworkNames = {
-	[OrmFramework.None]: 'None',
-	[OrmFramework.MikroOrm]: 'MikroORM',
-};
 
 interface TypeScriptNestProjectCreateFormProps {
 	projectCreateStore: TypeScriptNestProjectCreateStore;

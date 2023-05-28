@@ -1,3 +1,4 @@
+import { OrmFramework } from '@/core/projects/OrmFramework';
 import { ProjectFile } from '@/core/projects/Project';
 import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
@@ -13,6 +14,7 @@ import validate from 'validate-npm-package-name';
 export class TypeScriptNodeConsoleProjectCreateStore {
 	@observable projectName = 'console-app';
 	@observable test = TestingFramework.None;
+	@observable orm = OrmFramework.None;
 	@observable enablePrettier = true;
 	@observable sortImports = true;
 	@observable enableESLint = true;
@@ -60,6 +62,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 			{
 				projectName: this.projectName,
 				test: this.test,
+				orm: this.orm,
 				enablePrettier: this.enablePrettier,
 				sortImports: this.enablePrettier && this.sortImports,
 				enableESLint: this.enableESLint,

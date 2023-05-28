@@ -1,3 +1,4 @@
+import { OrmFramework, ormFrameworkNames } from '@/core/projects/OrmFramework';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
 import { TypeScriptNodeConsoleProjectCreateStore } from '@/ui/stores/TypeScriptNodeConsoleProjectCreateStore';
@@ -72,6 +73,26 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.test = e.target
 									.value as TestingFramework;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="ORM Framework" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(OrmFramework).map((value) => ({
+							value: value,
+							text: ormFrameworkNames[value],
+						}))}
+						value={projectCreateStore.orm}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.orm = e.target
+									.value as OrmFramework;
 							});
 						}}
 						compressed

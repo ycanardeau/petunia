@@ -1,5 +1,6 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { OrmFramework } from '@/core/projects/OrmFramework';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { ProjectFile } from '@/core/projects/Project';
 import {
@@ -9,11 +10,6 @@ import {
 } from '@/core/projects/TypeScriptProject';
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
-
-export enum OrmFramework {
-	None = 'None',
-	MikroOrm = 'MikroOrm',
-}
 
 interface TypeScriptNestProjectOptions extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
@@ -57,6 +53,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		lines.push('!.vscode/tasks.json');
 		lines.push('!.vscode/launch.json');
 		lines.push('!.vscode/extensions.json');
+
 		if (this.options.orm === OrmFramework.MikroOrm) {
 			lines.push('');
 			lines.push('.env.local');
@@ -65,6 +62,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			lines.push('.env.production.local');
 			lines.push('/temp');
 		}
+
 		return this.joinLines(lines);
 	};
 
@@ -189,6 +187,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		}
 
 		const scriptsObj = new JsonObject();
+
 		switch (this.options.orm) {
 			case OrmFramework.MikroOrm:
 				scriptsObj

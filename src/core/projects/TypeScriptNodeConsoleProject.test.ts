@@ -20,6 +20,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"version": "1.0.0",
 	"private": true,
 	"devDependencies": {
+		"rimraf": "${dependencies['rimraf']}",
 		"typescript": "${dependencies['typescript']}"
 	},
 	"scripts": {
@@ -41,12 +42,14 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"private": true,
 	"devDependencies": {
 		"concurrently": "${dependencies['concurrently']}",
+		"rimraf": "${dependencies['rimraf']}",
 		"tsc-alias": "${dependencies['tsc-alias']}",
 		"typescript": "${dependencies['typescript']}"
 	},
 	"scripts": {
-		"build": "tsc && tsc-alias",
-		"build:watch": "tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")",
+		"clean": "rimraf ./dist",
+		"build": "npm run clean && tsc && tsc-alias",
+		"build:watch": "npm run clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")",
 		"start": "node dist/index.js"
 	}
 }

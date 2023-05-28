@@ -1,8 +1,6 @@
+import { OrmFramework } from '@/core/projects/OrmFramework';
 import { ProjectFile } from '@/core/projects/Project';
-import {
-	OrmFramework,
-	TypeScriptNestProject,
-} from '@/core/projects/TypeScriptNestProject';
+import { TypeScriptNestProject } from '@/core/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';

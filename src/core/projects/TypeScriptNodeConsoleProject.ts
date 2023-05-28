@@ -1,5 +1,7 @@
-import { JsonArray, JsonObject } from '@/core/JsonValue';
+import { JavaScriptImports } from '@/core/JavaScriptImport';
+import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { NodeGitignoreGenerator } from '@/core/projects/NodeGitignoreGenerator';
+import { OrmFramework } from '@/core/projects/OrmFramework';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
 import { ProjectFile } from '@/core/projects/Project';
 import {
@@ -10,7 +12,9 @@ import {
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
-type TypeScriptNodeConsoleProjectOptions = TypeScriptProjectOptions;
+interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
+	orm?: OrmFramework;
+}
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
 	generatePackageJson = (): string => {
@@ -23,9 +27,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 		const { tab, newLine } = this.editorConfig;
 
-		const devDependenciesObj = new PackageJsonDependency().addPackage(
-			'typescript',
-		);
+		const devDependenciesObj = new PackageJsonDependency()
+			.addPackage('typescript')
+			.addPackage('rimraf');
 
 		const dependenciesObj = new PackageJsonDependency();
 
@@ -36,6 +40,29 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 			case TestingFramework.Vitest:
 				devDependenciesObj.addPackage('vitest');
+				break;
+		}
+
+		switch (this.options.orm) {
+			case OrmFramework.None:
+				// nop
+				break;
+
+			case OrmFramework.MikroOrm:
+				devDependenciesObj
+					.addPackage('cross-env')
+					.addPackage('@mikro-orm/cli')
+					.addPackage('@mikro-orm/migrations');
+				dependenciesObj
+					.addPackage('@mikro-orm/core')
+					//.addPackage('@mikro-orm/nestjs')
+					.addPackage('@mikro-orm/reflection')
+					.addPackage('@mikro-orm/sql-highlighter');
+				switch (true /* TODO */) {
+					case true /* TODO */:
+						dependenciesObj.addPackage('@mikro-orm/mariadb');
+						break;
+				}
 				break;
 		}
 
@@ -88,16 +115,19 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		}
 
 		const scriptsObj = new JsonObject();
+
 		if (this.options.configurePathAliases) {
 			scriptsObj
-				.addEntry('build', 'tsc && tsc-alias')
+				.addEntry('clean', 'rimraf ./dist')
+				.addEntry('build', 'npm run clean && tsc && tsc-alias')
 				.addEntry(
 					'build:watch',
-					'tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
+					'npm run clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
 				);
 		} else {
 			scriptsObj.addEntry('build', 'tsc');
 		}
+
 		scriptsObj.addEntry('start', 'node dist/index.js');
 
 		const rootObj = new JsonObject()
@@ -121,6 +151,20 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					: undefined,
 			)
 			.addEntry('scripts', scriptsObj);
+
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			rootObj.addEntry(
+				'mikro-orm',
+				new JsonObject()
+					.addEntry('useTsNode', true)
+					.addEntry(
+						'configPaths',
+						new JsonArray()
+							.addItem('./src/mikro-orm.config.ts')
+							.addItem('./dist/mikro-orm.config.js'),
+					),
+			);
+		}
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
@@ -157,6 +201,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			compilerOptionsObj,
 		);
 
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			compilerOptionsObj.addEntry('esModuleInterop', true);
+		}
+
 		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
@@ -170,12 +218,89 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		return this.joinLines(lines);
 	};
 
+	generateEnvLocal = (environment: string): string => {
+		const lines: string[] = [];
+
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			lines.push('MIKRO_ORM_TYPE =');
+			lines.push('MIKRO_ORM_DB_NAME =');
+			lines.push(
+				`MIKRO_ORM_DEBUG = ${
+					environment === 'development' || environment === 'test'
+						? true
+						: false
+				}`,
+			);
+			lines.push('MIKRO_ORM_USER =');
+			lines.push('MIKRO_ORM_PASSWORD =');
+			lines.push('MIKRO_ORM_ENTITIES = ./dist/entities/**/*.js');
+			lines.push('MIKRO_ORM_ENTITIES_TS = ./src/entities/**/*.ts');
+			lines.push('MIKRO_ORM_MIGRATIONS_PATH = ./src/migrations');
+			lines.push('MIKRO_ORM_MIGRATIONS_DISABLE_FOREIGN_KEYS = false');
+			lines.push(
+				'MIKRO_ORM_SCHEMA_GENERATOR_DISABLE_FOREIGN_KEYS = false',
+			);
+			lines.push('MIKRO_ORM_FORCE_UNDEFINED = true');
+			lines.push('MIKRO_ORM_FORCE_UTC_TIMEZONE = true');
+			lines.push(
+				`MIKRO_ORM_ALLOW_GLOBAL_CONTEXT = ${
+					environment === 'test' ? true : false
+				}`,
+			);
+			lines.push('MIKRO_ORM_AUTO_JOIN_ONE_TO_ONE_OWNER = false');
+		}
+
+		return this.joinLines(lines);
+	};
+
+	generateSrcMikroOrmConfigTS = (): string => {
+		const { tab, newLine } = this.editorConfig;
+
+		const imports = new JavaScriptImports()
+			.addNamedImport('@mikro-orm/reflection', (builder) =>
+				builder.addNamedExport('TsMorphMetadataProvider'),
+			)
+			.addNamedImport('@mikro-orm/sql-highlighter', (builder) =>
+				builder.addNamedExport('SqlHighlighter'),
+			);
+		/*.addNamedImport('@nestjs/common', (builder) =>
+				builder.addNamedExport('Logger'),
+			);*/
+
+		const lines: string[] = [];
+		lines.push(imports.toFormattedString({ newLine: newLine }));
+		//lines.push('');
+		//lines.push("const logger = new Logger('MikroORM');");
+		lines.push('');
+		lines.push(
+			`export default ${new JsonObject()
+				.addEntry(
+					'highlighter',
+					new JsonLiteral('new SqlHighlighter()'),
+				)
+				//.addEntry('logger', new JsonLiteral('logger.log.bind(logger)'))
+				.addEntry(
+					'metadataProvider',
+					new JsonLiteral('TsMorphMetadataProvider'),
+				)
+				.toFormattedString({
+					tab: tab,
+					newLine: newLine,
+					style: 'JavaScript',
+				})};`,
+		);
+		return this.joinLines(lines);
+	};
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
 
 		yield {
 			path: '.gitignore',
-			text: new NodeGitignoreGenerator(this.editorConfig, {}).generate(),
+			text: new NodeGitignoreGenerator(
+				this.editorConfig,
+				this.options,
+			).generate(),
 		};
 
 		yield {
@@ -192,5 +317,26 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			path: 'src/index.ts',
 			text: this.generateSrcIndexTS(),
 		};
+
+		switch (this.options.orm) {
+			case OrmFramework.MikroOrm:
+				yield {
+					path: '.env.development.local',
+					text: this.generateEnvLocal('development'),
+				};
+				yield {
+					path: '.env.production.local',
+					text: this.generateEnvLocal('production'),
+				};
+				yield {
+					path: '.env.test.local',
+					text: this.generateEnvLocal('test'),
+				};
+				yield {
+					path: 'src/mikro-orm.config.ts',
+					text: this.generateSrcMikroOrmConfigTS(),
+				};
+				break;
+		}
 	}
 }

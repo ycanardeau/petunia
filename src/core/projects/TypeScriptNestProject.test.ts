@@ -1,7 +1,5 @@
-import {
-	OrmFramework,
-	TypeScriptNestProject,
-} from '@/core/projects/TypeScriptNestProject';
+import { OrmFramework } from '@/core/projects/OrmFramework';
+import { TypeScriptNestProject } from '@/core/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
