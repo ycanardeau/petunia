@@ -257,6 +257,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
+			.addNamedImport('@mikro-orm/core', (builder) =>
+				builder.addNamedExport('Options'),
+			)
 			.addNamedImport('@mikro-orm/reflection', (builder) =>
 				builder.addNamedExport('TsMorphMetadataProvider'),
 			)
@@ -273,7 +276,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		//lines.push("const logger = new Logger('MikroORM');");
 		lines.push('');
 		lines.push(
-			`export default ${new JsonObject()
+			`const options: Options = ${new JsonObject()
 				.addEntry(
 					'highlighter',
 					new JsonLiteral('new SqlHighlighter()'),
@@ -289,6 +292,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					style: 'JavaScript',
 				})};`,
 		);
+		lines.push('');
+		lines.push('export default options;');
 		return this.joinLines(lines);
 	}
 
