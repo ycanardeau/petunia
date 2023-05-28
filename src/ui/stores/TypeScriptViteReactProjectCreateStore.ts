@@ -55,7 +55,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		return this.validationError_invalidProjectName;
 	}
 
-	private tryFormat = ({ path, text }: ProjectFile): string | undefined => {
+	private tryFormat({ path, text }: ProjectFile): string | undefined {
 		try {
 			return prettier.format(text, {
 				filepath: path,
@@ -68,7 +68,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	}
 
 	@action submit = async (): Promise<void> => {
 		if (this.hasValidationErrors) {

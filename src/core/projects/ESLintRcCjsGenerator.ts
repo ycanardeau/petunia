@@ -6,7 +6,7 @@ interface ESLintRcCjsOptions {
 }
 
 export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions> {
-	generate = (): string => {
+	generate(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const extendsArray = new JsonArray()
@@ -61,5 +61,5 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			newLine: newLine,
 			style: 'JavaScript',
 		})};${newLine}`;
-	};
+	}
 }

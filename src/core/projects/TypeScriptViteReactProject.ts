@@ -40,7 +40,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		return true;
 	}
 
-	generatePackageJson = (): string => {
+	generatePackageJson(): string {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);
 			if (!validForNewPackages) {
@@ -233,9 +233,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 
-	generateTSConfigJson = (): string => {
+	generateTSConfigJson(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const compilerOptionsObj = new JsonObject()
@@ -291,9 +291,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 
-	generateTSConfigNodeJson = (): string => {
+	generateTSConfigNodeJson(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const compilerOptionsObj = new JsonObject()
@@ -311,9 +311,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 
-	generateIndexHtml = (): string => {
+	generateIndexHtml(): string {
 		const { tab } = this.editorConfig;
 
 		const lines: string[] = [];
@@ -339,9 +339,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		lines.push(`${tab}</body>`);
 		lines.push('</html>');
 		return this.joinLines(lines);
-	};
+	}
 
-	generateViteConfigTS = (): string => {
+	generateViteConfigTS(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
@@ -484,9 +484,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			})});`,
 		);
 		return this.joinLines(lines);
-	};
+	}
 
-	generateSrcAppTsx = (): string => {
+	generateSrcAppTsx(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports().addDefaultImport(
@@ -532,9 +532,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		lines.push('');
 		lines.push('export default App;');
 		return this.joinLines(lines);
-	};
+	}
 
-	generateSrcMainTsx = (): string => {
+	generateSrcMainTsx(): string {
 		const reactVersion = 17 as 17 | 18; /* TODO */
 		switch (reactVersion) {
 			case 17:
@@ -585,13 +585,13 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				return this.joinLines(lines);
 			}
 		}
-	};
+	}
 
-	generateSrcViteEnvDTS = (): string => {
+	generateSrcViteEnvDTS(): string {
 		const lines: string[] = [];
 		lines.push('/// <reference types="vite/client" />');
 		return this.joinLines(lines);
-	};
+	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();

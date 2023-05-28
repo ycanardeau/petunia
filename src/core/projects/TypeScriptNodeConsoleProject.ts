@@ -17,7 +17,7 @@ interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
-	generatePackageJson = (): string => {
+	generatePackageJson(): string {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);
 			if (!validForNewPackages) {
@@ -171,9 +171,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 
-	generateTSConfigJson = (): string => {
+	generateTSConfigJson(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const compilerOptionsObj = new JsonObject()
@@ -210,15 +210,15 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 
-	generateSrcIndexTS = (): string => {
+	generateSrcIndexTS(): string {
 		const lines: string[] = [];
 		lines.push("console.log('Hello, World!');");
 		return this.joinLines(lines);
-	};
+	}
 
-	generateEnvLocal = (environment: string): string => {
+	generateEnvLocal(environment: string): string {
 		const lines: string[] = [];
 
 		if (this.options.orm === OrmFramework.MikroOrm) {
@@ -251,9 +251,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		}
 
 		return this.joinLines(lines);
-	};
+	}
 
-	generateSrcMikroOrmConfigTS = (): string => {
+	generateSrcMikroOrmConfigTS(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
@@ -290,7 +290,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				})};`,
 		);
 		return this.joinLines(lines);
-	};
+	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();

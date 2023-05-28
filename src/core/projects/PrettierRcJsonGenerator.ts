@@ -6,7 +6,7 @@ interface PrettierRcJsonOptions {
 }
 
 export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonOptions> {
-	generate = (): string => {
+	generate(): string {
 		const { tab, newLine } = this.editorConfig;
 
 		const rootObj = new JsonObject()
@@ -42,5 +42,5 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonO
 			newLine: newLine,
 			style: 'Json',
 		})}${newLine}`;
-	};
+	}
 }

@@ -9,26 +9,26 @@ abstract class JavaScriptImport {
 class JavaScriptNamedImport extends JavaScriptImport {
 	private readonly names: string[] = [];
 
-	addNamedExport = (name?: string): this => {
+	addNamedExport(name?: string): this {
 		if (name !== undefined) this.names.push(name);
 		return this;
-	};
+	}
 
-	addNamedExports = (...names: (string | undefined)[]): this => {
+	addNamedExports(...names: (string | undefined)[]): this {
 		if (names !== undefined) {
 			this.names.push(
 				...names.filter((name): name is string => name !== undefined),
 			);
 		}
 		return this;
-	};
+	}
 
-	toString = (): string => {
+	toString(): string {
 		const namesString = orderBy(uniq(this.names), (name) => name).join(
 			', ',
 		);
 		return `import { ${namesString} } from '${this.moduleName}';`;
-	};
+	}
 }
 
 class JavaScriptDefaultImport extends JavaScriptImport {
@@ -40,15 +40,15 @@ class JavaScriptDefaultImport extends JavaScriptImport {
 		super(moduleName);
 	}
 
-	toString = (): string => {
+	toString(): string {
 		return `import ${this.defaultExport} from '${this.moduleName}'${this.assertions};`;
-	};
+	}
 }
 
 class JavaScriptModuleNameImport extends JavaScriptImport {
-	toString = (): string => {
+	toString(): string {
 		return `import '${this.moduleName}';`;
-	};
+	}
 }
 
 interface FormatOptions {
@@ -58,35 +58,35 @@ interface FormatOptions {
 export class JavaScriptImports {
 	private readonly values: JavaScriptImport[] = [];
 
-	addImport = (value?: JavaScriptImport): this => {
+	addImport(value?: JavaScriptImport): this {
 		if (value !== undefined) this.values.push(value);
 		return this;
-	};
+	}
 
-	addDefaultImport = (
+	addDefaultImport(
 		defaultExport: string,
 		moduleName: string,
 		assertions?: string,
-	): this => {
+	): this {
 		return this.addImport(
 			new JavaScriptDefaultImport(defaultExport, moduleName, assertions),
 		);
-	};
+	}
 
-	addNamedImport = (
+	addNamedImport(
 		moduleName: string,
 		callback: (builder: JavaScriptNamedImport) => void,
-	): this => {
+	): this {
 		const builder = new JavaScriptNamedImport(moduleName);
 		callback(builder);
 		return this.addImport(builder);
-	};
+	}
 
-	addModuleNameImport = (moduleName: string): this => {
+	addModuleNameImport(moduleName: string): this {
 		return this.addImport(new JavaScriptModuleNameImport(moduleName));
-	};
+	}
 
-	addImports = (...values: (JavaScriptImport | undefined)[]): this => {
+	addImports(...values: (JavaScriptImport | undefined)[]): this {
 		if (values !== undefined) {
 			this.values.push(
 				...values.filter(
@@ -95,9 +95,9 @@ export class JavaScriptImports {
 			);
 		}
 		return this;
-	};
+	}
 
-	toFormattedString = ({ newLine }: FormatOptions): string => {
+	toFormattedString({ newLine }: FormatOptions): string {
 		return orderBy(this.values, (value) => value.moduleName).join(newLine);
-	};
+	}
 }

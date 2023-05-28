@@ -1,7 +1,7 @@
 import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 
 export class ReactGitignoreGenerator extends SourceTextGenerator {
-	generate = (): string => {
+	generate(): string {
 		const lines: string[] = [];
 		lines.push('# Logs');
 		lines.push('logs');
@@ -28,5 +28,5 @@ export class ReactGitignoreGenerator extends SourceTextGenerator {
 		lines.push('*.sln');
 		lines.push('*.sw?');
 		return this.joinLines(lines);
-	};
+	}
 }

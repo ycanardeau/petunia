@@ -4,7 +4,7 @@ import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 export class NodeGitignoreGenerator extends SourceTextGenerator<{
 	orm?: OrmFramework;
 }> {
-	generate = (): string => {
+	generate(): string {
 		const lines: string[] = [];
 		lines.push('node_modules');
 		lines.push('dist');
@@ -19,5 +19,5 @@ export class NodeGitignoreGenerator extends SourceTextGenerator<{
 		}
 
 		return this.joinLines(lines);
-	};
+	}
 }

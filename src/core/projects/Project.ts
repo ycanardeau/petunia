@@ -14,10 +14,10 @@ export abstract class Project<TOptions> {
 		readonly options: TOptions,
 	) {}
 
-	protected joinLines = (lines: string[]): string => {
+	protected joinLines(lines: string[]): string {
 		const { newLine } = this.editorConfig;
 		return `${lines.join(newLine)}${newLine}`;
-	};
+	}
 
 	abstract generateProjectFiles(): Generator<ProjectFile>;
 }

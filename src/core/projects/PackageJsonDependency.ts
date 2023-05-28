@@ -9,12 +9,12 @@ export class PackageJsonDependency {
 		return this.obj.entries;
 	}
 
-	addPackage = (name: keyof typeof dependencies, version?: string): this => {
+	addPackage(name: keyof typeof dependencies, version?: string): this {
 		this.obj.addEntry(name, version ?? dependencies[name]);
 		return this;
-	};
+	}
 
-	orderByKey = (): JsonObject => {
+	orderByKey(): JsonObject {
 		return new JsonObject(orderBy(this.obj.entries, (entry) => entry.key));
-	};
+	}
 }

@@ -9,12 +9,9 @@ interface FormatOptions {
 abstract class JsonValue {
 	abstract toString(): string;
 
-	toFormattedString = (
-		_options: FormatOptions,
-		_tabCount?: number,
-	): string => {
+	toFormattedString(_options: FormatOptions, _tabCount?: number): string {
 		return this.toString();
-	};
+	}
 }
 
 export class JsonLiteral extends JsonValue {
@@ -22,21 +19,21 @@ export class JsonLiteral extends JsonValue {
 		super();
 	}
 
-	toString = (): string => {
+	toString(): string {
 		return this.value;
-	};
+	}
 }
 
 export class JsonUndefined extends JsonValue {
-	toString = (): string => {
+	toString(): string {
 		return 'undefined';
-	};
+	}
 }
 
 export class JsonNull extends JsonValue {
-	toString = (): string => {
+	toString(): string {
 		return 'null';
-	};
+	}
 }
 
 export class JsonBoolean extends JsonValue {
@@ -44,9 +41,9 @@ export class JsonBoolean extends JsonValue {
 		super();
 	}
 
-	toString = (): string => {
+	toString(): string {
 		return this.value ? 'true' : 'false';
-	};
+	}
 }
 
 export class JsonNumber extends JsonValue {
@@ -54,9 +51,9 @@ export class JsonNumber extends JsonValue {
 		super();
 	}
 
-	toString = (): string => {
+	toString(): string {
 		return this.value.toString();
-	};
+	}
 }
 
 export class JsonString extends JsonValue {
@@ -64,11 +61,11 @@ export class JsonString extends JsonValue {
 		super();
 	}
 
-	toString = (): string => {
+	toString(): string {
 		return `"${this.value}"`;
-	};
+	}
 
-	toFormattedString = (options: FormatOptions): string => {
+	toFormattedString(options: FormatOptions): string {
 		switch (options.style) {
 			case 'Json':
 				return `"${this.value}"`;
@@ -76,7 +73,7 @@ export class JsonString extends JsonValue {
 			case 'JavaScript':
 				return `'${this.value}'`;
 		}
-	};
+	}
 }
 
 export class JsonArray extends JsonValue {
@@ -84,7 +81,7 @@ export class JsonArray extends JsonValue {
 		super();
 	}
 
-	addItem = (item: boolean | number | string | JsonValue): this => {
+	addItem(item: boolean | number | string | JsonValue): this {
 		switch (typeof item) {
 			case 'boolean':
 				this.items.push(new JsonBoolean(item));
@@ -103,13 +100,13 @@ export class JsonArray extends JsonValue {
 				break;
 		}
 		return this;
-	};
+	}
 
-	toString = (): string => {
+	toString(): string {
 		return `[${this.items.join(',')}]`;
-	};
+	}
 
-	toFormattedString = (options: FormatOptions, tabCount = 0): string => {
+	toFormattedString(options: FormatOptions, tabCount = 0): string {
 		const itemToString = (
 			item: JsonValue,
 			options: FormatOptions,
@@ -140,7 +137,7 @@ export class JsonArray extends JsonValue {
 					tabCount + 1,
 			  )}${options.newLine}${indent}]`
 			: '[]';
-	};
+	}
 }
 
 export interface JsonObjectEntry {
@@ -153,10 +150,10 @@ export class JsonObject extends JsonValue {
 		super();
 	}
 
-	addEntry = (
+	addEntry(
 		key: string,
 		value: boolean | number | string | JsonValue | undefined,
-	): this => {
+	): this {
 		switch (typeof value) {
 			case 'undefined':
 				// nop
@@ -179,15 +176,15 @@ export class JsonObject extends JsonValue {
 				break;
 		}
 		return this;
-	};
+	}
 
-	toString = (): string => {
+	toString(): string {
 		return `{${this.entries
 			.map(({ key, value }) => `"${key}":${value}`)
 			.join(',')}}`;
-	};
+	}
 
-	toFormattedString = (options: FormatOptions, tabCount = 0): string => {
+	toFormattedString(options: FormatOptions, tabCount = 0): string {
 		const entryToString = (
 			{ key, value }: JsonObjectEntry,
 			options: FormatOptions,
@@ -236,5 +233,5 @@ export class JsonObject extends JsonValue {
 					tabCount + 1,
 			  )}${options.newLine}${indent}}`
 			: '{}';
-	};
+	}
 }

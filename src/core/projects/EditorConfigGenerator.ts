@@ -1,7 +1,7 @@
 import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 
 export class EditorConfigGenerator extends SourceTextGenerator {
-	generate = (): string => {
+	generate(): string {
 		const lines: string[] = [];
 		lines.push('root = true');
 		lines.push('');
@@ -13,5 +13,5 @@ export class EditorConfigGenerator extends SourceTextGenerator {
 		lines.push('indent_style = tab');
 		lines.push('indent_size = 4');
 		return this.joinLines(lines);
-	};
+	}
 }

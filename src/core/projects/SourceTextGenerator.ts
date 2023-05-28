@@ -6,10 +6,10 @@ export abstract class SourceTextGenerator<TOptions = unknown> {
 		readonly options: TOptions,
 	) {}
 
-	protected joinLines = (lines: string[]): string => {
+	protected joinLines(lines: string[]): string {
 		const { newLine } = this.editorConfig;
 		return `${lines.join(newLine)}${newLine}`;
-	};
+	}
 
 	abstract generate(): string;
 }
