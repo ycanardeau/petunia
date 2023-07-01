@@ -208,4 +208,26 @@ describe('TypeScriptNodeConsoleProject', () => {
 		];
 		expect(actual).toEqual(expected);
 	});
+
+	test('generateProjectFiles MikroORM', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			orm: OrmFramework.MikroOrm,
+		});
+		const actual = Array.from(project.generateProjectFiles()).map(
+			(projectFile) => projectFile.path,
+		);
+		const expected = [
+			'.editorconfig',
+			'.gitignore',
+			'package.json',
+			'tsconfig.json',
+			'tsconfig.orm.json',
+			'src/index.ts',
+			'.env.development.local',
+			'.env.production.local',
+			'.env.test.local',
+			'src/mikro-orm.config.ts',
+		];
+		expect(actual).toEqual(expected);
+	});
 });
