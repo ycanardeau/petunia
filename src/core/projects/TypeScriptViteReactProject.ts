@@ -98,12 +98,14 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case UIFramework.ElasticUI:
-				dependenciesObj.addPackage('@elastic/eui');
-				dependenciesObj.addPackage('@elastic/datemath');
-				dependenciesObj.addPackage('@emotion/react');
-				dependenciesObj.addPackage('@emotion/css');
-				dependenciesObj.addPackage('moment');
-				dependenciesObj.addPackage('prop-types');
+				dependenciesObj
+					.addPackage('@elastic/eui')
+					.addPackage('@elastic/datemath')
+					.addPackage('@emotion/react')
+					.addPackage('@emotion/css')
+					.addPackage('moment')
+					.addPackage('prop-types');
+				devDependenciesObj.addPackage('utility-types');
 				break;
 		}
 
@@ -472,6 +474,16 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			configObj.addEntry('build', buildObj);
 		}
 
+		if (this.options.ui === UIFramework.ElasticUI) {
+			configObj.addEntry(
+				'build',
+				new JsonObject().addEntry(
+					'dynamicImportVarsOptions',
+					new JsonObject().addEntry('exclude', new JsonArray()),
+				),
+			);
+		}
+
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
 		lines.push('');
@@ -495,6 +507,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		);
 
 		if (this.options.ui === UIFramework.ElasticUI) {
+			imports.addModuleNameImport('@/icons');
 			imports.addNamedImport('@elastic/eui', (builder) => {
 				builder.addNamedExport('EuiProvider');
 			});
@@ -532,6 +545,80 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		lines.push('');
 		lines.push('export default App;');
 		return this.joinLines(lines);
+	}
+
+	generateSrcGlobalDTS(): string {
+		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
+declare module '@elastic/eui/es/components/icon/*';
+`;
+	}
+
+	generateSrcIconsTs(): string {
+		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
+import { ICON_TYPES } from '@elastic/eui';
+import { icon as alert } from '@elastic/eui/es/components/icon/assets/alert';
+import { icon as apps } from '@elastic/eui/es/components/icon/assets/apps';
+import { icon as arrowEnd } from '@elastic/eui/es/components/icon/assets/arrowEnd';
+import { icon as arrowStart } from '@elastic/eui/es/components/icon/assets/arrowStart';
+import { icon as arrowDown } from '@elastic/eui/es/components/icon/assets/arrow_down';
+import { icon as arrowLeft } from '@elastic/eui/es/components/icon/assets/arrow_left';
+import { icon as arrowRight } from '@elastic/eui/es/components/icon/assets/arrow_right';
+import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
+import { icon as editorBold } from '@elastic/eui/es/components/icon/assets/editor_bold';
+import { icon as editorChecklist } from '@elastic/eui/es/components/icon/assets/editor_checklist';
+import { icon as editorCodeBlock } from '@elastic/eui/es/components/icon/assets/editor_code_block';
+import { icon as editorComment } from '@elastic/eui/es/components/icon/assets/editor_comment';
+import { icon as editorItalic } from '@elastic/eui/es/components/icon/assets/editor_italic';
+import { icon as editorLink } from '@elastic/eui/es/components/icon/assets/editor_link';
+import { icon as editorOrderedList } from '@elastic/eui/es/components/icon/assets/editor_ordered_list';
+import { icon as editorUnorderedList } from '@elastic/eui/es/components/icon/assets/editor_unordered_list';
+import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
+import { icon as eye } from '@elastic/eui/es/components/icon/assets/eye';
+import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
+import { icon as questionInCircle } from '@elastic/eui/es/components/icon/assets/question_in_circle';
+import { icon as quote } from '@elastic/eui/es/components/icon/assets/quote';
+import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return_key';
+import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
+import { icon as sortDown } from '@elastic/eui/es/components/icon/assets/sort_down';
+import { icon as sortUp } from '@elastic/eui/es/components/icon/assets/sort_up';
+import { icon as userAvatar } from '@elastic/eui/es/components/icon/assets/userAvatar';
+import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
+import { ValuesType } from 'utility-types';
+
+type IconComponentNameType = ValuesType<typeof ICON_TYPES>;
+type IconComponentCacheType = Partial<Record<IconComponentNameType, unknown>>;
+
+const cachedIcons: IconComponentCacheType = {
+	alert,
+	apps,
+	arrowDown,
+	arrowEnd,
+	arrowLeft,
+	arrowRight,
+	arrowStart,
+	cross,
+	editorBold,
+	editorChecklist,
+	editorComment,
+	editorCodeBlock,
+	editorItalic,
+	editorLink,
+	editorOrderedList,
+	editorUnorderedList,
+	empty,
+	eye,
+	logoGithub,
+	questionInCircle,
+	quote,
+	returnKey,
+	search,
+	sortDown,
+	sortUp,
+	userAvatar,
+};
+
+appendIconComponentCache(cachedIcons);
+`;
 	}
 
 	generateSrcMainTsx(): string {
@@ -633,5 +720,16 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			path: 'src/vite-env.d.ts',
 			text: this.generateSrcViteEnvDTS(),
 		};
+
+		if (this.options.ui === UIFramework.ElasticUI) {
+			yield {
+				path: 'src/global.d.ts',
+				text: this.generateSrcGlobalDTS(),
+			};
+			yield {
+				path: 'src/icons.ts',
+				text: this.generateSrcIconsTs(),
+			};
+		}
 	}
 }

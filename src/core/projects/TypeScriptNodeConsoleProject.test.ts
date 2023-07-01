@@ -58,7 +58,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generatePackageJson MikroORM', () => {
+	test('generatePackageJson orm MikroORM', () => {
 		const project = new TypeScriptNodeConsoleProject(undefined, {
 			orm: OrmFramework.MikroOrm,
 		});
@@ -137,7 +137,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generateTSConfigOrmJson MikroORM', () => {
+	test('generateTSConfigOrmJson orm MikroORM', () => {
 		const project = new TypeScriptNodeConsoleProject(undefined, {
 			orm: OrmFramework.MikroOrm,
 		});
@@ -209,7 +209,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 		expect(actual).toEqual(expected);
 	});
 
-	test('generateProjectFiles MikroORM', () => {
+	test('generateProjectFiles orm MikroORM', () => {
 		const project = new TypeScriptNodeConsoleProject(undefined, {
 			orm: OrmFramework.MikroOrm,
 		});

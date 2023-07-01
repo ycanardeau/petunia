@@ -194,6 +194,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "^4.5.3",
+		"utility-types": "${dependencies['utility-types']}",
 		"vite": "${dependencies['vite']}"
 	}
 }
@@ -1021,12 +1022,62 @@ export default defineConfig({
 		expect(actual).toBe(expected);
 	});
 
+	test('generateViteConfigTS ui ElasticUI', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			ui: UIFramework.ElasticUI,
+		});
+		const actual = project.generateViteConfigTS();
+		const expected = `import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+	plugins: [
+		react(),
+	],
+	build: {
+		dynamicImportVarsOptions: {
+			exclude: [],
+		},
+	},
+});
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generateSrcAppTsx', () => {
 		const actual = defaultProject.generateSrcAppTsx();
 		const expected = `import React from 'react';
 
 const App = (): React.ReactElement => {
 	return <></>;
+};
+
+export default App;
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateSrcAppTsx ui ElasticUI', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			ui: UIFramework.ElasticUI,
+		});
+		const actual = project.generateSrcAppTsx();
+		const expected = `import '@/icons';
+import { EuiProvider } from '@elastic/eui';
+import '@elastic/eui/dist/eui_theme_dark.css';
+import createCache from '@emotion/cache';
+import React from 'react';
+
+// https://elastic.github.io/eui/#/utilities/provider
+const euiCache = createCache({
+	key: 'eui',
+	container: document.querySelector('meta[name="eui-style-insert"]') as Node,
+});
+euiCache.compat = true;
+
+const App = (): React.ReactElement => {
+	return <EuiProvider colorMode="dark" cache={euiCache}></EuiProvider>;
 };
 
 export default App;
@@ -1181,6 +1232,30 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			'src/App.tsx',
 			'src/main.tsx',
 			'src/vite-env.d.ts',
+		];
+		expect(actual).toEqual(expected);
+	});
+
+	test('generateProjectFiles ui ElasticUI', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			ui: UIFramework.ElasticUI,
+		});
+		const actual = Array.from(project.generateProjectFiles()).map(
+			(projectFile) => projectFile.path,
+		);
+		const expected = [
+			'.editorconfig',
+			'.gitignore',
+			'package.json',
+			'tsconfig.json',
+			'tsconfig.node.json',
+			'index.html',
+			'vite.config.ts',
+			'src/App.tsx',
+			'src/main.tsx',
+			'src/vite-env.d.ts',
+			'src/global.d.ts',
+			'src/icons.ts',
 		];
 		expect(actual).toEqual(expected);
 	});
