@@ -1,3 +1,4 @@
+import { OrmFramework } from '@/core/projects/OrmFramework';
 import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
@@ -57,6 +58,45 @@ describe('TypeScriptNodeConsoleProject', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson MikroORM', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			orm: OrmFramework.MikroOrm,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"version": "1.0.0",
+	"private": true,
+	"devDependencies": {
+		"@mikro-orm/cli": "${dependencies['@mikro-orm/cli']}",
+		"@mikro-orm/migrations": "${dependencies['@mikro-orm/migrations']}",
+		"cross-env": "${dependencies['cross-env']}",
+		"rimraf": "${dependencies['rimraf']}",
+		"ts-node": "${dependencies['ts-node']}",
+		"typescript": "${dependencies['typescript']}"
+	},
+	"dependencies": {
+		"@mikro-orm/core": "^5.7.12",
+		"@mikro-orm/mariadb": "^5.7.12",
+		"@mikro-orm/reflection": "^5.7.12",
+		"@mikro-orm/sql-highlighter": "^1.0.1"
+	},
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js"
+	},
+	"mikro-orm": {
+		"useTsNode": true,
+		"tsConfigPath": "./tsconfig.orm.json",
+		"configPaths": [
+			"./src/mikro-orm.config.ts",
+			"./dist/mikro-orm.config.js"
+		]
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generateTSConfigJson', () => {
 		const actual = defaultProject.generateTSConfigJson();
 		const expected = `{
@@ -68,6 +108,44 @@ describe('TypeScriptNodeConsoleProject', () => {
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateTSConfigJson MikroOrm', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			orm: OrmFramework.MikroOrm,
+		});
+		const actual = project.generateTSConfigJson();
+		const expected = `{
+	"compilerOptions": {
+		"target": "es2016",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"declaration": true
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateTSConfigOrmJson MikroORM', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			orm: OrmFramework.MikroOrm,
+		});
+		const actual = project.generateTSConfigOrmJson();
+		const expected = `{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"module": "commonjs"
 	}
 }
 `;

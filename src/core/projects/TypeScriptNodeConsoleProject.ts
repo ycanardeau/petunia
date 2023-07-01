@@ -52,7 +52,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				devDependenciesObj
 					.addPackage('cross-env')
 					.addPackage('@mikro-orm/cli')
-					.addPackage('@mikro-orm/migrations');
+					.addPackage('@mikro-orm/migrations')
+					.addPackage('ts-node');
 				dependenciesObj
 					.addPackage('@mikro-orm/core')
 					//.addPackage('@mikro-orm/nestjs')
@@ -157,6 +158,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				'mikro-orm',
 				new JsonObject()
 					.addEntry('useTsNode', true)
+					.addEntry('tsConfigPath', './tsconfig.orm.json')
 					.addEntry(
 						'configPaths',
 						new JsonArray()
@@ -196,14 +198,36 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			);
 		}
 
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			compilerOptionsObj
+				.addEntry('experimentalDecorators', true)
+				.addEntry('emitDecoratorMetadata', true)
+				.addEntry('declaration', true);
+		}
+
 		const rootObj = new JsonObject().addEntry(
 			'compilerOptions',
 			compilerOptionsObj,
 		);
 
-		if (this.options.orm === OrmFramework.MikroOrm) {
-			compilerOptionsObj.addEntry('esModuleInterop', true);
-		}
+		return `${rootObj.toFormattedString({
+			tab: tab,
+			newLine: newLine,
+			style: 'Json',
+		})}${newLine}`;
+	}
+
+	generateTSConfigOrmJson(): string {
+		const { tab, newLine } = this.editorConfig;
+
+		const compilerOptionsObj = new JsonObject().addEntry(
+			'module',
+			'commonjs',
+		);
+
+		const rootObj = new JsonObject()
+			.addEntry('extends', './tsconfig.json')
+			.addEntry('compilerOptions', compilerOptionsObj);
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
@@ -286,6 +310,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					'metadataProvider',
 					new JsonLiteral('TsMorphMetadataProvider'),
 				)
+				.addEntry(
+					'migrations',
+					new JsonObject().addEntry('snapshotName', '.snapshot'),
+				)
 				.toFormattedString({
 					tab: tab,
 					newLine: newLine,
@@ -317,6 +345,13 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			path: 'tsconfig.json',
 			text: this.generateTSConfigJson(),
 		};
+
+		if (this.options.orm === OrmFramework.MikroOrm) {
+			yield {
+				path: 'tsconfig.orm.json',
+				text: this.generateTSConfigOrmJson(),
+			};
+		}
 
 		yield {
 			path: 'src/index.ts',
