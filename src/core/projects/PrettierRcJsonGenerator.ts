@@ -37,6 +37,11 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonO
 				);
 		}
 
+		rootObj.addEntry(
+			'plugins',
+			new JsonArray().addItem('@trivago/prettier-plugin-sort-imports'),
+		);
+
 		return `${rootObj.toFormattedString({
 			tab: tab,
 			newLine: newLine,
