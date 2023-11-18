@@ -19,6 +19,7 @@ export enum OutputType {
 export enum UIFramework {
 	None = 'None',
 	ElasticUI = 'ElasticUI',
+	Bootstrap = 'Bootstrap',
 }
 
 export enum IconLibrary {
@@ -106,6 +107,13 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					.addPackage('moment')
 					.addPackage('prop-types');
 				devDependenciesObj.addPackage('utility-types');
+				break;
+
+			case UIFramework.Bootstrap:
+				dependenciesObj
+					.addPackage('react-bootstrap')
+					.addPackage('bootstrap');
+				devDependenciesObj.addPackage('sass');
 				break;
 		}
 
@@ -506,13 +514,21 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			'react',
 		);
 
-		if (this.options.ui === UIFramework.ElasticUI) {
-			imports.addModuleNameImport('@/icons');
-			imports.addNamedImport('@elastic/eui', (builder) => {
-				builder.addNamedExport('EuiProvider');
-			});
-			imports.addModuleNameImport('@elastic/eui/dist/eui_theme_dark.css');
-			imports.addDefaultImport('createCache', '@emotion/cache');
+		switch (this.options.ui) {
+			case UIFramework.ElasticUI:
+				imports.addModuleNameImport('@/icons');
+				imports.addNamedImport('@elastic/eui', (builder) => {
+					builder.addNamedExport('EuiProvider');
+				});
+				imports.addModuleNameImport(
+					'@elastic/eui/dist/eui_theme_dark.css',
+				);
+				imports.addDefaultImport('createCache', '@emotion/cache');
+				break;
+
+			case UIFramework.Bootstrap:
+				imports.addModuleNameImport('@/App.scss');
+				break;
 		}
 
 		const lines: string[] = [];
@@ -547,13 +563,72 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		return this.joinLines(lines);
 	}
 
-	generateSrcGlobalDTS(): string {
+	generateSrcMainTsx(): string {
+		const reactVersion = 17 as 17 | 18; /* TODO */
+		switch (reactVersion) {
+			case 17:
+				const { tab, newLine } = this.editorConfig;
+
+				const imports = new JavaScriptImports()
+					.addDefaultImport(
+						'App',
+						this.options.configurePathAliases ? '@/App' : './App',
+					)
+					.addDefaultImport('React', 'react')
+					.addDefaultImport('ReactDOM', 'react-dom');
+
+				const lines: string[] = [];
+				lines.push(`${imports.toFormattedString({ newLine })}`);
+				lines.push('');
+				lines.push(`ReactDOM.render(`);
+				lines.push(`${tab}<React.StrictMode>`);
+				lines.push(`${tab}${tab}<App />`);
+				lines.push(`${tab}</React.StrictMode>,`);
+				lines.push(
+					`${tab}document.getElementById('root') as HTMLElement,`,
+				);
+				lines.push(');');
+				return this.joinLines(lines);
+
+			case 18: {
+				const { tab, newLine } = this.editorConfig;
+
+				const imports = new JavaScriptImports()
+					.addDefaultImport(
+						'App',
+						this.options.configurePathAliases ? '@/App' : './App',
+					)
+					.addDefaultImport('React', 'react')
+					.addDefaultImport('ReactDOM', 'react-dom/client');
+
+				const lines: string[] = [];
+				lines.push(`${imports.toFormattedString({ newLine })}`);
+				lines.push('');
+				lines.push(
+					`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
+				);
+				lines.push(`${tab}<React.StrictMode>`);
+				lines.push(`${tab}${tab}<App />`);
+				lines.push(`${tab}</React.StrictMode>,`);
+				lines.push(');');
+				return this.joinLines(lines);
+			}
+		}
+	}
+
+	generateSrcViteEnvDTS(): string {
+		const lines: string[] = [];
+		lines.push('/// <reference types="vite/client" />');
+		return this.joinLines(lines);
+	}
+
+	generateSrcGlobalDTSForElasticUI(): string {
 		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
 declare module '@elastic/eui/es/components/icon/*';
 `;
 	}
 
-	generateSrcIconsTs(): string {
+	generateSrcIconsTsForElasticUI(): string {
 		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
 import { ICON_TYPES } from '@elastic/eui';
 import { icon as alert } from '@elastic/eui/es/components/icon/assets/alert';
@@ -621,63 +696,9 @@ appendIconComponentCache(cachedIcons);
 `;
 	}
 
-	generateSrcMainTsx(): string {
-		const reactVersion = 17 as 17 | 18; /* TODO */
-		switch (reactVersion) {
-			case 17:
-				const { tab, newLine } = this.editorConfig;
-
-				const imports = new JavaScriptImports()
-					.addDefaultImport(
-						'App',
-						this.options.configurePathAliases ? '@/App' : './App',
-					)
-					.addDefaultImport('React', 'react')
-					.addDefaultImport('ReactDOM', 'react-dom');
-
-				const lines: string[] = [];
-				lines.push(`${imports.toFormattedString({ newLine })}`);
-				lines.push('');
-				lines.push(`ReactDOM.render(`);
-				lines.push(`${tab}<React.StrictMode>`);
-				lines.push(`${tab}${tab}<App />`);
-				lines.push(`${tab}</React.StrictMode>,`);
-				lines.push(
-					`${tab}document.getElementById('root') as HTMLElement,`,
-				);
-				lines.push(');');
-				return this.joinLines(lines);
-
-			case 18: {
-				const { tab, newLine } = this.editorConfig;
-
-				const imports = new JavaScriptImports()
-					.addDefaultImport(
-						'App',
-						this.options.configurePathAliases ? '@/App' : './App',
-					)
-					.addDefaultImport('React', 'react')
-					.addDefaultImport('ReactDOM', 'react-dom/client');
-
-				const lines: string[] = [];
-				lines.push(`${imports.toFormattedString({ newLine })}`);
-				lines.push('');
-				lines.push(
-					`ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(`,
-				);
-				lines.push(`${tab}<React.StrictMode>`);
-				lines.push(`${tab}${tab}<App />`);
-				lines.push(`${tab}</React.StrictMode>,`);
-				lines.push(');');
-				return this.joinLines(lines);
-			}
-		}
-	}
-
-	generateSrcViteEnvDTS(): string {
-		const lines: string[] = [];
-		lines.push('/// <reference types="vite/client" />');
-		return this.joinLines(lines);
+	generateSrcAppScssForBootstrap(): string {
+		return `@import 'node_modules/bootstrap/scss/bootstrap';
+`;
 	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {
@@ -721,15 +742,24 @@ appendIconComponentCache(cachedIcons);
 			text: this.generateSrcViteEnvDTS(),
 		};
 
-		if (this.options.ui === UIFramework.ElasticUI) {
-			yield {
-				path: 'src/global.d.ts',
-				text: this.generateSrcGlobalDTS(),
-			};
-			yield {
-				path: 'src/icons.ts',
-				text: this.generateSrcIconsTs(),
-			};
+		switch (this.options.ui) {
+			case UIFramework.ElasticUI:
+				yield {
+					path: 'src/global.d.ts',
+					text: this.generateSrcGlobalDTSForElasticUI(),
+				};
+				yield {
+					path: 'src/icons.ts',
+					text: this.generateSrcIconsTsForElasticUI(),
+				};
+				break;
+
+			case UIFramework.Bootstrap:
+				yield {
+					path: 'src/App.scss',
+					text: this.generateSrcAppScssForBootstrap(),
+				};
+				break;
 		}
 	}
 }

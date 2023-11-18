@@ -36,6 +36,7 @@ const outputTypeNames: Record<OutputType, string> = {
 const uiFrameworkNames: Record<UIFramework, string> = {
 	[UIFramework.None]: 'None',
 	[UIFramework.ElasticUI]: 'Elastic UI',
+	[UIFramework.Bootstrap]: 'Bootstrap',
 };
 
 const iconLibraryNames: Record<IconLibrary, string> = {
