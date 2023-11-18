@@ -75,10 +75,10 @@ describe('TypeScriptNodeConsoleProject', () => {
 		"typescript": "${dependencies['typescript']}"
 	},
 	"dependencies": {
-		"@mikro-orm/core": "^5.7.12",
-		"@mikro-orm/mariadb": "^5.7.12",
-		"@mikro-orm/reflection": "^5.7.12",
-		"@mikro-orm/sql-highlighter": "^1.0.1"
+		"@mikro-orm/core": "${dependencies['@mikro-orm/core']}",
+		"@mikro-orm/mariadb": "${dependencies['@mikro-orm/mariadb']}",
+		"@mikro-orm/reflection": "${dependencies['@mikro-orm/reflection']}",
+		"@mikro-orm/sql-highlighter": "${dependencies['@mikro-orm/sql-highlighter']}"
 	},
 	"scripts": {
 		"build": "tsc",
