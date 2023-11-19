@@ -40,7 +40,7 @@ export class TypeScriptViteReactProjectCreateStore {
 	@observable useMobX = false;
 	@observable useQs = false;
 	@observable useReactRouter = false;
-	@observable useSwc = true;
+	@observable useSwc = false;
 
 	constructor() {
 		makeObservable(this);
