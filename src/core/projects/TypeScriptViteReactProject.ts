@@ -34,6 +34,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	useMobX?: boolean;
 	useReactRouter?: boolean;
 	useSwc?: boolean;
+	useRouteSphere?: boolean;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -54,6 +55,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const dependenciesObj = new PackageJsonDependency();
 
 		const devDependenciesObj = new PackageJsonDependency()
+			.addPackage('@types/node')
 			.addPackage('@types/react')
 			.addPackage('@types/react-dom')
 			.addPackage(
@@ -186,6 +188,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		if (this.options.useReactRouter) {
 			addAdditionalPackage('react-router-dom');
+		}
+
+		if (this.options.useRouteSphere) {
+			addAdditionalPackage('@aigamo/route-sphere');
 		}
 
 		const rootObj = new JsonObject()
@@ -369,7 +375,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			this.options.outputType === OutputType.ReactLibrary ||
 			this.options.configurePathAliases
 		) {
-			imports.addNamedImport('path', (builder) =>
+			imports.addNamedImport('node:path', (builder) =>
 				builder.addNamedExport('resolve'),
 			);
 		}
@@ -383,6 +389,19 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					'./package.json',
 					" assert { type: 'json' }",
 				);
+		}
+
+		if (this.options.useRouteSphere) {
+			imports
+				.addDefaultImport('Ajv', 'ajv')
+				.addDefaultImport('ajvGenerate', 'ajv/dist/standalone')
+				.addDefaultImport('fs', 'node:fs')
+				.addNamedImport('node:path', (builder) => {
+					builder.addNamedExport('join');
+				})
+				.addNamedImport('vite', (builder) => {
+					builder.addNamedExport('PluginOption');
+				});
 		}
 
 		const configObj = new JsonObject();
@@ -433,6 +452,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		} else {
 			pluginsArray.addItem(new JsonLiteral('react()'));
+
+			if (this.options.useRouteSphere) {
+				pluginsArray.addItem(new JsonLiteral('jsonSchemaValidator()'));
+			}
 		}
 
 		configObj.addEntry('plugins', pluginsArray);
@@ -494,6 +517,48 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
+
+		if (this.options.useRouteSphere) {
+			lines.push('');
+			lines.push(`const schemas = resolve(__dirname, 'schemas');
+
+// https://github.com/ajv-validator/ajv/issues/406#issuecomment-1015785863
+const jsonSchemaValidator = (): PluginOption => {
+	return {
+		name: 'rollup-plugin-ajv-validator',
+		resolveId: (source) =>
+			source.indexOf('.jsonschema') === -1 ? null : source,
+		load: async (id) => {
+			if (id.indexOf('.jsonschema') === -1) return null;
+
+			const schemaFile = id.replace(/\\.jsonschema$/, '.schema.json');
+
+			try {
+				const schemaPath = join(schemas, schemaFile);
+				const schemaJson = await fs.promises.readFile(
+					schemaPath,
+					'utf8',
+				);
+				const schema = JSON.parse(schemaJson);
+
+				const ajv = new Ajv({
+					code: { source: true, esm: true },
+					coerceTypes: true,
+				});
+				const validator = ajv.compile(schema);
+				const sourceOut = ajvGenerate(ajv, validator);
+
+				return sourceOut;
+			} catch (ex) {
+				console.error(ex);
+
+				return 'export default () => true';
+			}
+		},
+	};
+};`);
+		}
+
 		lines.push('');
 		lines.push('// https://vitejs.dev/config/');
 		lines.push(

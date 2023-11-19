@@ -59,7 +59,9 @@ export class JavaScriptImports {
 	private readonly values: JavaScriptImport[] = [];
 
 	addImport(value?: JavaScriptImport): this {
-		if (value !== undefined) this.values.push(value);
+		if (value !== undefined) {
+			this.values.push(value);
+		}
 		return this;
 	}
 

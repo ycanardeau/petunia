@@ -241,6 +241,33 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					>
 						<EuiFlexItem grow={false}>
 							<EuiCheckbox
+								id="useRouteSphere"
+								label="Route Sphere"
+								checked={projectCreateStore.useRouteSphere}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useRouteSphere =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="Sync query parameters with a MobX store and React Router."
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
 								id="useAjv"
 								label="Ajv"
 								checked={projectCreateStore.useAjv}
@@ -250,6 +277,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 											e.target.checked;
 									})
 								}
+								disabled={projectCreateStore.useRouteSphere}
 							/>
 						</EuiFlexItem>
 
@@ -277,6 +305,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 											e.target.checked;
 									})
 								}
+								disabled={projectCreateStore.useRouteSphere}
 							/>
 						</EuiFlexItem>
 
@@ -304,6 +333,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 											e.target.checked;
 									})
 								}
+								disabled={projectCreateStore.useRouteSphere}
 							/>
 						</EuiFlexItem>
 
@@ -331,6 +361,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 											e.target.checked;
 									})
 								}
+								disabled={projectCreateStore.useRouteSphere}
 							/>
 						</EuiFlexItem>
 
@@ -358,6 +389,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 											e.target.checked;
 									})
 								}
+								disabled={projectCreateStore.useRouteSphere}
 							/>
 						</EuiFlexItem>
 

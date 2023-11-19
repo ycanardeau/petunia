@@ -32,15 +32,59 @@ export class TypeScriptViteReactProjectCreateStore {
 	@observable ui = UIFramework.None;
 	@observable icon = IconLibrary.None;
 	@observable enablePrettier = true;
-	@observable sortImports = true;
+
+	@observable private _sortImports = true;
+	@computed get sortImports(): boolean {
+		return this.enablePrettier && this._sortImports;
+	}
+	set sortImports(value: boolean) {
+		this._sortImports = value;
+	}
+
 	@observable enableESLint = true;
 	@observable configurePathAliases = true;
-	@observable useAjv = false;
-	@observable useLodash = false;
-	@observable useMobX = false;
-	@observable useQs = false;
-	@observable useReactRouter = false;
 	@observable useSwc = false;
+	@observable useRouteSphere = false;
+
+	@observable private _useAjv = false;
+	@computed get useAjv(): boolean {
+		return this.useRouteSphere || this._useAjv;
+	}
+	set useAjv(value: boolean) {
+		this._useAjv = value;
+	}
+
+	@observable private _useLodash = false;
+	@computed get useLodash(): boolean {
+		return this.useRouteSphere || this._useLodash;
+	}
+	set useLodash(value: boolean) {
+		this._useLodash = value;
+	}
+
+	@observable private _useMobX = false;
+	@computed get useMobX(): boolean {
+		return this.useRouteSphere || this._useMobX;
+	}
+	set useMobX(value: boolean) {
+		this._useMobX = value;
+	}
+
+	@observable private _useQs = false;
+	@computed get useQs(): boolean {
+		return this.useRouteSphere || this._useQs;
+	}
+	set useQs(value: boolean) {
+		this._useQs = value;
+	}
+
+	@observable private _useReactRouter = false;
+	@computed get useReactRouter(): boolean {
+		return this.useRouteSphere || this._useReactRouter;
+	}
+	set useReactRouter(value: boolean) {
+		this._useReactRouter = value;
+	}
 
 	constructor() {
 		makeObservable(this);
@@ -94,6 +138,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				useQs: this.useQs,
 				useReactRouter: this.useReactRouter,
 				useSwc: this.useSwc,
+				useRouteSphere: this.useRouteSphere,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
