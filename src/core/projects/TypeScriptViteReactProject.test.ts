@@ -36,6 +36,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -64,6 +65,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -123,6 +125,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -153,6 +156,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -190,6 +194,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -222,6 +227,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -252,6 +258,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -285,6 +292,7 @@ describe('TypeScriptViteReactProject', () => {
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "${dependencies['@trivago/prettier-plugin-sort-imports']}",
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -316,6 +324,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
@@ -356,6 +365,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
@@ -399,6 +409,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -426,6 +437,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -479,6 +491,7 @@ describe('TypeScriptViteReactProject', () => {
 	},
 	"devDependencies": {
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -507,6 +520,7 @@ describe('TypeScriptViteReactProject', () => {
 	},
 	"devDependencies": {
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -560,6 +574,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -587,6 +602,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -641,6 +657,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -669,6 +686,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -722,6 +740,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-router-dom": "${dependencies['react-router-dom']}"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -749,6 +768,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
@@ -962,7 +982,7 @@ export default defineConfig({
 		const actual = project.generateViteConfigTS();
 		const expected = `import pkg from './package.json' assert { type: 'json' };
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
@@ -1004,7 +1024,7 @@ export default defineConfig({
 		});
 		const actual = project.generateViteConfigTS();
 		const expected = `import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
