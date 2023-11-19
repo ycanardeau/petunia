@@ -229,38 +229,40 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Install Route Sphere" /* LOC */
+						checked={projectCreateStore.useRouteSphere}
+						onChange={(e): void =>
+							runInAction(() => {
+								projectCreateStore.useRouteSphere =
+									e.target.checked;
+							})
+						}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Generate stores" /* LOC */
+						checked={projectCreateStore.generateStores}
+						onChange={(e): void =>
+							runInAction(() => {
+								projectCreateStore.generateStores =
+									e.target.checked;
+							})
+						}
+						disabled={!projectCreateStore.useRouteSphere}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiSpacer size="m" />
 
 				<EuiFormFieldset
 					legend={{ children: 'Additional packages' /* LOC */ }}
 				>
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
-								id="useRouteSphere"
-								label="Route Sphere"
-								checked={projectCreateStore.useRouteSphere}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useRouteSphere =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="Sync query parameters with a MobX store and React Router."
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
-
 					<EuiFlexGroup
 						alignItems="center"
 						gutterSize="s"

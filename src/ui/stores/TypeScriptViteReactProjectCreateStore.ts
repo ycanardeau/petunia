@@ -46,6 +46,14 @@ export class TypeScriptViteReactProjectCreateStore {
 	@observable useSwc = false;
 	@observable useRouteSphere = false;
 
+	@observable private _generateStores = true;
+	@computed get generateStores(): boolean {
+		return this.useRouteSphere && this._generateStores;
+	}
+	set generateStores(value: boolean) {
+		this._generateStores = value;
+	}
+
 	@observable private _useAjv = false;
 	@computed get useAjv(): boolean {
 		return this.useRouteSphere || this._useAjv;
@@ -139,6 +147,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				useReactRouter: this.useReactRouter,
 				useSwc: this.useSwc,
 				useRouteSphere: this.useRouteSphere,
+				generateStores: this.generateStores,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
