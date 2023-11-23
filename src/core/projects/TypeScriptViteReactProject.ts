@@ -36,6 +36,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	useSwc?: boolean;
 	useRouteSphere?: boolean;
 	generateStores?: boolean;
+	configureCustomProxyRules?: boolean;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -512,6 +513,21 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				new JsonObject().addEntry(
 					'dynamicImportVarsOptions',
 					new JsonObject().addEntry('exclude', new JsonArray()),
+				),
+			);
+		}
+
+		if (this.options.configureCustomProxyRules) {
+			configObj.addEntry(
+				'server',
+				new JsonObject().addEntry(
+					'proxy',
+					new JsonObject().addEntry(
+						'/api',
+						new JsonObject()
+							.addEntry('target', 'http://localhost:8000')
+							.addEntry('changeOrigin', true),
+					),
 				),
 			);
 		}

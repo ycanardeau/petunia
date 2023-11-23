@@ -199,7 +199,11 @@ export class JsonObject extends JsonValue {
 					break;
 
 				case 'JavaScript':
-					if (key.includes('-') || key.includes('@')) {
+					if (
+						key.includes('-') ||
+						key.includes('@') ||
+						key.includes('/')
+					) {
 						entryString += `'${key}'`;
 					} else {
 						entryString += key;

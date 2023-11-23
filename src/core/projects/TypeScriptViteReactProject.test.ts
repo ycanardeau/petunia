@@ -1065,6 +1065,32 @@ export default defineConfig({
 		expect(actual).toBe(expected);
 	});
 
+	test('generateViteConfigTS configureCustomProxyRules', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			configureCustomProxyRules: true,
+		});
+		const actual = project.generateViteConfigTS();
+		const expected = `import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+	plugins: [
+		react(),
+	],
+	server: {
+		proxy: {
+			'/api': {
+				target: 'http://localhost:8000',
+				changeOrigin: true,
+			},
+		},
+	},
+});
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generateSrcAppTsx', () => {
 		const actual = defaultProject.generateSrcAppTsx();
 		const expected = `import React from 'react';

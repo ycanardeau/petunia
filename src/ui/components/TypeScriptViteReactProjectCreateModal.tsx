@@ -258,6 +258,20 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Configure custom proxy rules" /* LOC */
+						checked={projectCreateStore.configureCustomProxyRules}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.configureCustomProxyRules =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiSpacer size="m" />
 
 				<EuiFormFieldset

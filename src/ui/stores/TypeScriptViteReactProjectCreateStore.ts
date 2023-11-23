@@ -94,6 +94,8 @@ export class TypeScriptViteReactProjectCreateStore {
 		this._useReactRouter = value;
 	}
 
+	@observable configureCustomProxyRules = false;
+
 	constructor() {
 		makeObservable(this);
 	}
@@ -148,6 +150,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				useSwc: this.useSwc,
 				useRouteSphere: this.useRouteSphere,
 				generateStores: this.generateStores,
+				configureCustomProxyRules: this.configureCustomProxyRules,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
