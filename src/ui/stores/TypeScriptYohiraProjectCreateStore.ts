@@ -88,6 +88,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				useAjv: true,
 				useLodash: true,
 				useQs: true,
+				useYohira: true,
 			},
 		);
 		const projectFiles = Array.from(

@@ -14,6 +14,7 @@ import validate from 'validate-npm-package-name';
 
 interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
+	useYohira: boolean;
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
@@ -113,6 +114,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		if (this.options.useQs) {
 			addAdditionalPackage('qs');
 			devDependenciesObj.addPackage('@types/qs');
+		}
+
+		if (this.options.useYohira) {
+			addAdditionalPackage('yohira');
 		}
 
 		const scriptsObj = new JsonObject();

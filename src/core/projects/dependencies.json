@@ -71,5 +71,6 @@
 	"utility-types": "^3.10.0",
 	"vite": "^4.4.9",
 	"vite-plugin-dts": "^3.5.3",
-	"vitest": "^0.34.3"
+	"vitest": "^0.34.3",
+	"yohira": "latest"
 }

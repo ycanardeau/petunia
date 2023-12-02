@@ -22,6 +22,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 	@observable useAjv = false;
 	@observable useLodash = false;
 	@observable useQs = false;
+	@observable useYohira = false;
 
 	constructor() {
 		makeObservable(this);
@@ -71,6 +72,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				useAjv: this.useAjv,
 				useLodash: this.useLodash,
 				useQs: this.useQs,
+				useYohira: this.useYohira,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
