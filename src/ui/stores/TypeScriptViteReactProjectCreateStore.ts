@@ -140,7 +140,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				ui: this.ui,
 				icon: this.icon,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.enablePrettier && this.sortImports,
+				sortImports: this.sortImports,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
 				useAjv: this.useAjv,

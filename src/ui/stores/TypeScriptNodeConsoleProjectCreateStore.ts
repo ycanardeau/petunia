@@ -66,7 +66,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				test: this.test,
 				orm: this.orm,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.enablePrettier && this.sortImports,
+				sortImports: this.sortImports,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
 				useAjv: this.useAjv,
