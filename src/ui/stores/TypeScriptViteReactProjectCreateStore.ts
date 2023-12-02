@@ -124,7 +124,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		}
 	}
 
-	@action submit = async (): Promise<void> => {
+	@action.bound async submit(): Promise<void> {
 		if (this.hasValidationErrors) {
 			return;
 		}
@@ -156,7 +156,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
 			(projectFile) => {
 				return {
-					path: projectFile.path,
+					path: `${this.projectName}/${projectFile.path}`,
 					text: this.tryFormat(projectFile) ?? projectFile.text,
 				};
 			},
@@ -168,5 +168,5 @@ export class TypeScriptViteReactProjectCreateStore {
 			type: 'blob',
 		});
 		FileSaver.saveAs(content, `${this.projectName}.zip`);
-	};
+	}
 }
