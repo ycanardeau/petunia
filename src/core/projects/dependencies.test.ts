@@ -3,7 +3,7 @@ import validate from 'validate-npm-package-name';
 import { expect, test } from 'vitest';
 
 test('dependencies.json', () => {
-	const regexp = new RegExp('^[\\^]?[\\d\\.]+$');
+	const regexp = new RegExp('^([\\^]?[\\d\\.]+|latest)$');
 	for (const [key, value] of Object.entries(dependencies)) {
 		const { validForNewPackages, validForOldPackages } = validate(key);
 		expect(validForNewPackages || validForOldPackages).toBe(true);
