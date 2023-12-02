@@ -57,6 +57,7 @@ export class TypeScriptNestProjectCreateStore {
 		}
 
 		const zip = new JSZip();
+
 		const project = new TypeScriptNestProject(
 			{ tab: '\t', newLine: '\n' },
 			{
@@ -83,6 +84,7 @@ export class TypeScriptNestProjectCreateStore {
 		for (const { path, text } of projectFiles) {
 			zip.file(path, text);
 		}
+
 		const content = await zip.generateAsync({
 			type: 'blob',
 		});

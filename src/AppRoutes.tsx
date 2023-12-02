@@ -1,7 +1,18 @@
-import { TypeScriptNestProjectCreateModal } from '@/ui/components/TypeScriptNestProjectModal';
-import { TypeScriptNodeConsoleProjectCreateModal } from '@/ui/components/TypeScriptNodeConsoleProjectModal';
-import { TypeScriptViteReactProjectCreateModal } from '@/ui/components/TypeScriptViteReactProjectCreateModal';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+
+const TypeScriptNestProjectCreateModal = React.lazy(
+	() => import('@/ui/components/TypeScriptNestProjectModal'),
+);
+const TypeScriptNodeConsoleProjectCreateModal = React.lazy(
+	() => import('@/ui/components/TypeScriptNodeConsoleProjectModal'),
+);
+const TypeScriptViteReactProjectCreateModal = React.lazy(
+	() => import('@/ui/components/TypeScriptViteReactProjectCreateModal'),
+);
+const TypeScriptYohiraProjectCreateModal = React.lazy(
+	() => import('@/ui/components/TypeScriptYohiraProjectCreateModal'),
+);
 
 export const AppRoutes = (): React.ReactElement => {
 	return (
@@ -26,6 +37,10 @@ export const AppRoutes = (): React.ReactElement => {
 							element={
 								<TypeScriptNodeConsoleProjectCreateModal />
 							}
+						/>
+						<Route
+							path="typescript-yohira"
+							element={<TypeScriptYohiraProjectCreateModal />}
 						/>
 						<Route
 							path="typescript-nest"

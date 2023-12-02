@@ -422,7 +422,7 @@ const TypeScriptViteReactProjectCreateForm = observer(
 	},
 );
 
-export const TypeScriptViteReactProjectCreateModal = observer(
+const TypeScriptViteReactProjectCreateModal = observer(
 	(): React.ReactElement => {
 		const [projectCreateStore] = React.useState(
 			() => new TypeScriptViteReactProjectCreateStore(),
@@ -463,3 +463,5 @@ export const TypeScriptViteReactProjectCreateModal = observer(
 		);
 	},
 );
+
+export default TypeScriptViteReactProjectCreateModal;

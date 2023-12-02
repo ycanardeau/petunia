@@ -247,7 +247,7 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 	},
 );
 
-export const TypeScriptNodeConsoleProjectCreateModal = observer(
+const TypeScriptNodeConsoleProjectCreateModal = observer(
 	(): React.ReactElement => {
 		const [projectCreateStore] = React.useState(
 			() => new TypeScriptNodeConsoleProjectCreateStore(),
@@ -288,3 +288,5 @@ export const TypeScriptNodeConsoleProjectCreateModal = observer(
 		);
 	},
 );
+
+export default TypeScriptNodeConsoleProjectCreateModal;

@@ -23,7 +23,9 @@ const App = (): React.ReactElement => {
 						<AppSideNav />
 					</EuiPageTemplate.Sidebar>
 					<EuiPageTemplate.Section>
-						<AppRoutes />
+						<React.Suspense fallback={null}>
+							<AppRoutes />
+						</React.Suspense>
 
 						<EuiSpacer size="xl" />
 						<div>

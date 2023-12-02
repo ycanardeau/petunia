@@ -130,6 +130,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		}
 
 		const zip = new JSZip();
+
 		const project = new TypeScriptViteReactProject(
 			{ tab: '\t', newLine: '\n' },
 			{
@@ -164,6 +165,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		for (const { path, text } of projectFiles) {
 			zip.file(path, text);
 		}
+
 		const content = await zip.generateAsync({
 			type: 'blob',
 		});

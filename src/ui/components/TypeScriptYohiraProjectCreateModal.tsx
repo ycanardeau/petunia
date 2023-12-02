@@ -1,37 +1,45 @@
-import { OrmFramework, ormFrameworkNames } from '@/core/projects/OrmFramework';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
+import {
+	IconLibrary,
+	UIFramework,
+} from '@/core/projects/TypeScriptViteReactProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
-import { TypeScriptNestProjectCreateStore } from '@/ui/stores/TypeScriptNestProjectCreateStore';
+import { TypeScriptYohiraProjectCreateStore } from '@/ui/stores/TypeScriptYohiraProjectCreateStore';
 import {
 	EuiButton,
-	EuiCheckbox,
 	EuiFieldText,
-	EuiFlexGroup,
-	EuiFlexItem,
 	EuiForm,
-	EuiFormFieldset,
 	EuiFormRow,
-	EuiIconTip,
 	EuiModalBody,
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
 	EuiSelect,
-	EuiSpacer,
 	EuiSwitch,
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-interface TypeScriptNestProjectCreateFormProps {
-	projectCreateStore: TypeScriptNestProjectCreateStore;
+const uiFrameworkNames: Record<UIFramework, string> = {
+	[UIFramework.None]: 'None',
+	[UIFramework.ElasticUI]: 'Elastic UI',
+	[UIFramework.Bootstrap]: 'Bootstrap',
+};
+
+const iconLibraryNames: Record<IconLibrary, string> = {
+	[IconLibrary.None]: 'None',
+	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
+};
+
+interface TypeScriptYohiraProjectCreateFormProps {
+	projectCreateStore: TypeScriptYohiraProjectCreateStore;
 }
 
-const TypeScriptNestProjectCreateForm = observer(
+const TypeScriptYohiraProjectCreateForm = observer(
 	({
 		projectCreateStore,
-	}: TypeScriptNestProjectCreateFormProps): React.ReactElement => {
+	}: TypeScriptYohiraProjectCreateFormProps): React.ReactElement => {
 		return (
 			<EuiForm>
 				<EuiFormRow
@@ -63,7 +71,7 @@ const TypeScriptNestProjectCreateForm = observer(
 					<EuiSelect
 						options={[
 							TestingFramework.None,
-							TestingFramework.Jest,
+							TestingFramework.Vitest,
 						].map((value) => ({
 							value: value,
 							text: testingFrameworkNames[value],
@@ -80,19 +88,39 @@ const TypeScriptNestProjectCreateForm = observer(
 				</EuiFormRow>
 
 				<EuiFormRow
-					label="ORM Framework" /* LOC */
+					label="UI framework" /* LOC */
 					display="rowCompressed"
 				>
 					<EuiSelect
-						options={Object.values(OrmFramework).map((value) => ({
+						options={Object.values(UIFramework).map((value) => ({
 							value: value,
-							text: ormFrameworkNames[value],
+							text: uiFrameworkNames[value],
 						}))}
-						value={projectCreateStore.orm}
+						value={projectCreateStore.ui}
 						onChange={(e): void => {
 							runInAction(() => {
-								projectCreateStore.orm = e.target
-									.value as OrmFramework;
+								projectCreateStore.ui = e.target
+									.value as UIFramework;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="Icon library" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(IconLibrary).map((value) => ({
+							value: value,
+							text: iconLibraryNames[value],
+						}))}
+						value={projectCreateStore.icon}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.icon = e.target
+									.value as IconLibrary;
 							});
 						}}
 						compressed
@@ -155,101 +183,14 @@ const TypeScriptNestProjectCreateForm = observer(
 						compressed
 					/>
 				</EuiFormRow>
-
-				<EuiSpacer size="m" />
-
-				<EuiFormFieldset
-					legend={{ children: 'Additional packages' /* LOC */ }}
-				>
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
-								id="useAjv"
-								label="Ajv"
-								checked={projectCreateStore.useAjv}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useAjv =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="The fastest JSON schema Validator."
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
-
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
-								id="useLodash"
-								label="Lodash"
-								checked={projectCreateStore.useLodash}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useLodash =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="A modern JavaScript utility library delivering modularity, performance, & extras."
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
-
-					<EuiFlexGroup
-						alignItems="center"
-						gutterSize="s"
-						responsive={false}
-					>
-						<EuiFlexItem grow={false}>
-							<EuiCheckbox
-								id="useQs"
-								label="qs"
-								checked={projectCreateStore.useQs}
-								onChange={(e): void =>
-									runInAction(() => {
-										projectCreateStore.useQs =
-											e.target.checked;
-									})
-								}
-							/>
-						</EuiFlexItem>
-
-						<EuiFlexItem grow={false}>
-							<EuiIconTip
-								content="A querystring parser with nesting support"
-								position="right"
-							/>
-						</EuiFlexItem>
-					</EuiFlexGroup>
-				</EuiFormFieldset>
 			</EuiForm>
 		);
 	},
 );
 
-const TypeScriptNestProjectCreateModal = observer((): React.ReactElement => {
+const TypeScriptYohiraProjectCreateModal = observer((): React.ReactElement => {
 	const [projectCreateStore] = React.useState(
-		() => new TypeScriptNestProjectCreateStore(),
+		() => new TypeScriptYohiraProjectCreateStore(),
 	);
 
 	return (
@@ -261,7 +202,7 @@ const TypeScriptNestProjectCreateModal = observer((): React.ReactElement => {
 			</EuiModalHeader>
 
 			<EuiModalBody>
-				<TypeScriptNestProjectCreateForm
+				<TypeScriptYohiraProjectCreateForm
 					projectCreateStore={projectCreateStore}
 				/>
 			</EuiModalBody>
@@ -287,4 +228,4 @@ const TypeScriptNestProjectCreateModal = observer((): React.ReactElement => {
 	);
 });
 
-export default TypeScriptNestProjectCreateModal;
+export default TypeScriptYohiraProjectCreateModal;
