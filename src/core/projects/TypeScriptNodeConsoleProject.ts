@@ -14,7 +14,7 @@ import validate from 'validate-npm-package-name';
 
 interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
-	useYohira: boolean;
+	useYohira?: boolean;
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
