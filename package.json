@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"@elastic/datemath": "^5.0.3",
-		"@elastic/eui": "^77.1.0",
+		"@elastic/eui": "^91.1.0",
 		"@emotion/css": "^11.10.6",
 		"@emotion/react": "^11.10.6",
 		"file-saver": "^2.0.5",
