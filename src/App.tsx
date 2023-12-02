@@ -1,7 +1,7 @@
 import { AppRoutes } from '@/AppRoutes';
 import { AppSideNav } from '@/AppSideNav';
 import '@/icons';
-import { EuiPageTemplate, EuiProvider } from '@elastic/eui';
+import { EuiPageTemplate, EuiProvider, EuiSpacer, EuiText } from '@elastic/eui';
 import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import React from 'react';
@@ -24,6 +24,27 @@ const App = (): React.ReactElement => {
 					</EuiPageTemplate.Sidebar>
 					<EuiPageTemplate.Section>
 						<AppRoutes />
+
+						<EuiSpacer size="xl" />
+						<div>
+							<EuiText
+								size="xs"
+								textAlign="center"
+								color="subdued"
+							>
+								<p>
+									<a
+										href="https://www.flaticon.com/free-icons/flower"
+										title="flower icons"
+										target="_blank"
+										rel="noreferrer"
+									>
+										Flower icons created by Freepik -
+										Flaticon
+									</a>
+								</p>
+							</EuiText>
+						</div>
 					</EuiPageTemplate.Section>
 				</EuiPageTemplate>
 			</EuiProvider>
