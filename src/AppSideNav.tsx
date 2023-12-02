@@ -1,3 +1,4 @@
+import HydrangeaIcon from '@/ui/favicons/hydrangea.png';
 import NestIcon from '@/ui/favicons/nestjs.com.png';
 import NodeIcon from '@/ui/favicons/nodejs.org.ico';
 import ReactIcon from '@/ui/favicons/reactjs.org.ico';
@@ -55,6 +56,10 @@ export const AppSideNav = (): React.ReactElement => {
 						createItem('Node.js', {
 							icon: <EuiIcon type={NodeIcon} />,
 							href: '/projects/typescript-node-console',
+						}),
+						createItem('Yohira', {
+							icon: <EuiIcon type={HydrangeaIcon} />,
+							href: '/projects/typescript-yohira',
 						}),
 						createItem('NestJS', {
 							icon: <EuiIcon type={NestIcon} />,
