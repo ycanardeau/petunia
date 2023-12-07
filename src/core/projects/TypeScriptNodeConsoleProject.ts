@@ -12,9 +12,11 @@ import {
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
-interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
+export interface TypeScriptNodeConsoleProjectOptions
+	extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
 	useYohira?: boolean;
+	useBcrypt?: boolean;
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
@@ -118,6 +120,11 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 		if (this.options.useYohira) {
 			addAdditionalPackage('yohira');
+		}
+
+		if (this.options.useBcrypt) {
+			addAdditionalPackage('bcrypt');
+			devDependenciesObj.addPackage('@types/bcrypt');
 		}
 
 		const scriptsObj = new JsonObject();
