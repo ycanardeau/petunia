@@ -1,6 +1,5 @@
 import { OrmFramework } from '@/core/projects/OrmFramework';
 import { ProjectFile } from '@/core/projects/Project';
-import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
@@ -8,6 +7,7 @@ import {
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
+import { TypeScriptYohiraProject } from '@/core/projects/TypeScriptYohiraProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -75,7 +75,7 @@ export class TypeScriptYohiraProjectCreateStore {
 
 		const zip = new JSZip();
 
-		const backendProject = new TypeScriptNodeConsoleProject(
+		const backendProject = new TypeScriptYohiraProject(
 			{ tab: '\t', newLine: '\n' },
 			{
 				projectName: 'backend',
