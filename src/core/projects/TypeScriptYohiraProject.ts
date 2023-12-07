@@ -2,6 +2,73 @@ import { ProjectFile } from '@/core/projects/Project';
 import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 
 export class TypeScriptYohiraProject extends TypeScriptNodeConsoleProject {
+	generateSrcEntitiesUserTS(): string {
+		return `import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import { createHash } from 'node:crypto';
+
+export enum PasswordHashAlgorithm {
+	Bcrypt = 'Bcrypt',
+}
+
+@Entity({ tableName: 'users' })
+export class User {
+	@PrimaryKey()
+	id!: number;
+
+	@Property()
+	createdAt = new Date();
+
+	@Property()
+	username: string;
+
+	@Property()
+	email: string;
+
+	@Property()
+	normalizedEmail: string;
+
+	@Enum(() => PasswordHashAlgorithm)
+	passwordHashAlgorithm: PasswordHashAlgorithm;
+
+	@Property()
+	salt: string;
+
+	@Property()
+	passwordHash: string;
+
+	constructor({
+		username,
+		email,
+		normalizedEmail,
+		passwordHashAlgorithm,
+		salt,
+		passwordHash,
+	}: {
+		username: string;
+		email: string;
+		normalizedEmail: string;
+		passwordHashAlgorithm: PasswordHashAlgorithm;
+		salt: string;
+		passwordHash: string;
+	}) {
+		this.username = username;
+		this.email = email;
+		this.normalizedEmail = normalizedEmail;
+		this.passwordHashAlgorithm = passwordHashAlgorithm;
+		this.salt = salt;
+		this.passwordHash = passwordHash;
+	}
+
+	get avatarUrl(): string {
+		const hash = createHash('md5')
+			.update(this.email.trim().toLowerCase())
+			.digest('hex');
+		return \`https://www.gravatar.com/avatar/\${hash}\`;
+	}
+}
+`;
+	}
+
 	generateSrcRequestHandlersRequestHandlerTS(): string {
 		return `import { JSONSchemaType, ValidateFunction } from 'ajv';
 import Ajv from 'ajv';
@@ -230,6 +297,11 @@ export const requestHandlerDescriptors: Record<
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
+
+		yield {
+			path: 'src/entities/User.ts',
+			text: this.generateSrcEntitiesUserTS(),
+		};
 
 		yield {
 			path: 'src/request-handlers/RequestHandler.ts',
