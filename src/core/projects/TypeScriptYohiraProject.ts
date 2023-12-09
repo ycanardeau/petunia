@@ -683,7 +683,7 @@ import {
 async function main(): Promise<void> {
 	// TODO: remove
 	const options = new WebAppOptions();
-	options.envName = process.env.NODE_ENV ?? Envs.Production;
+	options.envName = process.env\u200b.NODE_ENV ?? Envs.Production;
 
 	const builder = createWebAppBuilder(options);
 	const services = builder.services;
