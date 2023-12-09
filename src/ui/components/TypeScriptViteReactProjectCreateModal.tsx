@@ -33,13 +33,16 @@ const outputTypeNames: Record<OutputType, string> = {
 	[OutputType.ReactLibrary]: 'React Library' /* LOC */,
 };
 
-const uiFrameworkNames: Record<UIFramework, string> = {
+// TODO: move
+export const uiFrameworkNames: Record<UIFramework, string> = {
 	[UIFramework.None]: 'None',
 	[UIFramework.ElasticUI]: 'Elastic UI',
 	[UIFramework.Bootstrap]: 'Bootstrap',
+	[UIFramework.Mantine]: 'Mantine',
 };
 
-const iconLibraryNames: Record<IconLibrary, string> = {
+// TODO: move
+export const iconLibraryNames: Record<IconLibrary, string> = {
 	[IconLibrary.None]: 'None',
 	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
 };

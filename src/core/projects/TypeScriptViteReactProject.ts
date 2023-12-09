@@ -20,6 +20,7 @@ export enum UIFramework {
 	None = 'None',
 	ElasticUI = 'ElasticUI',
 	Bootstrap = 'Bootstrap',
+	Mantine = 'Mantine',
 }
 
 export enum IconLibrary {
@@ -118,6 +119,16 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					.addPackage('react-bootstrap')
 					.addPackage('bootstrap');
 				devDependenciesObj.addPackage('sass');
+				break;
+
+			case UIFramework.Mantine:
+				dependenciesObj
+					.addPackage('@mantine/hooks')
+					.addPackage('@mantine/core');
+				/* TODO: devDependenciesObj
+					.addPackage('postcss')
+					.addPackage('postcss-preset-mantine')
+					.addPackage('postcss-simple-vars'); */
 				break;
 		}
 
@@ -646,7 +657,8 @@ const jsonSchemaValidator = (): PluginOption => {
 	}
 
 	generateSrcMainTsx(): string {
-		const reactVersion = 17 as 17 | 18; /* TODO */
+		const reactVersion: 17 | 18 =
+			this.options.ui === UIFramework.Mantine ? 18 : 17;
 		switch (reactVersion) {
 			case 17:
 				const { tab, newLine } = this.editorConfig;

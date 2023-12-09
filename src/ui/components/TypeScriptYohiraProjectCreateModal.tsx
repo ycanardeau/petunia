@@ -3,6 +3,10 @@ import {
 	IconLibrary,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
+import {
+	iconLibraryNames,
+	uiFrameworkNames,
+} from '@/ui/components/TypeScriptViteReactProjectCreateModal';
 import { testingFrameworkNames } from '@/ui/components/constants';
 import { TypeScriptYohiraProjectCreateStore } from '@/ui/stores/TypeScriptYohiraProjectCreateStore';
 import {
@@ -20,17 +24,6 @@ import {
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-
-const uiFrameworkNames: Record<UIFramework, string> = {
-	[UIFramework.None]: 'None',
-	[UIFramework.ElasticUI]: 'Elastic UI',
-	[UIFramework.Bootstrap]: 'Bootstrap',
-};
-
-const iconLibraryNames: Record<IconLibrary, string> = {
-	[IconLibrary.None]: 'None',
-	[IconLibrary.FluentSystemIcons]: 'Fluent System Icons',
-};
 
 interface TypeScriptYohiraProjectCreateFormProps {
 	projectCreateStore: TypeScriptYohiraProjectCreateStore;
