@@ -642,18 +642,25 @@ const jsonSchemaValidator = (): PluginOption => {
 
 		switch (this.options.ui) {
 			case UIFramework.ElasticUI:
-				imports.addModuleNameImport('@/icons');
-				imports.addNamedImport('@elastic/eui', (builder) => {
-					builder.addNamedExport('EuiProvider');
-				});
-				imports.addModuleNameImport(
-					'@elastic/eui/dist/eui_theme_dark.css',
-				);
-				imports.addDefaultImport('createCache', '@emotion/cache');
+				imports
+					.addModuleNameImport('@/icons')
+					.addNamedImport('@elastic/eui', (builder) => {
+						builder.addNamedExport('EuiProvider');
+					})
+					.addModuleNameImport('@elastic/eui/dist/eui_theme_dark.css')
+					.addDefaultImport('createCache', '@emotion/cache');
 				break;
 
 			case UIFramework.Bootstrap:
 				imports.addModuleNameImport('@/App.scss');
+				break;
+
+			case UIFramework.Mantine:
+				imports
+					.addNamedImport('@mantine/core', (builder) => {
+						builder.addNamedExport('MantineProvider');
+					})
+					.addModuleNameImport('@mantine/core/styles.css');
 				break;
 		}
 
@@ -675,12 +682,20 @@ const jsonSchemaValidator = (): PluginOption => {
 		lines.push('');
 		lines.push('const App = (): React.ReactElement => {');
 
-		if (this.options.ui === UIFramework.ElasticUI) {
-			lines.push(
-				`${tab}return <EuiProvider colorMode="dark" cache={euiCache}></EuiProvider>;`,
-			);
-		} else {
-			lines.push(`${tab}return <></>;`);
+		switch (this.options.ui) {
+			case UIFramework.ElasticUI:
+				lines.push(
+					`${tab}return <EuiProvider colorMode="dark" cache={euiCache}></EuiProvider>;`,
+				);
+				break;
+
+			case UIFramework.Mantine:
+				lines.push(`${tab}return <MantineProvider></MantineProvider>`);
+				break;
+
+			default:
+				lines.push(`${tab}return <></>;`);
+				break;
 		}
 
 		lines.push('};');
