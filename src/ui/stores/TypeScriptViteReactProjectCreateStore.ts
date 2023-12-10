@@ -134,6 +134,7 @@ export class TypeScriptViteReactProjectCreateStore {
 		const project = new TypeScriptViteReactProject(
 			{ tab: '\t', newLine: '\n' },
 			{
+				reactMajorVersion: this.ui === UIFramework.Mantine ? 18 : 17,
 				outputType: this.outputType,
 				projectName: this.projectName,
 				test: this.test,

@@ -107,6 +107,7 @@ export class TypeScriptYohiraProjectCreateStore {
 		const frontendProject = new TypeScriptViteReactProject(
 			{ tab: '\t', newLine: '\n' },
 			{
+				reactMajorVersion: this.ui === UIFramework.Mantine ? 18 : 17,
 				outputType: OutputType.ReactApplication,
 				projectName: 'frontend',
 				test: this.test,

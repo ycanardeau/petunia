@@ -2,6 +2,7 @@ import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
 	OutputType,
+	ReactMajorVersion,
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
@@ -1134,8 +1135,8 @@ export default App;
 	test('generateSrcMainTsx', () => {
 		const actual = defaultProject.generateSrcMainTsx();
 
-		const reactVersion = 17 as 17 | 18; /* TODO */
-		switch (reactVersion) {
+		const reactMajorVersion = 17 as ReactMajorVersion;
+		switch (reactMajorVersion) {
 			case 17: {
 				const expected = `import App from './App';
 import React from 'react';
@@ -1175,8 +1176,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		});
 		const actual = project.generateSrcMainTsx();
 
-		const reactVersion = 17 as 17 | 18; /* TODO */
-		switch (reactVersion) {
+		const reactMajorVersion = 17 as ReactMajorVersion;
+		switch (reactMajorVersion) {
 			case 17: {
 				const expected = `import App from '@/App';
 import React from 'react';

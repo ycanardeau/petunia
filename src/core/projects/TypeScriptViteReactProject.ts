@@ -11,6 +11,8 @@ import {
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
+export type ReactMajorVersion = 17 | 18;
+
 export enum OutputType {
 	ReactApplication = 'ReactApplication',
 	ReactLibrary = 'ReactLibrary',
@@ -29,6 +31,7 @@ export enum IconLibrary {
 }
 
 interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
+	reactMajorVersion?: ReactMajorVersion;
 	outputType?: OutputType;
 	ui?: UIFramework;
 	icon?: IconLibrary;
@@ -59,8 +62,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/node')
-			.addPackage('@types/react')
-			.addPackage('@types/react-dom')
 			.addPackage(
 				'typescript',
 				// TODO: remove
@@ -70,22 +71,54 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			)
 			.addPackage('vite');
 
+		const peerDependenciesObj = new PackageJsonDependency();
+
+		switch (this.options.reactMajorVersion) {
+			case 17:
+			default:
+				devDependenciesObj
+					.addPackage('@types/react')
+					.addPackage('@types/react-dom');
+
+				if (this.options.outputType === OutputType.ReactLibrary) {
+					devDependenciesObj
+						.addPackage('react')
+						.addPackage('react-dom')
+						.addPackage('vite-plugin-dts');
+					peerDependenciesObj
+						.addPackage('react')
+						.addPackage('react-dom');
+				} else {
+					dependenciesObj.addPackage('react').addPackage('react-dom');
+				}
+
+				break;
+
+			case 18:
+				devDependenciesObj
+					.addPackage('@types/react', '^18.2.43')
+					.addPackage('@types/react-dom', '^18.2.17');
+
+				if (this.options.outputType === OutputType.ReactLibrary) {
+					devDependenciesObj
+						.addPackage('react', '^18.2.0')
+						.addPackage('react-dom', '^18.2.0')
+						.addPackage('vite-plugin-dts');
+					peerDependenciesObj
+						.addPackage('react', '^18.2.0')
+						.addPackage('react-dom', '^18.2.0');
+				} else {
+					dependenciesObj
+						.addPackage('react', '^18.2.0')
+						.addPackage('react-dom', '^18.2.0');
+				}
+				break;
+		}
+
 		if (this.options.useSwc) {
 			devDependenciesObj.addPackage('@vitejs/plugin-react-swc');
 		} else {
 			devDependenciesObj.addPackage('@vitejs/plugin-react');
-		}
-
-		const peerDependenciesObj = new PackageJsonDependency();
-
-		if (this.options.outputType === OutputType.ReactLibrary) {
-			devDependenciesObj
-				.addPackage('react')
-				.addPackage('react-dom')
-				.addPackage('vite-plugin-dts');
-			peerDependenciesObj.addPackage('react').addPackage('react-dom');
-		} else {
-			dependenciesObj.addPackage('react').addPackage('react-dom');
 		}
 
 		switch (this.options.test) {
@@ -657,10 +690,9 @@ const jsonSchemaValidator = (): PluginOption => {
 	}
 
 	generateSrcMainTsx(): string {
-		const reactVersion: 17 | 18 =
-			this.options.ui === UIFramework.Mantine ? 18 : 17;
-		switch (reactVersion) {
+		switch (this.options.reactMajorVersion) {
 			case 17:
+			default:
 				const { tab, newLine } = this.editorConfig;
 
 				const imports = new JavaScriptImports()
