@@ -275,6 +275,19 @@ const TypeScriptViteReactProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Use HTTPS" /* LOC */
+						checked={projectCreateStore.useHttps}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.useHttps = e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiSpacer size="m" />
 
 				<EuiFormFieldset

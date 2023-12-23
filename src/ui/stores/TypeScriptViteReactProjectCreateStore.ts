@@ -95,6 +95,7 @@ export class TypeScriptViteReactProjectCreateStore {
 	}
 
 	@observable configureCustomProxyRules = false;
+	@observable useHttps = false;
 
 	constructor() {
 		makeObservable(this);
@@ -153,6 +154,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				useRouteSphere: this.useRouteSphere,
 				generateStores: this.generateStores,
 				configureCustomProxyRules: this.configureCustomProxyRules,
+				useHttps: this.useHttps,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

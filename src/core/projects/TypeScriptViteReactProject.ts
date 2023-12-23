@@ -41,6 +41,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	useRouteSphere?: boolean;
 	generateStores?: boolean;
 	configureCustomProxyRules?: boolean;
+	useHttps?: boolean;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -238,6 +239,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		if (this.options.useRouteSphere) {
 			addAdditionalPackage('@aigamo/route-sphere');
+		}
+
+		if (this.options.useHttps) {
+			devDependenciesObj.addPackage('@vitejs/plugin-basic-ssl');
 		}
 
 		const rootObj = new JsonObject()
@@ -450,6 +455,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				});
 		}
 
+		if (this.options.useHttps) {
+			imports.addDefaultImport('basicSsl', '@vitejs/plugin-basic-ssl');
+		}
+
 		const configObj = new JsonObject();
 
 		if (this.options.configurePathAliases) {
@@ -501,6 +510,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 			if (this.options.useRouteSphere) {
 				pluginsArray.addItem(new JsonLiteral('jsonSchemaValidator()'));
+			}
+
+			if (this.options.useHttps) {
+				pluginsArray.addItem(new JsonLiteral('basicSsl()'));
 			}
 		}
 
@@ -561,19 +574,23 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		}
 
+		const serverObj = new JsonObject();
+		configObj.addEntry('server', serverObj);
+
 		if (this.options.configureCustomProxyRules) {
-			configObj.addEntry(
-				'server',
+			serverObj.addEntry(
+				'proxy',
 				new JsonObject().addEntry(
-					'proxy',
-					new JsonObject().addEntry(
-						'/api',
-						new JsonObject()
-							.addEntry('target', 'http://localhost:8000')
-							.addEntry('changeOrigin', true),
-					),
+					'/api',
+					new JsonObject()
+						.addEntry('target', 'http://localhost:8000')
+						.addEntry('changeOrigin', true),
 				),
 			);
+		}
+
+		if (this.options.useHttps) {
+			serverObj.addEntry('https', true);
 		}
 
 		const lines: string[] = [];

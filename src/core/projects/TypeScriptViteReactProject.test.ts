@@ -971,6 +971,7 @@ export default defineConfig({
 	plugins: [
 		react(),
 	],
+	server: {},
 });
 `;
 		expect(actual).toBe(expected);
@@ -1014,6 +1015,7 @@ export default defineConfig({
 		},
 		sourcemap: true,
 	},
+	server: {},
 });
 `;
 		expect(actual).toBe(expected);
@@ -1038,6 +1040,7 @@ export default defineConfig({
 	plugins: [
 		react(),
 	],
+	server: {},
 });
 `;
 		expect(actual).toBe(expected);
@@ -1061,6 +1064,7 @@ export default defineConfig({
 			exclude: [],
 		},
 	},
+	server: {},
 });
 `;
 		expect(actual).toBe(expected);
