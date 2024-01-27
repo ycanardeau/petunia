@@ -821,22 +821,22 @@ export const requestHandlerDescriptors: Record<
 	string,
 	RequestHandlerDescriptor
 > = {
-	'/api/user/get': {
+	'/user/get': {
 		method: 'GET',
 		serviceType: Symbol.for('UserGetHandler'),
 		implType: UserGetHandler,
 	},
-	'/api/user/login': {
+	'/user/login': {
 		method: 'POST',
 		serviceType: Symbol.for('UserLoginHandler'),
 		implType: UserLoginHandler,
 	},
-	'/api/user/logout': {
+	'/user/logout': {
 		method: 'POST',
 		serviceType: Symbol.for('UserLogoutHandler'),
 		implType: UserLogoutHandler,
 	},
-	'/api/user/signup': {
+	'/user/signup': {
 		method: 'POST',
 		serviceType: Symbol.for('UserSignUpHandler'),
 		implType: UserSignUpHandler,
