@@ -258,7 +258,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const lines: string[] = [];
 
 		if (this.options.orm === OrmFramework.MikroOrm) {
-			lines.push('MIKRO_ORM_TYPE =');
+			lines.push('MIKRO_ORM_HOST =');
 			lines.push('MIKRO_ORM_DB_NAME =');
 			lines.push(
 				`MIKRO_ORM_DEBUG = ${
@@ -269,21 +269,11 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			);
 			lines.push('MIKRO_ORM_USER =');
 			lines.push('MIKRO_ORM_PASSWORD =');
-			lines.push('MIKRO_ORM_ENTITIES = ./dist/entities/**/*.js');
-			lines.push('MIKRO_ORM_ENTITIES_TS = ./src/entities/**/*.ts');
-			lines.push('MIKRO_ORM_MIGRATIONS_PATH = ./src/migrations');
-			lines.push('MIKRO_ORM_MIGRATIONS_DISABLE_FOREIGN_KEYS = false');
-			lines.push(
-				'MIKRO_ORM_SCHEMA_GENERATOR_DISABLE_FOREIGN_KEYS = false',
-			);
-			lines.push('MIKRO_ORM_FORCE_UNDEFINED = true');
-			lines.push('MIKRO_ORM_FORCE_UTC_TIMEZONE = true');
 			lines.push(
 				`MIKRO_ORM_ALLOW_GLOBAL_CONTEXT = ${
 					environment === 'test' ? true : false
 				}`,
 			);
-			lines.push('MIKRO_ORM_AUTO_JOIN_ONE_TO_ONE_OWNER = false');
 		}
 
 		return this.joinLines(lines);
@@ -293,8 +283,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addNamedImport('@mikro-orm/core', (builder) =>
-				builder.addNamedExport('Options'),
+			.addNamedImport(
+				'@mikro-orm/mariadb' /* TODO: option */,
+				(builder) => builder.addNamedExport('defineConfig'),
 			)
 			.addNamedImport('@mikro-orm/reflection', (builder) =>
 				builder.addNamedExport('TsMorphMetadataProvider'),
@@ -312,7 +303,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		//lines.push("const logger = new Logger('MikroORM');");
 		lines.push('');
 		lines.push(
-			`const options: Options = ${new JsonObject()
+			`export default defineConfig(${new JsonObject()
 				.addEntry(
 					'highlighter',
 					new JsonLiteral('new SqlHighlighter()'),
@@ -324,16 +315,33 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				)
 				.addEntry(
 					'migrations',
-					new JsonObject().addEntry('snapshotName', '.snapshot'),
+					new JsonObject()
+						.addEntry('snapshotName', '.snapshot')
+						.addEntry('path', './src/migrations')
+						.addEntry('disableForeignKeys', false),
 				)
+				.addEntry(
+					'schemaGenerator',
+					new JsonObject().addEntry('disableForeignKeys', false),
+				)
+				.addEntry(
+					'entities',
+					new JsonArray().addItem('./dist/entities/**/*.js'),
+				)
+				.addEntry(
+					'entitiesTs',
+					new JsonArray().addItem('./src/entities/**/*.ts'),
+				)
+				.addEntry('forceUndefined', true)
+				.addEntry('forceUtcTimezone', true)
+				.addEntry('allowGlobalContext', false)
+				.addEntry('autoJoinOneToOneOwner', false)
 				.toFormattedString({
 					tab: tab,
 					newLine: newLine,
 					style: 'JavaScript',
-				})};`,
+				})});`,
 		);
-		lines.push('');
-		lines.push('export default options;');
 		return this.joinLines(lines);
 	}
 
