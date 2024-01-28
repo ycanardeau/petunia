@@ -317,7 +317,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					'migrations',
 					new JsonObject()
 						.addEntry('snapshotName', '.snapshot')
-						.addEntry('path', './src/migrations')
+						.addEntry('path', './dist/migrations')
+						.addEntry('pathTs', './src/migrations')
 						.addEntry('disableForeignKeys', false),
 				)
 				.addEntry(
