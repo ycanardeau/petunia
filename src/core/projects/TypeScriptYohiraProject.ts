@@ -229,7 +229,7 @@ export class Login implements IUserOwnedEntity {
 	@Property()
 	createdAt = new Date();
 
-	@ManyToOne()
+	@ManyToOne(() => User)
 	user: Ref<User>;
 
 	@Property()

@@ -292,6 +292,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			)
 			.addNamedImport('@mikro-orm/sql-highlighter', (builder) =>
 				builder.addNamedExport('SqlHighlighter'),
+			)
+			.addNamedImport('@mikro-orm/migrations', (builder) =>
+				builder.addNamedExport('Migrator'),
 			);
 		/*.addNamedImport('@nestjs/common', (builder) =>
 				builder.addNamedExport('Logger'),
@@ -337,6 +340,10 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 				.addEntry('forceUtcTimezone', true)
 				.addEntry('allowGlobalContext', false)
 				.addEntry('autoJoinOneToOneOwner', false)
+				.addEntry(
+					'extensions',
+					new JsonArray().addItem(new JsonLiteral('Migrator')),
+				)
 				.toFormattedString({
 					tab: tab,
 					newLine: newLine,
