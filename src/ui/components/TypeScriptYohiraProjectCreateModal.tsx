@@ -176,6 +176,20 @@ const TypeScriptYohiraProjectCreateForm = observer(
 						compressed
 					/>
 				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Generate Dockerfile" /* LOC */
+						checked={projectCreateStore.generateDockerfile}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.generateDockerfile =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
 			</EuiForm>
 		);
 	},

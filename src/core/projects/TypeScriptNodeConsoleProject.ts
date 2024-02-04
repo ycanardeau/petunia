@@ -17,6 +17,7 @@ export interface TypeScriptNodeConsoleProjectOptions
 	orm?: OrmFramework;
 	useYohira?: boolean;
 	useBcrypt?: boolean;
+	generateDockerfile?: boolean;
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
@@ -353,6 +354,31 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		return this.joinLines(lines);
 	}
 
+	generateDockerfile(): string {
+		return `FROM node:18-alpine as build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist /app/dist
+COPY . .
+RUN npm ci
+
+EXPOSE 8000
+
+CMD ["npm", "start"]
+`;
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
 
@@ -405,6 +431,20 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					text: this.generateSrcMikroOrmConfigTS(),
 				};
 				break;
+		}
+
+		if (this.options.generateDockerfile) {
+			yield {
+				path: 'Dockerfile',
+				text: this.generateDockerfile(),
+			};
+			yield {
+				path: '.dockerignore',
+				text: new NodeGitignoreGenerator(
+					this.editorConfig,
+					this.options,
+				).generate(),
+			};
 		}
 	}
 }

@@ -156,6 +156,20 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 					/>
 				</EuiFormRow>
 
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Generate Dockerfile" /* LOC */
+						checked={projectCreateStore.generateDockerfile}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.generateDockerfile =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
 				<EuiSpacer size="m" />
 
 				<EuiFormFieldset

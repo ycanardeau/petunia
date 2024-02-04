@@ -42,6 +42,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	generateStores?: boolean;
 	configureCustomProxyRules?: boolean;
 	useHttps?: boolean;
+	generateDockerfile?: boolean;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -908,6 +909,42 @@ export class PaginationStore {
 `;
 	}
 
+	generateNginxNginxConf(): string {
+		return `server {
+    listen 8080;
+
+    root /usr/share/nginx/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+`;
+	}
+
+	generateDockerfile(): string {
+		return `FROM node:18-alpine as build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM nginx:latest
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
+`;
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield* super.generateProjectFiles();
 
@@ -973,6 +1010,24 @@ export class PaginationStore {
 			yield {
 				path: 'src/stores/PaginationStore.ts',
 				text: this.generateSrcStoresPaginationStoreTs(),
+			};
+		}
+
+		if (this.options.generateDockerfile) {
+			yield {
+				path: 'nginx/nginx.conf',
+				text: this.generateNginxNginxConf(),
+			};
+			yield {
+				path: 'Dockerfile',
+				text: this.generateDockerfile(),
+			};
+			yield {
+				path: '.dockerignore',
+				text: new ReactGitignoreGenerator(
+					this.editorConfig,
+					{},
+				).generate(),
 			};
 		}
 	}

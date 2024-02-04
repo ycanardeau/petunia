@@ -43,6 +43,7 @@ export class TypeScriptViteReactProjectCreateStore {
 
 	@observable enableESLint = true;
 	@observable configurePathAliases = true;
+	@observable generateDockerfile = false;
 	@observable useSwc = false;
 	@observable useRouteSphere = false;
 
@@ -145,6 +146,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				sortImports: this.sortImports,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
+				generateDockerfile: this.generateDockerfile,
 				useAjv: this.useAjv,
 				useLodash: this.useLodash,
 				useMobX: this.useMobX,

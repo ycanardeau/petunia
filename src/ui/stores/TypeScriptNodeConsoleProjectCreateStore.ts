@@ -19,6 +19,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 	@observable sortImports = true;
 	@observable enableESLint = true;
 	@observable configurePathAliases = true;
+	@observable generateDockerfile = false;
 	@observable useAjv = false;
 	@observable useLodash = false;
 	@observable useQs = false;
@@ -69,6 +70,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				sortImports: this.sortImports,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
+				generateDockerfile: this.generateDockerfile,
 				useAjv: this.useAjv,
 				useLodash: this.useLodash,
 				useQs: this.useQs,

@@ -221,6 +221,20 @@ const TypeScriptViteReactProjectCreateForm = observer(
 
 				<EuiFormRow display="rowCompressed">
 					<EuiSwitch
+						label="Generate Dockerfile" /* LOC */
+						checked={projectCreateStore.generateDockerfile}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.generateDockerfile =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
 						label="Use SWC during development" /* LOC */
 						checked={projectCreateStore.useSwc}
 						onChange={(e): void => {

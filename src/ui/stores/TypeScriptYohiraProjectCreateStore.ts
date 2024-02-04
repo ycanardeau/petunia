@@ -39,6 +39,7 @@ export class TypeScriptYohiraProjectCreateStore {
 
 	@observable enableESLint = true;
 	@observable configurePathAliases = true;
+	@observable generateDockerfile = false;
 
 	constructor() {
 		makeObservable(this);
@@ -90,6 +91,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				useQs: true,
 				useYohira: true,
 				useBcrypt: true,
+				generateDockerfile: this.generateDockerfile,
 			},
 		);
 		const projectFiles = Array.from(
@@ -126,6 +128,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				useRouteSphere: true,
 				generateStores: true,
 				configureCustomProxyRules: true,
+				generateDockerfile: this.generateDockerfile,
 			},
 		);
 		const frontendProjectFiles = Array.from(
