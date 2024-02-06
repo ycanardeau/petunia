@@ -43,6 +43,7 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 	configureCustomProxyRules?: boolean;
 	useHttps?: boolean;
 	generateDockerfile?: boolean;
+	publicBasePath?: string;
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
@@ -598,6 +599,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		if (this.options.useHttps) {
 			serverObj.addEntry('https', true);
+		}
+
+		if (this.options.publicBasePath !== undefined) {
+			configObj.addEntry('base', this.options.publicBasePath);
 		}
 
 		const lines: string[] = [];

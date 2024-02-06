@@ -190,6 +190,20 @@ const TypeScriptYohiraProjectCreateForm = observer(
 						compressed
 					/>
 				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Deploy to subdirectory" /* LOC */
+						checked={projectCreateStore.deployToSubdirectory}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.deployToSubdirectory =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
 			</EuiForm>
 		);
 	},
