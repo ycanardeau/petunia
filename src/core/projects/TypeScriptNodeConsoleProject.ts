@@ -124,8 +124,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		}
 
 		if (this.options.useBcrypt) {
-			addAdditionalPackage('bcrypt');
-			devDependenciesObj.addPackage('@types/bcrypt');
+			addAdditionalPackage('bcryptjs');
+			devDependenciesObj.addPackage('@types/bcryptjs');
 		}
 
 		const scriptsObj = new JsonObject();

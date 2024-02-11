@@ -863,7 +863,7 @@ export class EmailService implements IEmailService {
 
 	generateSrcServicesPasswordServiceFactoryTS(): string {
 		return `import { PasswordHashAlgorithm } from '@/entities/User';
-import { genSalt, hash } from 'bcrypt';
+import { genSalt, hash } from 'bcryptjs';
 
 interface IPasswordService {
 	readonly algorithm: PasswordHashAlgorithm;
