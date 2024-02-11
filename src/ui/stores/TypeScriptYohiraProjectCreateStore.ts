@@ -80,7 +80,7 @@ export class TypeScriptYohiraProjectCreateStore {
 		const backendProject = new TypeScriptYohiraProject(
 			{ tab: '\t', newLine: '\n' },
 			{
-				projectName: 'backend',
+				projectName: `${this.projectName}.backend`,
 				test: this.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.enablePrettier,
@@ -99,7 +99,7 @@ export class TypeScriptYohiraProjectCreateStore {
 			backendProject.generateProjectFiles(),
 		).map((projectFile) => {
 			return {
-				path: `${this.projectName}/backend/${projectFile.path}`,
+				path: `${this.projectName}/packages/${backendProject.options.projectName}/${projectFile.path}`,
 				text: this.tryFormat(projectFile) ?? projectFile.text,
 			};
 		});
@@ -112,7 +112,7 @@ export class TypeScriptYohiraProjectCreateStore {
 			{
 				reactMajorVersion: this.ui === UIFramework.Mantine ? 18 : 17,
 				outputType: OutputType.ReactApplication,
-				projectName: 'frontend',
+				projectName: `${this.projectName}.frontend`,
 				test: this.test,
 				ui: this.ui,
 				icon: this.icon,
@@ -139,7 +139,7 @@ export class TypeScriptYohiraProjectCreateStore {
 			frontendProject.generateProjectFiles(),
 		).map((projectFile) => {
 			return {
-				path: `${this.projectName}/frontend/${projectFile.path}`,
+				path: `${this.projectName}/packages/${frontendProject.options.projectName}/${projectFile.path}`,
 				text: this.tryFormat(projectFile) ?? projectFile.text,
 			};
 		});
