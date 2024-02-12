@@ -1,5 +1,6 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { Database } from '@/core/projects/Database';
 import { NodeGitignoreGenerator } from '@/core/projects/NodeGitignoreGenerator';
 import { OrmFramework } from '@/core/projects/OrmFramework';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
@@ -15,12 +16,30 @@ import validate from 'validate-npm-package-name';
 export interface TypeScriptNodeConsoleProjectOptions
 	extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
+	database?: Database;
 	useYohira?: boolean;
 	useBcrypt?: boolean;
 	generateDockerfile?: boolean;
 }
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
+	getMikroOrmDriverPackage():
+		| '@mikro-orm/mysql'
+		| '@mikro-orm/postgresql'
+		| '@mikro-orm/mariadb' {
+		switch (this.options.database) {
+			case Database.MySql:
+			default:
+				return '@mikro-orm/mysql';
+
+			case Database.PostgreSql:
+				return '@mikro-orm/postgresql';
+
+			case Database.MariaDb:
+				return '@mikro-orm/mariadb';
+		}
+	}
+
 	generatePackageJson(): string {
 		if (this.options.projectName !== undefined) {
 			const { validForNewPackages } = validate(this.options.projectName);
@@ -62,12 +81,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 					.addPackage('@mikro-orm/core')
 					//.addPackage('@mikro-orm/nestjs')
 					.addPackage('@mikro-orm/reflection')
-					.addPackage('@mikro-orm/sql-highlighter');
-				switch (true /* TODO */) {
-					case true /* TODO */:
-						dependenciesObj.addPackage('@mikro-orm/mariadb');
-						break;
-				}
+					.addPackage('@mikro-orm/sql-highlighter')
+					.addPackage(this.getMikroOrmDriverPackage());
 				break;
 		}
 
@@ -284,9 +299,8 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const { tab, newLine } = this.editorConfig;
 
 		const imports = new JavaScriptImports()
-			.addNamedImport(
-				'@mikro-orm/mariadb' /* TODO: option */,
-				(builder) => builder.addNamedExport('defineConfig'),
+			.addNamedImport(this.getMikroOrmDriverPackage(), (builder) =>
+				builder.addNamedExport('defineConfig'),
 			)
 			.addNamedImport('@mikro-orm/reflection', (builder) =>
 				builder.addNamedExport('TsMorphMetadataProvider'),

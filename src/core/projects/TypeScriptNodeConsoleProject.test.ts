@@ -76,7 +76,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	},
 	"dependencies": {
 		"@mikro-orm/core": "${dependencies['@mikro-orm/core']}",
-		"@mikro-orm/mariadb": "${dependencies['@mikro-orm/mariadb']}",
+		"@mikro-orm/mysql": "${dependencies['@mikro-orm/mysql']}",
 		"@mikro-orm/reflection": "${dependencies['@mikro-orm/reflection']}",
 		"@mikro-orm/sql-highlighter": "${dependencies['@mikro-orm/sql-highlighter']}"
 	},
