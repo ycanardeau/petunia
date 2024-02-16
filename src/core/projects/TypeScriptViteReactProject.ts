@@ -867,7 +867,7 @@ appendIconComponentCache(cachedIcons);
 	}
 
 	generateSrcAppScssForBootstrap(): string {
-		return `@import 'node_modules/bootstrap/scss/bootstrap';
+		return `@import 'bootstrap/scss/bootstrap';
 `;
 	}
 
