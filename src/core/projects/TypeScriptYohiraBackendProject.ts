@@ -5,14 +5,15 @@ import {
 } from '@/core/projects/TypeScriptNodeConsoleProject';
 import { TypeScriptProject } from '@/core/projects/TypeScriptProject';
 
-type TypeScriptYohiraProjectOptions = TypeScriptNodeConsoleProjectOptions;
+type TypeScriptYohiraBackendProjectOptions =
+	TypeScriptNodeConsoleProjectOptions;
 
-export class TypeScriptYohiraProject extends TypeScriptProject<TypeScriptYohiraProjectOptions> {
+export class TypeScriptYohiraBackendProject extends TypeScriptProject<TypeScriptYohiraBackendProjectOptions> {
 	private readonly typeScriptNodeConsoleProject: TypeScriptNodeConsoleProject;
 
 	constructor(
 		editorConfig: EditorConfig,
-		options: TypeScriptYohiraProjectOptions,
+		options: TypeScriptYohiraBackendProjectOptions,
 	) {
 		super(editorConfig, options);
 

@@ -7,7 +7,7 @@ import {
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import { TypeScriptYohiraProject } from '@/core/projects/TypeScriptYohiraProject';
+import { TypeScriptYohiraBackendProject } from '@/core/projects/TypeScriptYohiraBackendProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -77,7 +77,7 @@ export class TypeScriptYohiraProjectCreateStore {
 
 		const zip = new JSZip();
 
-		const backendProject = new TypeScriptYohiraProject(
+		const backendProject = new TypeScriptYohiraBackendProject(
 			{ tab: '\t', newLine: '\n' },
 			{
 				projectName: `${this.projectName}.backend`,
