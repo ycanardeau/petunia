@@ -387,7 +387,7 @@ COPY --from=build /app/dist /app/dist
 COPY . .
 RUN npm ci
 
-EXPOSE 8000
+EXPOSE 5000
 
 CMD ["npm", "start"]
 `;

@@ -585,7 +585,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				new JsonObject().addEntry(
 					'/api',
 					new JsonObject()
-						.addEntry('target', 'http://localhost:8000')
+						.addEntry('target', 'http://localhost:5000')
 						.addEntry('changeOrigin', true)
 						.addEntry(
 							'rewrite',

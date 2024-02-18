@@ -88,7 +88,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 		return `# https://medium.com/@r.thilina/deploying-multiple-containerized-angular-applications-in-different-subdirectories-of-a-single-73923688bece
 
 upstream ${this.options.projectName}.backend {
-    server ${this.options.projectName}.backend:8000;
+    server ${this.options.projectName}.backend:5000;
 }
 upstream ${this.options.projectName}.frontend {
     server ${this.options.projectName}.frontend:8080;
