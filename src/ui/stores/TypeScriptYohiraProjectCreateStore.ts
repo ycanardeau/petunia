@@ -3,11 +3,9 @@ import { ProjectFile } from '@/core/projects/Project';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
-	OutputType,
-	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/core/projects/TypeScriptViteReactProject';
-import { TypeScriptYohiraBackendProject } from '@/core/projects/TypeScriptYohiraBackendProject';
+import { TypeScriptYohiraFullStackProject } from '@/core/projects/TypeScriptYohiraFullStackProject';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -77,10 +75,10 @@ export class TypeScriptYohiraProjectCreateStore {
 
 		const zip = new JSZip();
 
-		const backendProject = new TypeScriptYohiraBackendProject(
+		const project = new TypeScriptYohiraFullStackProject(
 			{ tab: '\t', newLine: '\n' },
 			{
-				projectName: `${this.projectName}.backend`,
+				projectName: this.projectName,
 				test: this.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.enablePrettier,
@@ -93,57 +91,20 @@ export class TypeScriptYohiraProjectCreateStore {
 				useYohira: true,
 				useBcrypt: true,
 				generateDockerfile: this.generateDockerfile,
-			},
-		);
-		const projectFiles = Array.from(
-			backendProject.generateProjectFiles(),
-		).map((projectFile) => {
-			return {
-				path: `${this.projectName}/packages/${backendProject.options.projectName}/${projectFile.path}`,
-				text: this.tryFormat(projectFile) ?? projectFile.text,
-			};
-		});
-		for (const { path, text } of projectFiles) {
-			zip.file(path, text);
-		}
-
-		const frontendProject = new TypeScriptViteReactProject(
-			{ tab: '\t', newLine: '\n' },
-			{
-				reactMajorVersion: this.ui === UIFramework.Mantine ? 18 : 17,
-				outputType: OutputType.ReactApplication,
-				projectName: `${this.projectName}.frontend`,
-				test: this.test,
 				ui: this.ui,
 				icon: this.icon,
-				enablePrettier: this.enablePrettier,
-				sortImports: this.sortImports,
-				enableESLint: this.enableESLint,
-				configurePathAliases: this.configurePathAliases,
-				useAjv: true,
-				useLodash: true,
-				useMobX: true,
-				useQs: true,
-				useReactRouter: true,
-				useSwc: false,
-				useRouteSphere: true,
-				generateStores: true,
-				configureCustomProxyRules: true,
-				generateDockerfile: this.generateDockerfile,
-				publicBasePath: this.deployToSubdirectory
-					? this.projectName
-					: undefined,
+				deployToSubdirectory: this.deployToSubdirectory,
 			},
 		);
-		const frontendProjectFiles = Array.from(
-			frontendProject.generateProjectFiles(),
-		).map((projectFile) => {
-			return {
-				path: `${this.projectName}/packages/${frontendProject.options.projectName}/${projectFile.path}`,
-				text: this.tryFormat(projectFile) ?? projectFile.text,
-			};
-		});
-		for (const { path, text } of frontendProjectFiles) {
+		const projectFiles = Array.from(project.generateProjectFiles()).map(
+			(projectFile) => {
+				return {
+					path: `${this.projectName}/${projectFile.path}`,
+					text: this.tryFormat(projectFile) ?? projectFile.text,
+				};
+			},
+		);
+		for (const { path, text } of projectFiles) {
 			zip.file(path, text);
 		}
 

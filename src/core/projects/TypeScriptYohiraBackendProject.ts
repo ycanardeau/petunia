@@ -5,7 +5,7 @@ import {
 } from '@/core/projects/TypeScriptNodeConsoleProject';
 import { TypeScriptProject } from '@/core/projects/TypeScriptProject';
 
-type TypeScriptYohiraBackendProjectOptions =
+export type TypeScriptYohiraBackendProjectOptions =
 	TypeScriptNodeConsoleProjectOptions;
 
 export class TypeScriptYohiraBackendProject extends TypeScriptProject<TypeScriptYohiraBackendProjectOptions> {
@@ -785,6 +785,9 @@ async function main(): Promise<void> {
 	}
 
 	useEndpoints(app, () => {});
+
+	const migrator = orm.getMigrator();
+	await migrator.up();
 
 	await app.run();
 }
