@@ -179,6 +179,22 @@ const TypeScriptYohiraProjectCreateForm = observer(
 
 				<EuiFormRow display="rowCompressed">
 					<EuiSwitch
+						label="Build and deploy to server via SSH" /* LOC */
+						checked={
+							projectCreateStore.buildAndDeployToServerViaSsh
+						}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.buildAndDeployToServerViaSsh =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
 						label="Generate Dockerfile" /* LOC */
 						checked={projectCreateStore.generateDockerfile}
 						onChange={(e): void => {
@@ -187,6 +203,9 @@ const TypeScriptYohiraProjectCreateForm = observer(
 									e.target.checked;
 							});
 						}}
+						disabled={
+							projectCreateStore.buildAndDeployToServerViaSsh
+						}
 						compressed
 					/>
 				</EuiFormRow>
@@ -201,6 +220,9 @@ const TypeScriptYohiraProjectCreateForm = observer(
 									e.target.checked;
 							});
 						}}
+						disabled={
+							projectCreateStore.buildAndDeployToServerViaSsh
+						}
 						compressed
 					/>
 				</EuiFormRow>

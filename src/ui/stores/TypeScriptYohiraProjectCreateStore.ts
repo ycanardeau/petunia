@@ -37,8 +37,24 @@ export class TypeScriptYohiraProjectCreateStore {
 
 	@observable enableESLint = true;
 	@observable configurePathAliases = true;
-	@observable generateDockerfile = false;
-	@observable deployToSubdirectory = false;
+
+	@observable buildAndDeployToServerViaSsh = false;
+
+	@observable _generateDockerfile = false;
+	@computed get generateDockerfile(): boolean {
+		return this.buildAndDeployToServerViaSsh || this._generateDockerfile;
+	}
+	set generateDockerfile(value: boolean) {
+		this._generateDockerfile = value;
+	}
+
+	@observable _deployToSubdirectory = false;
+	get deployToSubdirectory(): boolean {
+		return this.buildAndDeployToServerViaSsh || this._deployToSubdirectory;
+	}
+	set deployToSubdirectory(value: boolean) {
+		this._deployToSubdirectory = value;
+	}
 
 	constructor() {
 		makeObservable(this);
@@ -94,6 +110,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				ui: this.ui,
 				icon: this.icon,
 				deployToSubdirectory: this.deployToSubdirectory,
+				buildAndDeployToServerViaSsh: this.buildAndDeployToServerViaSsh,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
