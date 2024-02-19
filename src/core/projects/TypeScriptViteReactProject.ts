@@ -1,6 +1,7 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { ProjectFile } from '@/core/projects/Project';
 import { ReactGitignoreGenerator } from '@/core/projects/ReactGitignoreGenerator';
 import {
@@ -930,24 +931,59 @@ export class PaginationStore {
 	}
 
 	generateDockerfile(): string {
-		return `FROM node:18-alpine as build
+		const lines: string[] = [];
 
-WORKDIR /app
+		lines.push('FROM node:18-alpine as build');
 
-COPY package.json package-lock.json ./
-RUN npm ci
+		lines.push('');
+		lines.push('WORKDIR /app');
 
-COPY . .
-RUN npm run build
+		if (this.options.packageManager === PackageManager.Pnpm) {
+			lines.push('');
+			lines.push('RUN npm i -g pnpm');
+		}
 
-FROM nginx:latest
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('');
+				lines.push('COPY package.json package-lock.json ./');
+				lines.push('RUN npm ci');
+				break;
 
-EXPOSE 8080
+			case PackageManager.Pnpm:
+				lines.push('');
+				lines.push('COPY package.json pnpm-lock.yaml ./');
+				lines.push('RUN pnpm install --frozen-lockfile');
+				break;
+		}
 
-CMD ["nginx", "-g", "daemon off;"]
-`;
+		lines.push('');
+		lines.push('COPY . .');
+
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('RUN npm run build');
+				break;
+
+			case PackageManager.Pnpm:
+				lines.push('RUN pnpm build');
+				break;
+		}
+
+		lines.push('');
+		lines.push('FROM nginx:latest');
+		lines.push('COPY --from=build /app/dist /usr/share/nginx/html');
+		lines.push('COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf');
+
+		lines.push('');
+		lines.push('EXPOSE 8080');
+
+		lines.push('');
+		lines.push('CMD ["nginx", "-g", "daemon off;"]');
+
+		return this.joinLines(lines);
 	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {

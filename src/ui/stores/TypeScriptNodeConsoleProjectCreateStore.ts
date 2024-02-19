@@ -1,4 +1,5 @@
 import { OrmFramework } from '@/core/projects/OrmFramework';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { ProjectFile } from '@/core/projects/Project';
 import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
@@ -13,6 +14,7 @@ import validate from 'validate-npm-package-name';
 
 export class TypeScriptNodeConsoleProjectCreateStore {
 	@observable projectName = 'console-app';
+	@observable packageManager = PackageManager.Pnpm;
 	@observable test = TestingFramework.None;
 	@observable orm = OrmFramework.None;
 	@observable enablePrettier = true;
@@ -64,6 +66,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 			{ tab: '\t', newLine: '\n' },
 			{
 				projectName: this.projectName,
+				packageManager: this.packageManager,
 				test: this.test,
 				orm: this.orm,
 				enablePrettier: this.enablePrettier,

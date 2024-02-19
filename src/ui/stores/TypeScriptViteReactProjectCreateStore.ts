@@ -1,3 +1,4 @@
+import { PackageManager } from '@/core/projects/PackageManager';
 import { ProjectFile } from '@/core/projects/Project';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
@@ -25,6 +26,7 @@ export enum BuildTool {
 
 export class TypeScriptViteReactProjectCreateStore {
 	@observable outputType = OutputType.ReactApplication;
+	@observable packageManager = PackageManager.Pnpm;
 	@observable projectType = ProjectType.React;
 	@observable projectName = 'react-app';
 	@observable buildTool = BuildTool.Vite;
@@ -139,6 +141,7 @@ export class TypeScriptViteReactProjectCreateStore {
 				reactMajorVersion: this.ui === UIFramework.Mantine ? 18 : 17,
 				outputType: this.outputType,
 				projectName: this.projectName,
+				packageManager: this.packageManager,
 				test: this.test,
 				ui: this.ui,
 				icon: this.icon,

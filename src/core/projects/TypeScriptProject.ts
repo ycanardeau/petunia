@@ -1,5 +1,6 @@
 import { ESLintRcCjsGenerator } from '@/core/projects/ESLintRcCjsGenerator';
 import { EditorConfigGenerator } from '@/core/projects/EditorConfigGenerator';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { PrettierRcJsonGenerator } from '@/core/projects/PrettierRcJsonGenerator';
 import { Project, ProjectFile } from '@/core/projects/Project';
 
@@ -11,6 +12,7 @@ export enum TestingFramework {
 
 export interface TypeScriptProjectOptions {
 	projectName?: string;
+	packageManager?: PackageManager;
 	test?: TestingFramework;
 	enablePrettier?: boolean;
 	sortImports?: boolean;

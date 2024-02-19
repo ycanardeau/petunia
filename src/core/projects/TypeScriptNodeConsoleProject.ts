@@ -4,6 +4,7 @@ import { Database } from '@/core/projects/Database';
 import { NodeGitignoreGenerator } from '@/core/projects/NodeGitignoreGenerator';
 import { OrmFramework } from '@/core/projects/OrmFramework';
 import { PackageJsonDependency } from '@/core/projects/PackageJsonDependency';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { ProjectFile } from '@/core/projects/Project';
 import {
 	TestingFramework,
@@ -146,13 +147,28 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const scriptsObj = new JsonObject();
 
 		if (this.options.configurePathAliases) {
-			scriptsObj
-				.addEntry('clean', 'rimraf ./dist')
-				.addEntry('build', 'npm run clean && tsc && tsc-alias')
-				.addEntry(
-					'build:watch',
-					'npm run clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
-				);
+			scriptsObj.addEntry('clean', 'rimraf ./dist');
+
+			switch (this.options.packageManager) {
+				case PackageManager.Npm:
+				default:
+					scriptsObj
+						.addEntry('build', 'npm run clean && tsc && tsc-alias')
+						.addEntry(
+							'build:watch',
+							'npm run clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
+						);
+					break;
+
+				case PackageManager.Pnpm:
+					scriptsObj
+						.addEntry('build', 'pnpm clean && tsc && tsc-alias')
+						.addEntry(
+							'build:watch',
+							'pnpm clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")',
+						);
+					break;
+			}
 		} else {
 			scriptsObj.addEntry('build', 'tsc');
 		}
@@ -369,28 +385,90 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 	}
 
 	generateDockerfile(): string {
-		return `FROM node:18-alpine as build
+		const lines: string[] = [];
 
-WORKDIR /app
+		lines.push('FROM node:18-alpine as build');
 
-COPY package.json package-lock.json ./
-RUN npm ci
+		lines.push('');
+		lines.push('WORKDIR /app');
 
-COPY . .
-RUN npm run build
+		if (this.options.packageManager === PackageManager.Pnpm) {
+			lines.push('');
+			lines.push('RUN npm i -g pnpm');
+		}
 
-FROM node:18-alpine
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('');
+				lines.push('COPY package.json package-lock.json ./');
+				lines.push('RUN npm ci');
+				break;
 
-WORKDIR /app
+			case PackageManager.Pnpm:
+				lines.push('');
+				lines.push('COPY package.json pnpm-lock.yaml ./');
+				lines.push('RUN pnpm install --frozen-lockfile');
+				break;
+		}
 
-COPY --from=build /app/dist /app/dist
-COPY . .
-RUN npm ci
+		lines.push('');
+		lines.push('COPY . .');
 
-EXPOSE 5000
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('RUN npm run build');
+				break;
 
-CMD ["npm", "start"]
-`;
+			case PackageManager.Pnpm:
+				lines.push('RUN pnpm build');
+				break;
+		}
+
+		lines.push('');
+		lines.push('FROM node:18-alpine');
+
+		lines.push('');
+		lines.push('WORKDIR /app');
+
+		if (this.options.packageManager === PackageManager.Pnpm) {
+			lines.push('');
+			lines.push('RUN npm i -g pnpm');
+		}
+
+		lines.push('');
+		lines.push('COPY --from=build /app/dist /app/dist');
+		lines.push('COPY . .');
+
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('RUN npm ci');
+				break;
+
+			case PackageManager.Pnpm:
+				lines.push('RUN pnpm install --frozen-lockfile');
+				break;
+		}
+
+		lines.push('');
+		lines.push('EXPOSE 5000');
+
+		switch (this.options.packageManager) {
+			case PackageManager.Npm:
+			default:
+				lines.push('');
+				lines.push('CMD ["npm", "start"]');
+				break;
+
+			case PackageManager.Pnpm:
+				lines.push('');
+				lines.push('CMD ["pnpm", "start"]');
+				break;
+		}
+
+		return this.joinLines(lines);
 	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {

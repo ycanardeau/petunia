@@ -39,6 +39,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 		this.typeScriptYohiraBackendProject =
 			new TypeScriptYohiraBackendProject(editorConfig, {
 				projectName: `${this.options.projectName}.backend`,
+				packageManager: this.options.packageManager,
 				test: this.options.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.options.enablePrettier,
@@ -60,6 +61,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 					this.options.ui === UIFramework.Mantine ? 18 : 17,
 				outputType: OutputType.ReactApplication,
 				projectName: `${this.options.projectName}.frontend`,
+				packageManager: this.options.packageManager,
 				test: this.options.test,
 				ui: this.options.ui,
 				icon: this.options.icon,

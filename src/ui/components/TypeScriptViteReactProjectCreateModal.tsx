@@ -1,3 +1,7 @@
+import {
+	PackageManager,
+	packageManagerNames,
+} from '@/core/projects/PackageManager';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
 	IconLibrary,
@@ -95,6 +99,26 @@ const TypeScriptViteReactProjectCreateForm = observer(
 						isInvalid={
 							projectCreateStore.validationError_invalidProjectName
 						}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="Package manager" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(PackageManager).map((value) => ({
+							value: value,
+							text: packageManagerNames[value],
+						}))}
+						value={projectCreateStore.packageManager}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.packageManager = e.target
+									.value as PackageManager;
+							});
+						}}
 						compressed
 					/>
 				</EuiFormRow>

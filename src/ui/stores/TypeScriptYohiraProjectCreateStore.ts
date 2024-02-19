@@ -1,4 +1,5 @@
 import { OrmFramework } from '@/core/projects/OrmFramework';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { ProjectFile } from '@/core/projects/Project';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import {
@@ -21,6 +22,7 @@ export enum BuildTool {
 
 export class TypeScriptYohiraProjectCreateStore {
 	@observable projectName = 'web-app';
+	@observable packageManager = PackageManager.Pnpm;
 	@observable buildTool = BuildTool.Vite;
 	@observable test = TestingFramework.Vitest;
 	@observable ui = UIFramework.ElasticUI;
@@ -95,6 +97,7 @@ export class TypeScriptYohiraProjectCreateStore {
 			{ tab: '\t', newLine: '\n' },
 			{
 				projectName: this.projectName,
+				packageManager: this.packageManager,
 				test: this.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.enablePrettier,

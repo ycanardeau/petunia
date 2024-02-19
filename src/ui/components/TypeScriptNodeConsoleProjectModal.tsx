@@ -1,4 +1,8 @@
 import { OrmFramework, ormFrameworkNames } from '@/core/projects/OrmFramework';
+import {
+	PackageManager,
+	packageManagerNames,
+} from '@/core/projects/PackageManager';
 import { TestingFramework } from '@/core/projects/TypeScriptProject';
 import { testingFrameworkNames } from '@/ui/components/constants';
 import { TypeScriptNodeConsoleProjectCreateStore } from '@/ui/stores/TypeScriptNodeConsoleProjectCreateStore';
@@ -52,6 +56,26 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 						isInvalid={
 							projectCreateStore.validationError_invalidProjectName
 						}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="Package manager" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(PackageManager).map((value) => ({
+							value: value,
+							text: packageManagerNames[value],
+						}))}
+						value={projectCreateStore.packageManager}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.packageManager = e.target
+									.value as PackageManager;
+							});
+						}}
 						compressed
 					/>
 				</EuiFormRow>

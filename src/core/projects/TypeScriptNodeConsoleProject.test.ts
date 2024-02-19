@@ -1,4 +1,5 @@
 import { OrmFramework } from '@/core/projects/OrmFramework';
+import { PackageManager } from '@/core/projects/PackageManager';
 import { TypeScriptNodeConsoleProject } from '@/core/projects/TypeScriptNodeConsoleProject';
 import dependencies from '@/core/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
@@ -51,6 +52,32 @@ describe('TypeScriptNodeConsoleProject', () => {
 		"clean": "rimraf ./dist",
 		"build": "npm run clean && tsc && tsc-alias",
 		"build:watch": "npm run clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")",
+		"start": "node dist/index.js"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generatePackageJson configurePathAliases packageManager Pnpm', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			configurePathAliases: true,
+			packageManager: PackageManager.Pnpm,
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"version": "1.0.0",
+	"private": true,
+	"devDependencies": {
+		"concurrently": "${dependencies['concurrently']}",
+		"rimraf": "${dependencies['rimraf']}",
+		"tsc-alias": "${dependencies['tsc-alias']}",
+		"typescript": "${dependencies['typescript']}"
+	},
+	"scripts": {
+		"clean": "rimraf ./dist",
+		"build": "pnpm clean && tsc && tsc-alias",
+		"build:watch": "pnpm clean && tsc && (concurrently \\"tsc -w\\" \\"tsc-alias -w\\")",
 		"start": "node dist/index.js"
 	}
 }
@@ -155,6 +182,67 @@ describe('TypeScriptNodeConsoleProject', () => {
 	test('generateSrcIndexTS', () => {
 		const actual = defaultProject.generateSrcIndexTS();
 		const expected = `console.log('Hello, World!');
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateDockerfile', () => {
+		const actual = defaultProject.generateDockerfile();
+		const expected = `FROM node:18-alpine as build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist /app/dist
+COPY . .
+RUN npm ci
+
+EXPOSE 5000
+
+CMD ["npm", "start"]
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateDockerfile packageManager Pnpm', () => {
+		const project = new TypeScriptNodeConsoleProject(undefined, {
+			packageManager: PackageManager.Pnpm,
+		});
+		const actual = project.generateDockerfile();
+		const expected = `FROM node:18-alpine as build
+
+WORKDIR /app
+
+RUN npm i -g pnpm
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+RUN pnpm build
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+RUN npm i -g pnpm
+
+COPY --from=build /app/dist /app/dist
+COPY . .
+RUN pnpm install --frozen-lockfile
+
+EXPOSE 5000
+
+CMD ["pnpm", "start"]
 `;
 		expect(actual).toBe(expected);
 	});
