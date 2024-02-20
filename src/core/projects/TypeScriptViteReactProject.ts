@@ -603,7 +603,12 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		}
 
 		if (this.options.publicBasePath !== undefined) {
-			configObj.addEntry('base', `/${this.options.publicBasePath}/`);
+			configObj.addEntry(
+				'base',
+				new JsonLiteral(
+					`process.env.NODE_ENV === 'production' ? '/${this.options.publicBasePath}/' : './'`,
+				),
+			);
 		}
 
 		const lines: string[] = [];

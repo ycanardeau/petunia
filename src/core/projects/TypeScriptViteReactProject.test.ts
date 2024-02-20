@@ -1098,6 +1098,26 @@ export default defineConfig({
 		expect(actual).toBe(expected);
 	});
 
+	test('generateViteConfigTS publicBasePath web-app', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			publicBasePath: 'web-app',
+		});
+		const actual = project.generateViteConfigTS();
+		const expected = `import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+	plugins: [
+		react(),
+	],
+	server: {},
+	base: process.env.NODE_ENV === 'production' ? '/web-app/' : './',
+});
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generateSrcAppTsx', () => {
 		const actual = defaultProject.generateSrcAppTsx();
 		const expected = `import React from 'react';
