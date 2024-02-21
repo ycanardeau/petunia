@@ -146,6 +146,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					.addPackage('@elastic/datemath')
 					.addPackage('@emotion/react')
 					.addPackage('@emotion/css')
+					.addPackage('@emotion/cache')
 					.addPackage('moment')
 					.addPackage('prop-types');
 				devDependenciesObj.addPackage('utility-types');

@@ -2,6 +2,7 @@
 	"@aigamo/route-sphere": "^2.0.2",
 	"@elastic/datemath": "^5.0.3",
 	"@elastic/eui": "^91.0.0",
+	"@emotion/cache": "^11.11.0",
 	"@emotion/css": "^11.11.2",
 	"@emotion/react": "^11.11.1",
 	"@fluentui/react-icons": "^2.0.223",
