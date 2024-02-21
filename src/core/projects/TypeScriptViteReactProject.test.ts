@@ -188,6 +188,7 @@ describe('TypeScriptViteReactProject', () => {
 	"dependencies": {
 		"@elastic/datemath": "${dependencies['@elastic/datemath']}",
 		"@elastic/eui": "${dependencies['@elastic/eui']}",
+		"@emotion/cache": "${dependencies['@emotion/cache']}",
 		"@emotion/css": "${dependencies['@emotion/css']}",
 		"@emotion/react": "${dependencies['@emotion/react']}",
 		"moment": "${dependencies['moment']}",
