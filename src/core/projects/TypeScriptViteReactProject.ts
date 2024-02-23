@@ -939,7 +939,7 @@ export class PaginationStore {
 	generateDockerfile(): string {
 		const lines: string[] = [];
 
-		lines.push('FROM node:18-alpine as build');
+		lines.push('FROM node:20-alpine as build');
 
 		lines.push('');
 		lines.push('WORKDIR /app');

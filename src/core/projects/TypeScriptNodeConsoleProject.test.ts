@@ -188,7 +188,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 
 	test('generateDockerfile', () => {
 		const actual = defaultProject.generateDockerfile();
-		const expected = `FROM node:18-alpine as build
+		const expected = `FROM node:20-alpine as build
 
 WORKDIR /app
 
@@ -198,7 +198,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -218,7 +218,7 @@ CMD ["npm", "start"]
 			packageManager: PackageManager.Pnpm,
 		});
 		const actual = project.generateDockerfile();
-		const expected = `FROM node:18-alpine as build
+		const expected = `FROM node:20-alpine as build
 
 WORKDIR /app
 
@@ -230,7 +230,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 

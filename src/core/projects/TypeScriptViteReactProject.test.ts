@@ -1247,7 +1247,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 	test('generateDockerfile', () => {
 		const actual = defaultProject.generateDockerfile();
-		const expected = `FROM node:18-alpine as build
+		const expected = `FROM node:20-alpine as build
 
 WORKDIR /app
 
@@ -1274,7 +1274,7 @@ CMD ["nginx", "-g", "daemon off;"]
 			packageManager: PackageManager.Pnpm,
 		});
 		const actual = project.generateDockerfile();
-		const expected = `FROM node:18-alpine as build
+		const expected = `FROM node:20-alpine as build
 
 WORKDIR /app
 

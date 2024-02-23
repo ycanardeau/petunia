@@ -387,7 +387,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 	generateDockerfile(): string {
 		const lines: string[] = [];
 
-		lines.push('FROM node:18-alpine as build');
+		lines.push('FROM node:20-alpine as build');
 
 		lines.push('');
 		lines.push('WORKDIR /app');
@@ -427,7 +427,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		}
 
 		lines.push('');
-		lines.push('FROM node:18-alpine');
+		lines.push('FROM node:20-alpine');
 
 		lines.push('');
 		lines.push('WORKDIR /app');
