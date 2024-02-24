@@ -23,16 +23,6 @@ export class TypeScriptYohiraBackendProject extends TypeScriptProject<TypeScript
 		);
 	}
 
-	generateSrcModelsEntitiesIUserOwnedEntityTS(): string {
-		return `import { User } from '@/entities/User';
-import { Ref } from '@mikro-orm/core';
-
-export interface IUserOwnedEntity {
-	user: Ref<User>;
-}
-`;
-	}
-
 	generateSrcModelsRequestsUserGetRequestTS(): string {
 		return `import { JSONSchemaType } from 'ajv';
 
@@ -141,6 +131,7 @@ import {
 	OneToMany,
 	PrimaryKey,
 	Property,
+	Ref,
 } from '@mikro-orm/core';
 import { createHash } from 'node:crypto';
 
@@ -207,12 +198,15 @@ export class User {
 		return \`https://www.gravatar.com/avatar/\${hash}\`;
 	}
 }
+
+export interface IUserOwnedEntity {
+	user: Ref<User>;
+}
 `;
 	}
 
 	generateSrcEntitiesLoginTS(): string {
-		return `import { User } from '@/entities/User';
-import { IUserOwnedEntity } from '@/models/entities/IUserOwnedEntity';
+		return `import { IUserOwnedEntity, User } from '@/entities/User';
 import {
 	Entity,
 	ManyToOne,
@@ -960,11 +954,6 @@ export class CurrentUserService implements ICurrentUserService {
 		yield {
 			path: 'src/models/dto/UserDto.ts',
 			text: this.generateSrcModelsDtoUserDtoTS(),
-		};
-
-		yield {
-			path: 'src/models/entities/IUserOwnedEntity.ts',
-			text: this.generateSrcModelsEntitiesIUserOwnedEntityTS(),
 		};
 
 		yield {
