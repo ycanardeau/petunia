@@ -815,7 +815,7 @@ import { UserLogoutHandler } from '@/request-handlers/UserLogoutHandler';
 import { UserSignUpHandler } from '@/request-handlers/UserSignUpHandler';
 import { Ctor } from 'yohira';
 
-interface RequestHandlerDescriptor {
+export interface RequestHandlerDescriptor {
 	method: 'GET' | 'POST';
 	serviceType: symbol;
 	implType: Ctor<RequestHandler<unknown, unknown>>;
