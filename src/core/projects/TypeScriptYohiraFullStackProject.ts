@@ -38,7 +38,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 
 		this.typeScriptYohiraBackendProject =
 			new TypeScriptYohiraBackendProject(editorConfig, {
-				projectName: `${this.options.projectName}.backend`,
+				projectName: `${this.options.projectName}.api`,
 				packageManager: this.options.packageManager,
 				test: this.options.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
@@ -89,8 +89,8 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 	generateNginxNginxConf(): string {
 		return `# https://medium.com/@r.thilina/deploying-multiple-containerized-angular-applications-in-different-subdirectories-of-a-single-73923688bece
 
-upstream ${this.options.projectName}.backend {
-    server ${this.options.projectName}.backend:5000;
+upstream ${this.options.projectName}.api {
+    server ${this.options.projectName}.api:5000;
 }
 upstream ${this.options.projectName}.frontend {
     server ${this.options.projectName}.frontend:8080;
@@ -101,7 +101,7 @@ server {
 
     location /${this.options.projectName}/api {
         rewrite ^/${this.options.projectName}/api/(.*) /$1 break;
-        proxy_pass http://${this.options.projectName}.backend/;
+        proxy_pass http://${this.options.projectName}.api/;
     }
     location /${this.options.projectName} {
         proxy_pass http://${this.options.projectName}.frontend/;
@@ -120,10 +120,10 @@ networks:
     driver: bridge
 
 services:
-  ${this.options.projectName}.backend:
-    # image: ghcr.io/ycanardeau/${this.options.projectName}.backend:main
+  ${this.options.projectName}.api:
+    # image: ghcr.io/ycanardeau/${this.options.projectName}.api:main
     platform: linux/amd64
-    container_name: ${this.options.projectName}.backend
+    container_name: ${this.options.projectName}.api
     restart: always
     environment:
       - MIKRO_ORM_HOST=\${MIKRO_ORM_HOST}
@@ -140,7 +140,7 @@ services:
     container_name: ${this.options.projectName}.frontend # must match the name of the container in the nginx config
     restart: always
     depends_on:
-      - ${this.options.projectName}.backend
+      - ${this.options.projectName}.api
     networks:
       - app-network
 
@@ -150,7 +150,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - ${this.options.projectName}.backend
+      - ${this.options.projectName}.api
       - ${this.options.projectName}.frontend
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
@@ -178,7 +178,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ${this.options.projectName}.backend
+          - image: ${this.options.projectName}.api
           - image: ${this.options.projectName}.frontend
 
     permissions:
