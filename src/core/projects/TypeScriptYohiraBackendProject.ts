@@ -655,6 +655,7 @@ import { MikroORM } from '@mikro-orm/core';
 import {
 	CookieAuthenticationDefaults,
 	Envs,
+	HeaderNames,
 	IHttpContext,
 	StatusCodes,
 	WebAppOptions,
@@ -748,6 +749,11 @@ async function main(): Promise<void> {
 				);
 
 				if (handleResult.ok) {
+					httpContext.response.headers.setHeader(
+						HeaderNames['Content-Type'],
+						'application/json; charset=utf-8',
+					);
+
 					return write(
 						httpContext.response,
 						JSON.stringify(handleResult.val),
