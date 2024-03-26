@@ -293,8 +293,18 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					new JsonObject().addEntry(
 						'.',
 						new JsonObject()
-							.addEntry('import', esFilename)
-							.addEntry('require', cjsFilename),
+							.addEntry(
+								'import',
+								new JsonObject()
+									.addEntry('types', './dist/index.d.ts')
+									.addEntry('default', esFilename),
+							)
+							.addEntry(
+								'require',
+								new JsonObject()
+									.addEntry('types', './dist/index.d.ts')
+									.addEntry('default', cjsFilename),
+							),
 					),
 				);
 		}

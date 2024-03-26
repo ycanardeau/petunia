@@ -89,8 +89,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
@@ -464,8 +470,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
@@ -547,8 +559,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
@@ -631,8 +649,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
@@ -714,8 +738,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
@@ -795,8 +825,14 @@ describe('TypeScriptViteReactProject', () => {
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs.js"
+			}
 		}
 	}
 }
