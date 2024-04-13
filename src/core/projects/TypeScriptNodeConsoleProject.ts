@@ -507,15 +507,15 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		switch (this.options.orm) {
 			case OrmFramework.MikroOrm:
 				yield {
-					path: '.env.development.local',
+					path: '.env.development.local.example',
 					text: this.generateEnvLocal('development'),
 				};
 				yield {
-					path: '.env.production.local',
+					path: '.env.production.local.example',
 					text: this.generateEnvLocal('production'),
 				};
 				yield {
-					path: '.env.test.local',
+					path: '.env.test.local.example',
 					text: this.generateEnvLocal('test'),
 				};
 				yield {

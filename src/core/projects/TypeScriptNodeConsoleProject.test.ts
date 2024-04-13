@@ -311,9 +311,9 @@ CMD ["pnpm", "start"]
 			'tsconfig.json',
 			'tsconfig.orm.json',
 			'src/index.ts',
-			'.env.development.local',
-			'.env.production.local',
-			'.env.test.local',
+			'.env.development.local.example',
+			'.env.production.local.example',
+			'.env.test.local.example',
 			'src/mikro-orm.config.ts',
 		];
 		expect(actual).toEqual(expected);
