@@ -12,7 +12,7 @@ export class TypeScriptYohiraBackendProject extends TypeScriptProject<TypeScript
 	private readonly typeScriptNodeConsoleProject: TypeScriptNodeConsoleProject;
 
 	constructor(
-		editorConfig: EditorConfig,
+		editorConfig: EditorConfig | undefined,
 		options: TypeScriptYohiraBackendProjectOptions,
 	) {
 		super(editorConfig, options);

@@ -24,6 +24,7 @@ interface TypeScriptYohiraFullStackProjectOptions
 	icon?: IconLibrary;
 	deployToSubdirectory?: boolean;
 	buildAndDeployToServerViaSsh?: boolean;
+	httpBasicAuthentication?: boolean;
 }
 
 export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScriptYohiraFullStackProjectOptions> {
@@ -31,7 +32,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 	private readonly typeScriptViteReactProject: TypeScriptViteReactProject;
 
 	constructor(
-		editorConfig: EditorConfig,
+		editorConfig: EditorConfig | undefined,
 		options: TypeScriptYohiraFullStackProjectOptions,
 	) {
 		super(editorConfig, options);
@@ -87,76 +88,140 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 	}
 
 	generateNginxNginxConf(): string {
-		return `# https://medium.com/@r.thilina/deploying-multiple-containerized-angular-applications-in-different-subdirectories-of-a-single-73923688bece
+		const lines: string[] = [];
 
-upstream ${this.options.projectName}.api {
-    server ${this.options.projectName}.api:5000;
-}
-upstream ${this.options.projectName}.frontend {
-    server ${this.options.projectName}.frontend:8080;
-}
+		lines.push(
+			'# https://medium.com/@r.thilina/deploying-multiple-containerized-angular-applications-in-different-subdirectories-of-a-single-73923688bece',
+		);
 
-server {
-    listen 80;
+		lines.push('');
+		lines.push(`upstream ${this.options.projectName}.api {`);
+		lines.push(`    server ${this.options.projectName}.api:5000;`);
+		lines.push('}');
+		lines.push(`upstream ${this.options.projectName}.frontend {`);
+		lines.push(`    server ${this.options.projectName}.frontend:8080;`);
+		lines.push('}');
 
-    location /${this.options.projectName}/api {
-        rewrite ^/${this.options.projectName}/api/(.*) /$1 break;
-        proxy_pass http://${this.options.projectName}.api/;
-    }
-    location /${this.options.projectName} {
-        proxy_pass http://${this.options.projectName}.frontend/;
-    }
-}
-`;
+		lines.push('');
+		lines.push('server {');
+		lines.push('    listen 80;');
+
+		if (this.options.httpBasicAuthentication) {
+			lines.push('');
+			lines.push('    auth_basic "Restricted";');
+			lines.push('    auth_basic_user_file /etc/nginx/.htpasswd;');
+		}
+
+		lines.push('');
+		lines.push(`    location /${this.options.projectName}/api {`);
+		lines.push(
+			`        rewrite ^/${this.options.projectName}/api/(.*) /$1 break;`,
+		);
+		lines.push(
+			`        proxy_pass http://${this.options.projectName}.api/;`,
+		);
+		lines.push('    }');
+		lines.push(`    location /${this.options.projectName} {`);
+		lines.push(
+			`        proxy_pass http://${this.options.projectName}.frontend/;`,
+		);
+		lines.push('    }');
+		lines.push('}');
+
+		return this.joinLines(lines);
+	}
+
+	generateNginxDockerfile(): string {
+		const lines: string[] = [];
+
+		lines.push('FROM nginx:latest');
+
+		if (this.options.httpBasicAuthentication) {
+			lines.push('');
+			lines.push('ARG BASIC_AUTH_USERNAME');
+			lines.push('ARG BASIC_AUTH_PASSWORD');
+			lines.push('');
+			lines.push(
+				'RUN apt-get update -y && apt-get install -y apache2-utils && rm -rf /var/lib/apt/lists/*',
+			);
+			lines.push('');
+			lines.push(
+				'RUN htpasswd -b -c /etc/nginx/.htpasswd $BASIC_AUTH_USERNAME $BASIC_AUTH_PASSWORD',
+			);
+		}
+
+		lines.push('');
+		lines.push('COPY ./nginx.conf /etc/nginx/conf.d/default.conf');
+
+		return this.joinLines(lines);
 	}
 
 	generateComposeYaml(): string {
-		return `# https://github.com/workfall/workfall-chatgpt-be/blob/aba89c916fcd516f3e8ee070475c4c5d1c0a32be/docker-compose.yml
+		const lines: string[] = [];
 
-version: "3.9"
+		lines.push(
+			'# https://github.com/workfall/workfall-chatgpt-be/blob/aba89c916fcd516f3e8ee070475c4c5d1c0a32be/docker-compose.yml',
+		);
+		lines.push('');
+		lines.push('version: "3.9"');
+		lines.push('');
+		lines.push('networks:');
+		lines.push('  app-network:');
+		lines.push('    driver: bridge');
+		lines.push('');
+		lines.push('services:');
+		lines.push(`  ${this.options.projectName}.api:`);
+		lines.push(
+			`    # image: ghcr.io/ycanardeau/${this.options.projectName}.api:main`,
+		);
+		lines.push('    platform: linux/amd64');
+		lines.push(`    container_name: ${this.options.projectName}.api`);
+		lines.push('    restart: always');
+		lines.push('    environment:');
+		lines.push(`      - MIKRO_ORM_HOST=\${MIKRO_ORM_HOST}`);
+		lines.push(`      - MIKRO_ORM_DB_NAME=${this.options.projectName}`);
+		lines.push(`      - MIKRO_ORM_DEBUG=\${MIKRO_ORM_DEBUG}`);
+		lines.push(`      - MIKRO_ORM_USER=\${MIKRO_ORM_USER}`);
+		lines.push(`      - MIKRO_ORM_PASSWORD=\${MIKRO_ORM_PASSWORD}`);
+		lines.push(
+			`      - MIKRO_ORM_ALLOW_GLOBAL_CONTEXT=\${MIKRO_ORM_ALLOW_GLOBAL_CONTEXT}`,
+		);
+		lines.push('    networks:');
+		lines.push('      - app-network');
+		lines.push(`  ${this.options.projectName}.frontend:`);
+		lines.push(
+			`    # image: ghcr.io/ycanardeau/${this.options.projectName}.frontend:main`,
+		);
+		lines.push('    platform: linux/amd64');
+		lines.push(
+			`    container_name: ${this.options.projectName}.frontend # must match the name of the container in the nginx config`,
+		);
+		lines.push('    restart: always');
+		lines.push('    depends_on:');
+		lines.push(`      - ${this.options.projectName}.api`);
+		lines.push('    networks:');
+		lines.push('      - app-network');
+		lines.push('');
+		lines.push('  gateway:');
+		lines.push('    build:');
+		lines.push('      context: nginx');
 
-networks:
-  app-network:
-    driver: bridge
+		if (this.options.httpBasicAuthentication) {
+			lines.push('      args:');
+			lines.push(`        - BASIC_AUTH_USERNAME=\${BASIC_AUTH_USERNAME}`);
+			lines.push(`        - BASIC_AUTH_PASSWORD=\${BASIC_AUTH_PASSWORD}`);
+		}
 
-services:
-  ${this.options.projectName}.api:
-    # image: ghcr.io/ycanardeau/${this.options.projectName}.api:main
-    platform: linux/amd64
-    container_name: ${this.options.projectName}.api
-    restart: always
-    environment:
-      - MIKRO_ORM_HOST=\${MIKRO_ORM_HOST}
-      - MIKRO_ORM_DB_NAME=${this.options.projectName}
-      - MIKRO_ORM_DEBUG=\${MIKRO_ORM_DEBUG}
-      - MIKRO_ORM_USER=\${MIKRO_ORM_USER}
-      - MIKRO_ORM_PASSWORD=\${MIKRO_ORM_PASSWORD}
-      - MIKRO_ORM_ALLOW_GLOBAL_CONTEXT=\${MIKRO_ORM_ALLOW_GLOBAL_CONTEXT}
-    networks:
-      - app-network
-  ${this.options.projectName}.frontend:
-    # image: ghcr.io/ycanardeau/${this.options.projectName}.frontend:main
-    platform: linux/amd64
-    container_name: ${this.options.projectName}.frontend # must match the name of the container in the nginx config
-    restart: always
-    depends_on:
-      - ${this.options.projectName}.api
-    networks:
-      - app-network
+		lines.push('    container_name: gateway');
+		lines.push('    ports:');
+		lines.push('      - "80:80"');
+		lines.push('    depends_on:');
+		lines.push(`      - ${this.options.projectName}.api`);
+		lines.push(`      - ${this.options.projectName}.frontend`);
+		lines.push('    networks:');
+		lines.push('      - app-network');
 
-  gateway:
-    image: nginx:latest
-    container_name: gateway
-    ports:
-      - "80:80"
-    depends_on:
-      - ${this.options.projectName}.api
-      - ${this.options.projectName}.frontend
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-network
-`;
+		return this.joinLines(lines);
 	}
 
 	generateGitHubWorkflowsMainYml(): string {
@@ -238,6 +303,17 @@ jobs:
 `;
 	}
 
+	generateEnvExample(): string {
+		const lines: string[] = [];
+
+		if (this.options.httpBasicAuthentication) {
+			lines.push('BASIC_AUTH_USERNAME =');
+			lines.push('BASIC_AUTH_PASSWORD =');
+		}
+
+		return this.joinLines(lines);
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		for (const projectFile of this.typeScriptYohiraBackendProject.generateProjectFiles()) {
 			yield {
@@ -260,6 +336,11 @@ jobs:
 			};
 
 			yield {
+				path: 'nginx/Dockerfile',
+				text: this.generateNginxDockerfile(),
+			};
+
+			yield {
 				path: 'compose.yaml',
 				text: this.generateComposeYaml(),
 			};
@@ -267,6 +348,11 @@ jobs:
 			yield {
 				path: '.github/workflows/main.yml',
 				text: this.generateGitHubWorkflowsMainYml(),
+			};
+
+			yield {
+				path: '.env.example',
+				text: this.generateEnvExample(),
 			};
 		}
 	}

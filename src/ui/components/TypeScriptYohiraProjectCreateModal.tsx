@@ -250,6 +250,23 @@ const TypeScriptYohiraProjectCreateForm = observer(
 						compressed
 					/>
 				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Restrict access with HTTP basic authentication" /* LOC */
+						checked={projectCreateStore.httpBasicAuthentication}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.httpBasicAuthentication =
+									e.target.checked;
+							});
+						}}
+						disabled={
+							!projectCreateStore.buildAndDeployToServerViaSsh
+						}
+						compressed
+					/>
+				</EuiFormRow>
 			</EuiForm>
 		);
 	},

@@ -58,6 +58,16 @@ export class TypeScriptYohiraProjectCreateStore {
 		this._deployToSubdirectory = value;
 	}
 
+	@observable _httpBasicAuthentication = false;
+	get httpBasicAuthentication(): boolean {
+		return (
+			this.buildAndDeployToServerViaSsh && this._httpBasicAuthentication
+		);
+	}
+	set httpBasicAuthentication(value: boolean) {
+		this._httpBasicAuthentication = value;
+	}
+
 	constructor() {
 		makeObservable(this);
 	}
@@ -114,6 +124,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				icon: this.icon,
 				deployToSubdirectory: this.deployToSubdirectory,
 				buildAndDeployToServerViaSsh: this.buildAndDeployToServerViaSsh,
+				httpBasicAuthentication: this.httpBasicAuthentication,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(
