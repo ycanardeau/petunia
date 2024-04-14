@@ -24,6 +24,10 @@ interface TypeScriptYohiraFullStackProjectOptions
 	icon?: IconLibrary;
 	deployToSubdirectory?: boolean;
 	buildAndDeployToServerViaSsh?: boolean;
+	letsEncrypt?: {
+		domain: string;
+		email: string;
+	};
 	httpBasicAuthentication?: boolean;
 }
 
@@ -102,31 +106,63 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 		lines.push(`    server ${this.options.projectName}.frontend:8080;`);
 		lines.push('}');
 
-		lines.push('');
-		lines.push('server {');
-		lines.push('    listen 80;');
-
-		if (this.options.httpBasicAuthentication) {
+		if (this.options.letsEncrypt) {
 			lines.push('');
-			lines.push('    auth_basic "Restricted";');
-			lines.push('    auth_basic_user_file /etc/nginx/.htpasswd;');
-		}
+			lines.push('server {');
+			lines.push('    listen 80;');
+			lines.push(`    server_name ${this.options.letsEncrypt.domain};`);
+			lines.push('    server_tokens off;');
+			lines.push('');
+			lines.push('    location /.well-known/acme-challenge/ {');
+			lines.push('        root /var/www/certbot;');
+			lines.push('    }');
+			lines.push('');
+			lines.push('    location / {');
+			lines.push('        return 301 https://$host$request_uri;');
+			lines.push('    }');
+			lines.push('}');
 
-		lines.push('');
-		lines.push(`    location /${this.options.projectName}/api {`);
-		lines.push(
-			`        rewrite ^/${this.options.projectName}/api/(.*) /$1 break;`,
-		);
-		lines.push(
-			`        proxy_pass http://${this.options.projectName}.api/;`,
-		);
-		lines.push('    }');
-		lines.push(`    location /${this.options.projectName} {`);
-		lines.push(
-			`        proxy_pass http://${this.options.projectName}.frontend/;`,
-		);
-		lines.push('    }');
-		lines.push('}');
+			lines.push('');
+			lines.push('server {');
+			lines.push('    listen 443 ssl;');
+			lines.push(`    server_name ${this.options.letsEncrypt.domain};`);
+			lines.push('    server_tokens off;');
+			lines.push('');
+			lines.push(
+				`    ssl_certificate /etc/letsencrypt/live/${this.options.letsEncrypt.domain}/fullchain.pem;`,
+			);
+			lines.push(
+				`    ssl_certificate_key /etc/letsencrypt/live/${this.options.letsEncrypt.domain}/privkey.pem;`,
+			);
+			lines.push(`    include /etc/letsencrypt/options-ssl-nginx.conf;`);
+			lines.push(`    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;`);
+
+			if (this.options.letsEncrypt) {
+				if (this.options.httpBasicAuthentication) {
+					lines.push('');
+					lines.push('    auth_basic "Restricted";');
+					lines.push(
+						'    auth_basic_user_file /etc/nginx/.htpasswd;',
+					);
+				}
+			}
+
+			lines.push('');
+			lines.push(`    location /${this.options.projectName}/api {`);
+			lines.push(
+				`        rewrite ^/${this.options.projectName}/api/(.*) /$1 break;`,
+			);
+			lines.push(
+				`        proxy_pass http://${this.options.projectName}.api/;`,
+			);
+			lines.push('    }');
+			lines.push(`    location /${this.options.projectName} {`);
+			lines.push(
+				`        proxy_pass http://${this.options.projectName}.frontend/;`,
+			);
+			lines.push('    }');
+			lines.push('}');
+		}
 
 		return this.joinLines(lines);
 	}
@@ -213,13 +249,42 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 		}
 
 		lines.push('    container_name: gateway');
+		lines.push('    restart: unless-stopped');
+
+		if (this.options.letsEncrypt) {
+			lines.push('    volumes:');
+			lines.push('      - ./data/certbot/conf:/etc/letsencrypt');
+			lines.push('      - ./data/certbot/www:/var/www/certbot');
+		}
+
 		lines.push('    ports:');
 		lines.push('      - "80:80"');
+
+		if (this.options.letsEncrypt) {
+			lines.push('      - "443:443"');
+			lines.push(
+				`    command: '/bin/sh -c ''while :; do sleep 6h & wait $\${!}; nginx -s reload; done & nginx -g "daemon off;"'''`,
+			);
+		}
+
 		lines.push('    depends_on:');
 		lines.push(`      - ${this.options.projectName}.api`);
 		lines.push(`      - ${this.options.projectName}.frontend`);
 		lines.push('    networks:');
 		lines.push('      - app-network');
+
+		if (this.options.letsEncrypt) {
+			lines.push('');
+			lines.push('  certbot:');
+			lines.push('    image: certbot/certbot');
+			lines.push('    restart: unless-stopped');
+			lines.push('    volumes:');
+			lines.push('      - ./data/certbot/conf:/etc/letsencrypt');
+			lines.push('      - ./data/certbot/www:/var/www/certbot');
+			lines.push(
+				`    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $\${!}; done;'"`,
+			);
+		}
 
 		return this.joinLines(lines);
 	}
@@ -314,6 +379,98 @@ jobs:
 		return this.joinLines(lines);
 	}
 
+	generateInitLetsEncryptSh({
+		domain,
+		email,
+	}: {
+		domain: string;
+		email: string;
+	}): string {
+		return `#!/bin/bash
+
+# https://raw.githubusercontent.com/wmnnd/nginx-certbot/master/init-letsencrypt.sh
+
+if ! [ -x "$(command -v docker compose)" ]; then
+  echo 'Error: docker compose is not installed.' >&2
+  exit 1
+fi
+
+domains=(${[domain, `www.${domain}`].join(' ')})
+rsa_key_size=4096
+data_path="./data/certbot"
+email="${email}" # Adding a valid address is strongly recommended
+staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
+
+if [ -d "$data_path" ]; then
+  read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
+  if [ "$decision" != "Y" ] && [ "$decision" != "y" ]; then
+    exit
+  fi
+fi
+
+
+if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
+  echo "### Downloading recommended TLS parameters ..."
+  mkdir -p "$data_path/conf"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
+  echo
+fi
+
+echo "### Creating dummy certificate for $domains ..."
+path="/etc/letsencrypt/live/$domains"
+mkdir -p "$data_path/conf/live/$domains"
+docker compose run --rm --entrypoint "\\
+  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\\
+    -keyout '$path/privkey.pem' \\
+    -out '$path/fullchain.pem' \\
+    -subj '/CN=localhost'" certbot
+echo
+
+
+echo "### Starting nginx ..."
+docker compose up --force-recreate -d gateway
+echo
+
+echo "### Deleting dummy certificate for $domains ..."
+docker compose run --rm --entrypoint "\\
+  rm -Rf /etc/letsencrypt/live/$domains && \\
+  rm -Rf /etc/letsencrypt/archive/$domains && \\
+  rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
+echo
+
+
+echo "### Requesting Let's Encrypt certificate for $domains ..."
+#Join $domains to -d args
+domain_args=""
+for domain in "\${domains[@]}"; do
+  domain_args="$domain_args -d $domain"
+done
+
+# Select appropriate email arg
+case "$email" in
+  "") email_arg="--register-unsafely-without-email" ;;
+  *) email_arg="--email $email" ;;
+esac
+
+# Enable staging mode if needed
+if [ $staging != "0" ]; then staging_arg="--staging"; fi
+
+docker compose run --rm --entrypoint "\\
+  certbot certonly --webroot -w /var/www/certbot \\
+    $staging_arg \\
+    $email_arg \\
+    $domain_args \\
+    --rsa-key-size $rsa_key_size \\
+    --agree-tos \\
+    --force-renewal" certbot
+echo
+
+echo "### Reloading nginx ..."
+docker compose exec gateway nginx -s reload
+`;
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		for (const projectFile of this.typeScriptYohiraBackendProject.generateProjectFiles()) {
 			yield {
@@ -354,6 +511,15 @@ jobs:
 				path: '.env.example',
 				text: this.generateEnvExample(),
 			};
+
+			if (this.options.letsEncrypt) {
+				yield {
+					path: 'init-letsencrypt.sh',
+					text: this.generateInitLetsEncryptSh(
+						this.options.letsEncrypt,
+					),
+				};
+			}
 		}
 	}
 }

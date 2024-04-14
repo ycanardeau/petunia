@@ -58,11 +58,17 @@ export class TypeScriptYohiraProjectCreateStore {
 		this._deployToSubdirectory = value;
 	}
 
+	@observable _setUpLetsEncrypt = false;
+	get setUpLetsEncrypt(): boolean {
+		return this.buildAndDeployToServerViaSsh && this._setUpLetsEncrypt;
+	}
+	set setUpLetsEncrypt(value: boolean) {
+		this._setUpLetsEncrypt = value;
+	}
+
 	@observable _httpBasicAuthentication = false;
 	get httpBasicAuthentication(): boolean {
-		return (
-			this.buildAndDeployToServerViaSsh && this._httpBasicAuthentication
-		);
+		return this.setUpLetsEncrypt && this._httpBasicAuthentication;
 	}
 	set httpBasicAuthentication(value: boolean) {
 		this._httpBasicAuthentication = value;
@@ -125,6 +131,12 @@ export class TypeScriptYohiraProjectCreateStore {
 				deployToSubdirectory: this.deployToSubdirectory,
 				buildAndDeployToServerViaSsh: this.buildAndDeployToServerViaSsh,
 				httpBasicAuthentication: this.httpBasicAuthentication,
+				letsEncrypt: this.setUpLetsEncrypt
+					? {
+							domain: 'example.org' /* TODO */,
+							email: '',
+					  }
+					: undefined,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

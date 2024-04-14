@@ -253,6 +253,23 @@ const TypeScriptYohiraProjectCreateForm = observer(
 
 				<EuiFormRow display="rowCompressed">
 					<EuiSwitch
+						label="Set up Let's Encrypt" /* LOC */
+						checked={projectCreateStore.setUpLetsEncrypt}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.setUpLetsEncrypt =
+									e.target.checked;
+							});
+						}}
+						disabled={
+							!projectCreateStore.buildAndDeployToServerViaSsh
+						}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
 						label="Restrict access with HTTP basic authentication" /* LOC */
 						checked={projectCreateStore.httpBasicAuthentication}
 						onChange={(e): void => {
@@ -262,7 +279,8 @@ const TypeScriptYohiraProjectCreateForm = observer(
 							});
 						}}
 						disabled={
-							!projectCreateStore.buildAndDeployToServerViaSsh
+							!projectCreateStore.buildAndDeployToServerViaSsh ||
+							!projectCreateStore.setUpLetsEncrypt
 						}
 						compressed
 					/>
