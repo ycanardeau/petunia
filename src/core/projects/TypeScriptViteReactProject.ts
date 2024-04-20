@@ -844,6 +844,7 @@ import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
 import { icon as sortDown } from '@elastic/eui/es/components/icon/assets/sort_down';
 import { icon as sortUp } from '@elastic/eui/es/components/icon/assets/sort_up';
 import { icon as userAvatar } from '@elastic/eui/es/components/icon/assets/userAvatar';
+import { icon as warning } from '@elastic/eui/es/components/icon/assets/warning';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
 import { ValuesType } from 'utility-types';
 
@@ -877,6 +878,7 @@ const cachedIcons: IconComponentCacheType = {
 	sortDown,
 	sortUp,
 	userAvatar,
+	warning,
 };
 
 appendIconComponentCache(cachedIcons);
