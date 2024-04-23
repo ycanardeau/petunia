@@ -25,8 +25,12 @@ export const AppRoutes = (): React.ReactElement => {
 						<Route
 							path=""
 							element={
-								<Navigate to="/projects/typescript-vite-react" />
+								<Navigate to="/projects/typescript-yohira" />
 							}
+						/>
+						<Route
+							path="typescript-yohira"
+							element={<TypeScriptYohiraProjectCreateModal />}
 						/>
 						<Route
 							path="typescript-vite-react"
@@ -37,10 +41,6 @@ export const AppRoutes = (): React.ReactElement => {
 							element={
 								<TypeScriptNodeConsoleProjectCreateModal />
 							}
-						/>
-						<Route
-							path="typescript-yohira"
-							element={<TypeScriptYohiraProjectCreateModal />}
 						/>
 						<Route
 							path="typescript-nest"

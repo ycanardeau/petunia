@@ -49,6 +49,10 @@ export const AppSideNav = (): React.ReactElement => {
 					name: 'TypeScript',
 					icon: <EuiIcon type={TypeScriptIcon} />,
 					items: [
+						createItem('Yohira', {
+							icon: <EuiIcon type={HydrangeaIcon} />,
+							href: '/projects/typescript-yohira',
+						}),
 						createItem('React', {
 							icon: <EuiIcon type={ReactIcon} />,
 							href: '/projects/typescript-vite-react',
@@ -56,10 +60,6 @@ export const AppSideNav = (): React.ReactElement => {
 						createItem('Node.js', {
 							icon: <EuiIcon type={NodeIcon} />,
 							href: '/projects/typescript-node-console',
-						}),
-						createItem('Yohira', {
-							icon: <EuiIcon type={HydrangeaIcon} />,
-							href: '/projects/typescript-yohira',
 						}),
 						createItem('NestJS', {
 							icon: <EuiIcon type={NestIcon} />,
