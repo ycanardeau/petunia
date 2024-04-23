@@ -58,7 +58,7 @@ export class TypeScriptYohiraProjectCreateStore {
 		this._deployToSubdirectory = value;
 	}
 
-	@observable _setUpLetsEncrypt = false;
+	@observable _setUpLetsEncrypt = true;
 	get setUpLetsEncrypt(): boolean {
 		return this.buildAndDeployToServerViaSsh && this._setUpLetsEncrypt;
 	}
