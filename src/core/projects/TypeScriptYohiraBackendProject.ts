@@ -277,7 +277,14 @@ export function toUserDto(user: User): Result<UserDto, DataNotFoundError> {
 	generateSrcRequestHandlersRequestHandlerTS(): string {
 		return `import { JSONSchemaType, ValidateFunction } from 'ajv';
 import Ajv from 'ajv';
-import { Err, IHttpContext, IHttpRequest, Ok, Result } from 'yohira';
+import {
+	Err,
+	IActionResult,
+	IHttpContext,
+	IHttpRequest,
+	Ok,
+	Result,
+} from 'yohira';
 
 const ajv = new Ajv({
 	coerceTypes: true,
@@ -332,7 +339,9 @@ export abstract class RequestHandler<TRequest, TResponse> {
 				case 'GET':
 					return JSON.stringify(
 						Object.fromEntries(
-							new URLSearchParams(httpRequest.queryString.toString()),
+							new URLSearchParams(
+								httpRequest.queryString.toString(),
+							),
 						),
 					);
 
@@ -356,7 +365,7 @@ export abstract class RequestHandler<TRequest, TResponse> {
 	abstract handle(
 		httpContext: IHttpContext,
 		request: TRequest,
-	): Promise<Result<TResponse, Error>>;
+	): Promise<Result<IActionResult, Error>>;
 }
 `;
 	}
@@ -373,7 +382,7 @@ import {
 import { UserGetResponse } from '@/models/responses/UserGetResponse';
 import { RequestHandler } from '@/request-handlers/RequestHandler';
 import { ICurrentUserService } from '@/services/CurrentUserService';
-import { Err, IHttpContext, Ok, Result, inject } from 'yohira';
+import { Err, IHttpContext, JsonResult, Ok, Result, inject } from 'yohira';
 
 export class UserGetHandler extends RequestHandler<
 	UserGetRequest,
@@ -389,10 +398,11 @@ export class UserGetHandler extends RequestHandler<
 	async handle(
 		httpContext: IHttpContext,
 		request: UserGetRequest,
-	): Promise<Result<UserDto, UnauthorizedError | DataNotFoundError>> {
-		const currentUser = await this.currentUserService.getCurrentUser(
-			httpContext,
-		);
+	): Promise<
+		Result<JsonResult<UserDto>, UnauthorizedError | DataNotFoundError>
+	> {
+		const currentUser =
+			await this.currentUserService.getCurrentUser(httpContext);
 
 		if (!currentUser) {
 			return new Err(new UnauthorizedError());
@@ -406,7 +416,7 @@ export class UserGetHandler extends RequestHandler<
 
 		const userDto = userDtoResult.val;
 
-		return new Ok(userDto);
+		return new Ok(new JsonResult(userDto));
 	}
 }
 `;
@@ -435,6 +445,7 @@ import {
 	CookieAuthenticationDefaults,
 	Err,
 	IHttpContext,
+	JsonResult,
 	Ok,
 	Result,
 	inject,
@@ -458,7 +469,10 @@ export class UserLoginHandler extends RequestHandler<
 		httpContext: IHttpContext,
 		request: UserLoginRequest,
 	): Promise<
-		Result<UserLoginResponse, DataNotFoundError | UnauthorizedError>
+		Result<
+			JsonResult<UserLoginResponse>,
+			DataNotFoundError | UnauthorizedError
+		>
 	> {
 		const userResult = await this.em.transactional(async (em) => {
 			const user = await this.em.findOne(User, {
@@ -523,7 +537,7 @@ export class UserLoginHandler extends RequestHandler<
 			authProperties,
 		);
 
-		return new Ok(userDto);
+		return new Ok(new JsonResult(userDto));
 	}
 }
 `;
@@ -539,6 +553,7 @@ import { RequestHandler } from '@/request-handlers/RequestHandler';
 import {
 	CookieAuthenticationDefaults,
 	IHttpContext,
+	JsonResult,
 	Ok,
 	Result,
 	signOut,
@@ -555,14 +570,14 @@ export class UserLogoutHandler extends RequestHandler<
 	async handle(
 		httpContext: IHttpContext,
 		request: UserLogoutRequest,
-	): Promise<Result<UserLogoutResponse, Error>> {
+	): Promise<Result<JsonResult<UserLogoutResponse>, Error>> {
 		await signOut(
 			httpContext,
 			CookieAuthenticationDefaults.authenticationScheme,
 			undefined,
 		);
 
-		return new Ok({});
+		return new Ok(new JsonResult({}));
 	}
 }
 `;
@@ -580,7 +595,7 @@ import { RequestHandler } from '@/request-handlers/RequestHandler';
 import { IEmailService } from '@/services/EmailService';
 import { IPasswordServiceFactory } from '@/services/PasswordServiceFactory';
 import { EntityManager } from '@mikro-orm/core';
-import { Err, IHttpContext, Ok, Result, inject } from 'yohira';
+import { Err, IHttpContext, JsonResult, Ok, Result, inject } from 'yohira';
 
 export class UserSignUpHandler extends RequestHandler<
 	UserSignUpRequest,
@@ -598,7 +613,7 @@ export class UserSignUpHandler extends RequestHandler<
 	async handle(
 		httpContext: IHttpContext,
 		request: UserSignUpRequest,
-	): Promise<Result<UserSignUpResponse, Error>> {
+	): Promise<Result<JsonResult<UserSignUpResponse>, Error>> {
 		const normalizedEmail = await this.emailService.normalizeEmail(
 			request.email,
 		);
@@ -632,7 +647,9 @@ export class UserSignUpHandler extends RequestHandler<
 			return new Ok(user);
 		});
 
-		return userResult.andThen((user) => toUserDto(user));
+		return userResult
+			.andThen((user) => toUserDto(user))
+			.map((userDto) => new JsonResult(userDto));
 	}
 }
 `;
@@ -653,14 +670,15 @@ import {
 } from '@/services/PasswordServiceFactory';
 import { MikroORM } from '@mikro-orm/core';
 import {
+	ActionContext,
 	CookieAuthenticationDefaults,
 	Envs,
-	HeaderNames,
 	IHttpContext,
 	StatusCodes,
 	WebAppOptions,
 	addAuthentication,
 	addCookie,
+	addMvcCoreServices,
 	addRouting,
 	addScopedFactory,
 	addSingletonCtor,
@@ -716,11 +734,11 @@ async function main(): Promise<void> {
 
 	addTransientCtor(services, ICurrentUserService, CurrentUserService);
 
-	for (const { serviceType, implType } of Object.values(
-		requestHandlerDescriptors,
-	)) {
+	for (const { serviceType, implType } of requestHandlerDescriptors) {
 		addTransientCtor(services, serviceType, implType);
 	}
+
+	addMvcCoreServices(services);
 
 	const app = builder.build();
 
@@ -728,9 +746,7 @@ async function main(): Promise<void> {
 
 	useRouting(app);
 
-	for (const [endpoint, descriptor] of Object.entries(
-		requestHandlerDescriptors,
-	)) {
+	for (const { endpoint, ...descriptor } of requestHandlerDescriptors) {
 		const requestDelegate = async (
 			httpContext: IHttpContext,
 		): Promise<void> => {
@@ -749,14 +765,8 @@ async function main(): Promise<void> {
 				);
 
 				if (handleResult.ok) {
-					httpContext.response.headers.setHeader(
-						HeaderNames['Content-Type'],
-						'application/json; charset=utf-8',
-					);
-
-					return write(
-						httpContext.response,
-						JSON.stringify(handleResult.val),
+					await handleResult.val.executeResult(
+						new ActionContext(httpContext),
 					);
 				} else {
 					httpContext.response.statusCode =
@@ -817,35 +827,37 @@ import { Ctor } from 'yohira';
 
 export interface RequestHandlerDescriptor {
 	method: 'GET' | 'POST';
+	endpoint: string;
 	serviceType: symbol;
 	implType: Ctor<RequestHandler<unknown, unknown>>;
 }
 
-export const requestHandlerDescriptors: Record<
-	string,
-	RequestHandlerDescriptor
-> = {
-	'/user/get': {
+export const requestHandlerDescriptors: RequestHandlerDescriptor[] = [
+	{
 		method: 'GET',
+		endpoint: '/users/get',
 		serviceType: Symbol.for('UserGetHandler'),
 		implType: UserGetHandler,
 	},
-	'/user/login': {
+	{
 		method: 'POST',
+		endpoint: '/users/login',
 		serviceType: Symbol.for('UserLoginHandler'),
 		implType: UserLoginHandler,
 	},
-	'/user/logout': {
+	{
 		method: 'POST',
+		endpoint: '/users/logout',
 		serviceType: Symbol.for('UserLogoutHandler'),
 		implType: UserLogoutHandler,
 	},
-	'/user/signup': {
+	{
 		method: 'POST',
+		endpoint: '/users/signup',
 		serviceType: Symbol.for('UserSignUpHandler'),
 		implType: UserSignUpHandler,
 	},
-};
+];
 `;
 	}
 

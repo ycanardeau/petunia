@@ -860,7 +860,7 @@ const cachedIcons: IconComponentCacheType = {
 	arrowLeft,
 	arrowRight,
 	arrowStart,
-	check
+	check,
 	cross,
 	editorBold,
 	editorChecklist,
