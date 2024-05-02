@@ -686,10 +686,12 @@ import {
 	addTransientCtor,
 	createWebAppBuilder,
 	getRequiredService,
+	isDevelopment,
 	mapGet,
 	mapPost,
 	useAuthentication,
 	useEndpoints,
+	useErrorHandler,
 	useRouting,
 	write,
 } from 'yohira';
@@ -741,6 +743,10 @@ async function main(): Promise<void> {
 	addMvcCoreServices(services);
 
 	const app = builder.build();
+
+	if (!isDevelopment(app.env)) {
+		useErrorHandler(app);
+	}
 
 	useAuthentication(app);
 
