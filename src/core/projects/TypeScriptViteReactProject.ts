@@ -825,6 +825,7 @@ import { icon as arrowStart } from '@elastic/eui/es/components/icon/assets/arrow
 import { icon as arrowDown } from '@elastic/eui/es/components/icon/assets/arrow_down';
 import { icon as arrowLeft } from '@elastic/eui/es/components/icon/assets/arrow_left';
 import { icon as arrowRight } from '@elastic/eui/es/components/icon/assets/arrow_right';
+import { icon as calendar } from '@elastic/eui/es/components/icon/assets/calendar';
 import { icon as check } from '@elastic/eui/es/components/icon/assets/check';
 import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
 import { icon as editorBold } from '@elastic/eui/es/components/icon/assets/editor_bold';
@@ -860,6 +861,7 @@ const cachedIcons: IconComponentCacheType = {
 	arrowLeft,
 	arrowRight,
 	arrowStart,
+	calendar,
 	check,
 	cross,
 	editorBold,
