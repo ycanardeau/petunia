@@ -17,6 +17,7 @@ export type ReactMajorVersion = 17 | 18;
 export enum OutputType {
 	ReactApplication = 'ReactApplication',
 	ReactLibrary = 'ReactLibrary',
+	VueApplication = 'VueApplication',
 }
 
 export enum UIFramework {
@@ -49,7 +50,20 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
 	get isReactProject(): boolean {
-		return true;
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				return true;
+
+			case OutputType.VueApplication:
+				return false;
+
+			default:
+				throw new Error(
+					`Invalid outputType: ${this.options.outputType}`,
+				);
+		}
 	}
 
 	generatePackageJson(): string {
@@ -77,52 +91,84 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
-		switch (this.options.reactMajorVersion) {
-			case 17:
-			default:
-				devDependenciesObj
-					.addPackage('@types/react')
-					.addPackage('@types/react-dom');
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				switch (this.options.reactMajorVersion) {
+					case 17:
+					default:
+						devDependenciesObj
+							.addPackage('@types/react')
+							.addPackage('@types/react-dom');
 
-				if (this.options.outputType === OutputType.ReactLibrary) {
-					devDependenciesObj
-						.addPackage('react')
-						.addPackage('react-dom')
-						.addPackage('vite-plugin-dts');
-					peerDependenciesObj
-						.addPackage('react')
-						.addPackage('react-dom');
-				} else {
-					dependenciesObj.addPackage('react').addPackage('react-dom');
+						switch (this.options.outputType) {
+							case OutputType.ReactApplication:
+							case undefined:
+								dependenciesObj
+									.addPackage('react')
+									.addPackage('react-dom');
+								break;
+
+							case OutputType.ReactLibrary:
+								devDependenciesObj
+									.addPackage('react')
+									.addPackage('react-dom')
+									.addPackage('vite-plugin-dts');
+								peerDependenciesObj
+									.addPackage('react')
+									.addPackage('react-dom');
+								break;
+						}
+						break;
+
+					case 18:
+						devDependenciesObj
+							.addPackage('@types/react', '^18.2.43')
+							.addPackage('@types/react-dom', '^18.2.17');
+
+						switch (this.options.outputType) {
+							case OutputType.ReactApplication:
+							case undefined:
+								dependenciesObj
+									.addPackage('react', '^18.2.0')
+									.addPackage('react-dom', '^18.2.0');
+								break;
+
+							case OutputType.ReactLibrary:
+								devDependenciesObj
+									.addPackage('react', '^18.2.0')
+									.addPackage('react-dom', '^18.2.0')
+									.addPackage('vite-plugin-dts');
+								peerDependenciesObj
+									.addPackage('react', '^18.2.0')
+									.addPackage('react-dom', '^18.2.0');
+								break;
+						}
+						break;
 				}
-
 				break;
 
-			case 18:
-				devDependenciesObj
-					.addPackage('@types/react', '^18.2.43')
-					.addPackage('@types/react-dom', '^18.2.17');
-
-				if (this.options.outputType === OutputType.ReactLibrary) {
-					devDependenciesObj
-						.addPackage('react', '^18.2.0')
-						.addPackage('react-dom', '^18.2.0')
-						.addPackage('vite-plugin-dts');
-					peerDependenciesObj
-						.addPackage('react', '^18.2.0')
-						.addPackage('react-dom', '^18.2.0');
-				} else {
-					dependenciesObj
-						.addPackage('react', '^18.2.0')
-						.addPackage('react-dom', '^18.2.0');
-				}
+			case OutputType.VueApplication:
+				dependenciesObj.addPackage('vue');
+				devDependenciesObj.addPackage('vue-tsc');
 				break;
 		}
 
-		if (this.options.useSwc) {
-			devDependenciesObj.addPackage('@vitejs/plugin-react-swc');
-		} else {
-			devDependenciesObj.addPackage('@vitejs/plugin-react');
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				if (this.options.useSwc) {
+					devDependenciesObj.addPackage('@vitejs/plugin-react-swc');
+				} else {
+					devDependenciesObj.addPackage('@vitejs/plugin-react');
+				}
+				break;
+
+			case OutputType.VueApplication:
+				devDependenciesObj.addPackage('@vitejs/plugin-vue');
+				break;
 		}
 
 		switch (this.options.test) {
@@ -194,12 +240,19 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			devDependenciesObj.addPackage('@typescript-eslint/eslint-plugin');
 			devDependenciesObj.addPackage('@typescript-eslint/parser');
 			devDependenciesObj.addPackage('eslint');
-			devDependenciesObj.addPackage('eslint-config-react-app');
 			devDependenciesObj.addPackage('eslint-plugin-flowtype');
 			devDependenciesObj.addPackage('eslint-plugin-import');
 			devDependenciesObj.addPackage('eslint-plugin-jsx-a11y');
-			devDependenciesObj.addPackage('eslint-plugin-react');
-			devDependenciesObj.addPackage('eslint-plugin-react-hooks');
+
+			switch (this.options.outputType) {
+				case OutputType.ReactApplication:
+				case OutputType.ReactLibrary:
+				case undefined:
+					devDependenciesObj.addPackage('eslint-config-react-app');
+					devDependenciesObj.addPackage('eslint-plugin-react');
+					devDependenciesObj.addPackage('eslint-plugin-react-hooks');
+					break;
+			}
 		}
 
 		if (this.options.enablePrettier && this.options.enableESLint) {
@@ -210,11 +263,17 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const addAdditionalPackage = (
 			name: keyof typeof dependencies,
 		): void => {
-			if (this.options.outputType === OutputType.ReactLibrary) {
-				devDependenciesObj.addPackage(name);
-				peerDependenciesObj.addPackage(name);
-			} else {
-				dependenciesObj.addPackage(name);
+			switch (this.options.outputType) {
+				case OutputType.ReactApplication:
+				case OutputType.VueApplication:
+				case undefined:
+					dependenciesObj.addPackage(name);
+					break;
+
+				case OutputType.ReactLibrary:
+					devDependenciesObj.addPackage(name);
+					peerDependenciesObj.addPackage(name);
+					break;
 			}
 		};
 
@@ -339,8 +398,19 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addEntry('moduleResolution', 'Node')
 			.addEntry('resolveJsonModule', true)
 			.addEntry('isolatedModules', true)
-			.addEntry('noEmit', true)
-			.addEntry('jsx', 'react-jsx');
+			.addEntry('noEmit', true);
+
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				compilerOptionsObj.addEntry('jsx', 'react-jsx');
+				break;
+
+			case OutputType.VueApplication:
+				compilerOptionsObj.addEntry('jsx', 'preserve');
+				break;
+		}
 
 		if (this.options.configurePathAliases) {
 			compilerOptionsObj.addEntry('baseUrl', './');
@@ -414,9 +484,23 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		lines.push(`${tab}</head>`);
 		lines.push(`${tab}<body>`);
 		lines.push(`${tab}${tab}<div id="root"></div>`);
-		lines.push(
-			`${tab}${tab}<script type="module" src="/src/main.tsx"></script>`,
-		);
+
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				lines.push(
+					`${tab}${tab}<script type="module" src="/src/main.tsx"></script>`,
+				);
+				break;
+
+			case OutputType.VueApplication:
+				lines.push(
+					`${tab}${tab}<script type="module" src="/src/main.ts"></script>`,
+				);
+				break;
+		}
+
 		lines.push(`${tab}</body>`);
 		lines.push('</html>');
 		return this.joinLines(lines);
@@ -425,16 +509,27 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 	generateViteConfigTS(): string {
 		const { tab, newLine } = this.editorConfig;
 
-		const imports = new JavaScriptImports()
-			.addNamedImport('vite', (builder) =>
-				builder.addNamedExport('defineConfig'),
-			)
-			.addDefaultImport(
-				'react',
-				this.options.useSwc
-					? '@vitejs/plugin-react-swc'
-					: '@vitejs/plugin-react',
-			);
+		const imports = new JavaScriptImports().addNamedImport(
+			'vite',
+			(builder) => builder.addNamedExport('defineConfig'),
+		);
+
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				imports.addDefaultImport(
+					'react',
+					this.options.useSwc
+						? '@vitejs/plugin-react-swc'
+						: '@vitejs/plugin-react',
+				);
+				break;
+
+			case OutputType.VueApplication:
+				imports.addDefaultImport('vue', '@vitejs/plugin-vue');
+				break;
+		}
 
 		if (
 			this.options.outputType === OutputType.ReactLibrary ||
@@ -507,28 +602,47 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		}
 
-		if (this.options.outputType === OutputType.ReactLibrary) {
-			pluginsArray.addItem(
-				new JsonLiteral(
-					`react(${new JsonObject()
-						// https://miyauchi.dev/ja/posts/lib-vite-tailwindcss/
-						.addEntry('jsxRuntime', 'classic')
-						.toFormattedString(
-							{ tab: tab, newLine: newLine, style: 'JavaScript' },
-							2,
-						)})`,
-				),
-			);
-		} else {
-			pluginsArray.addItem(new JsonLiteral('react()'));
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case undefined:
+				pluginsArray.addItem(new JsonLiteral('react()'));
 
-			if (this.options.useRouteSphere) {
-				pluginsArray.addItem(new JsonLiteral('jsonSchemaValidator()'));
-			}
+				if (this.options.useRouteSphere) {
+					pluginsArray.addItem(
+						new JsonLiteral('jsonSchemaValidator()'),
+					);
+				}
 
-			if (this.options.useHttps) {
-				pluginsArray.addItem(new JsonLiteral('basicSsl()'));
-			}
+				if (this.options.useHttps) {
+					pluginsArray.addItem(new JsonLiteral('basicSsl()'));
+				}
+				break;
+
+			case OutputType.ReactLibrary:
+				pluginsArray.addItem(
+					new JsonLiteral(
+						`react(${new JsonObject()
+							// https://miyauchi.dev/ja/posts/lib-vite-tailwindcss/
+							.addEntry('jsxRuntime', 'classic')
+							.toFormattedString(
+								{
+									tab: tab,
+									newLine: newLine,
+									style: 'JavaScript',
+								},
+								2,
+							)})`,
+					),
+				);
+				break;
+
+			case OutputType.VueApplication:
+				pluginsArray.addItem(new JsonLiteral('vue()'));
+
+				if (this.options.useHttps) {
+					pluginsArray.addItem(new JsonLiteral('basicSsl()'));
+				}
+				break;
 		}
 
 		configObj.addEntry('plugins', pluginsArray);
@@ -750,7 +864,16 @@ const jsonSchemaValidator = (): PluginOption => {
 		return this.joinLines(lines);
 	}
 
-	generateSrcMainTsx(): string {
+	generateSrcAppVue(): string {
+		return `<script setup lang="ts"></script>
+
+<template></template>
+
+<style scoped></style>
+`;
+	}
+
+	generateSrcMainTsxForReact(): string {
 		switch (this.options.reactMajorVersion) {
 			case 17:
 			default:
@@ -801,6 +924,15 @@ const jsonSchemaValidator = (): PluginOption => {
 				return this.joinLines(lines);
 			}
 		}
+	}
+
+	generateSrcMainTSForVue(): string {
+		return `import { createApp } from 'vue';
+
+import App from './App.vue';
+
+createApp(App).mount('#root');
+`;
 	}
 
 	generateSrcViteEnvDTS(): string {
@@ -1038,14 +1170,33 @@ export class PaginationStore {
 			path: 'vite.config.ts',
 			text: this.generateViteConfigTS(),
 		};
-		yield {
-			path: 'src/App.tsx',
-			text: this.generateSrcAppTsx(),
-		};
-		yield {
-			path: 'src/main.tsx',
-			text: this.generateSrcMainTsx(),
-		};
+
+		switch (this.options.outputType) {
+			case OutputType.ReactApplication:
+			case OutputType.ReactLibrary:
+			case undefined:
+				yield {
+					path: 'src/App.tsx',
+					text: this.generateSrcAppTsx(),
+				};
+				yield {
+					path: 'src/main.tsx',
+					text: this.generateSrcMainTsxForReact(),
+				};
+				break;
+
+			case OutputType.VueApplication:
+				yield {
+					path: 'src/App.vue',
+					text: this.generateSrcAppVue(),
+				};
+				yield {
+					path: 'src/main.ts',
+					text: this.generateSrcMainTSForVue(),
+				};
+				break;
+		}
+
 		yield {
 			path: 'src/vite-env.d.ts',
 			text: this.generateSrcViteEnvDTS(),

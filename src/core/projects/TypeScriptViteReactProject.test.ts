@@ -1196,7 +1196,7 @@ export default App;
 	});
 
 	test('generateSrcMainTsx', () => {
-		const actual = defaultProject.generateSrcMainTsx();
+		const actual = defaultProject.generateSrcMainTsxForReact();
 
 		const reactMajorVersion = 17 as ReactMajorVersion;
 		switch (reactMajorVersion) {
@@ -1237,7 +1237,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		const project = new TypeScriptViteReactProject(undefined, {
 			configurePathAliases: true,
 		});
-		const actual = project.generateSrcMainTsx();
+		const actual = project.generateSrcMainTsxForReact();
 
 		const reactMajorVersion = 17 as ReactMajorVersion;
 		switch (reactMajorVersion) {

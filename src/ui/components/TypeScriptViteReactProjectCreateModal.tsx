@@ -35,6 +35,7 @@ import React from 'react';
 const outputTypeNames: Record<OutputType, string> = {
 	[OutputType.ReactApplication]: 'React Application' /* LOC */,
 	[OutputType.ReactLibrary]: 'React Library' /* LOC */,
+	[OutputType.VueApplication]: 'Vue Application' /* LOC */,
 };
 
 // TODO: move
