@@ -971,6 +971,7 @@ import { icon as editorOrderedList } from '@elastic/eui/es/components/icon/asset
 import { icon as editorUnorderedList } from '@elastic/eui/es/components/icon/assets/editor_unordered_list';
 import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
 import { icon as eye } from '@elastic/eui/es/components/icon/assets/eye';
+import { icon as eyeClosed } from '@elastic/eui/es/components/icon/assets/eye_closed';
 import { icon as lock } from '@elastic/eui/es/components/icon/assets/lock';
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as questionInCircle } from '@elastic/eui/es/components/icon/assets/question_in_circle';
@@ -1009,6 +1010,7 @@ const cachedIcons: IconComponentCacheType = {
 	editorUnorderedList,
 	empty,
 	eye,
+	eyeClosed,
 	lock,
 	logoGithub,
 	questionInCircle,
