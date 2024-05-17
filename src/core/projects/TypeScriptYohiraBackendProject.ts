@@ -274,7 +274,7 @@ export function toUserDto(user: User): Result<UserDto, DataNotFoundError> {
 `;
 	}
 
-	generateSrcRequestHandlersRequestHandlerTS(): string {
+	generateSrcEndpointsEndpointTS(): string {
 		return `import { JSONSchemaType, ValidateFunction } from 'ajv';
 import Ajv from 'ajv';
 import {
@@ -291,7 +291,7 @@ const ajv = new Ajv({
 	removeAdditional: 'all',
 });
 
-export abstract class RequestHandler<TRequest, TResponse> {
+export abstract class Endpoint<TRequest, TResponse> {
 	private readonly validate: ValidateFunction<TRequest>;
 
 	private getOrAddSchema(
@@ -370,7 +370,7 @@ export abstract class RequestHandler<TRequest, TResponse> {
 `;
 	}
 
-	generateSrcRequestHandlersUserGetHandlerTS(): string {
+	generateSrcEndpointsUserGetEndpointTS(): string {
 		return `import { DataNotFoundError } from '@/errors/DataNotFoundError';
 import { UnauthorizedError } from '@/errors/UnauthorizedError';
 import { toUserDto } from '@/mappers/UserMapper';
@@ -380,11 +380,11 @@ import {
 	UserGetRequestSchema,
 } from '@/models/requests/UserGetRequest';
 import { UserGetResponse } from '@/models/responses/UserGetResponse';
-import { RequestHandler } from '@/request-handlers/RequestHandler';
+import { Endpoint } from '@/endpoints/Endpoint';
 import { ICurrentUserService } from '@/services/CurrentUserService';
 import { Err, IHttpContext, JsonResult, Ok, Result, inject } from 'yohira';
 
-export class UserGetHandler extends RequestHandler<
+export class UserGetEndpoint extends Endpoint<
 	UserGetRequest,
 	UserGetResponse
 > {
@@ -422,7 +422,7 @@ export class UserGetHandler extends RequestHandler<
 `;
 	}
 
-	generateSrcRequestHandlersUserLoginHandlerTS(): string {
+	generateSrcEndpointsUserLoginEndpointTS(): string {
 		return `import { Login } from '@/entities/Login';
 import { User } from '@/entities/User';
 import { DataNotFoundError } from '@/errors/DataNotFoundError';
@@ -433,7 +433,7 @@ import {
 	UserLoginRequestSchema,
 } from '@/models/requests/UserLoginRequest';
 import { UserLoginResponse } from '@/models/responses/UserLoginResponse';
-import { RequestHandler } from '@/request-handlers/RequestHandler';
+import { Endpoint } from '@/endpoints/Endpoint';
 import { IPasswordServiceFactory } from '@/services/PasswordServiceFactory';
 import { EntityManager } from '@mikro-orm/core';
 import {
@@ -452,7 +452,7 @@ import {
 	signIn,
 } from 'yohira';
 
-export class UserLoginHandler extends RequestHandler<
+export class UserLoginEndpoint extends Endpoint<
 	UserLoginRequest,
 	UserLoginResponse
 > {
@@ -543,13 +543,13 @@ export class UserLoginHandler extends RequestHandler<
 `;
 	}
 
-	generateSrcRequestHandlersUserLogoutHandlerTS(): string {
+	generateSrcEndpointsUserLogoutEndpointTS(): string {
 		return `import {
 	UserLogoutRequest,
 	UserLogoutRequestSchema,
 } from '@/models/requests/UserLogoutRequest';
 import { UserLogoutResponse } from '@/models/responses/UserLogoutResponse';
-import { RequestHandler } from '@/request-handlers/RequestHandler';
+import { Endpoint } from '@/endpoints/Endpoint';
 import {
 	CookieAuthenticationDefaults,
 	IHttpContext,
@@ -559,7 +559,7 @@ import {
 	signOut,
 } from 'yohira';
 
-export class UserLogoutHandler extends RequestHandler<
+export class UserLogoutEndpoint extends Endpoint<
 	UserLogoutRequest,
 	UserLogoutResponse
 > {
@@ -583,7 +583,7 @@ export class UserLogoutHandler extends RequestHandler<
 `;
 	}
 
-	generateSrcRequestHandlersUserSignUpHandlerTS(): string {
+	generateSrcEndpointsUserSignUpEndpointTS(): string {
 		return `import { User } from '@/entities/User';
 import { toUserDto } from '@/mappers/UserMapper';
 import {
@@ -591,13 +591,13 @@ import {
 	UserSignUpRequestSchema,
 } from '@/models/requests/UserSignUpRequest';
 import { UserSignUpResponse } from '@/models/responses/UserSignUpResponse';
-import { RequestHandler } from '@/request-handlers/RequestHandler';
+import { Endpoint } from '@/endpoints/Endpoint';
 import { IEmailService } from '@/services/EmailService';
 import { IPasswordServiceFactory } from '@/services/PasswordServiceFactory';
 import { EntityManager } from '@mikro-orm/core';
 import { Err, IHttpContext, JsonResult, Ok, Result, inject } from 'yohira';
 
-export class UserSignUpHandler extends RequestHandler<
+export class UserSignUpEndpoint extends Endpoint<
 	UserSignUpRequest,
 	UserSignUpResponse
 > {
@@ -657,8 +657,8 @@ export class UserSignUpHandler extends RequestHandler<
 
 	generateSrcIndexTS(): string {
 		return `import config from '@/mikro-orm.config';
-import { RequestHandler } from '@/request-handlers/RequestHandler';
-import { requestHandlerDescriptors } from '@/requestHandlerDescriptors';
+import { Endpoint } from '@/endpoints/Endpoint';
+import { endpoints } from '@/endpoints';
 import {
 	CurrentUserService,
 	ICurrentUserService,
@@ -736,7 +736,7 @@ async function main(): Promise<void> {
 
 	addTransientCtor(services, ICurrentUserService, CurrentUserService);
 
-	for (const { serviceType, implType } of requestHandlerDescriptors) {
+	for (const { serviceType, implType } of endpoints) {
 		addTransientCtor(services, serviceType, implType);
 	}
 
@@ -752,20 +752,20 @@ async function main(): Promise<void> {
 
 	useRouting(app);
 
-	for (const { endpoint, ...descriptor } of requestHandlerDescriptors) {
+	for (const descriptor of endpoints) {
 		const requestDelegate = async (
 			httpContext: IHttpContext,
 		): Promise<void> => {
-			const requestHandler = getRequiredService<
-				RequestHandler<unknown, unknown>
+			const endpoint = getRequiredService<
+				Endpoint<unknown, unknown>
 			>(httpContext.requestServices, descriptor.serviceType);
 
-			const parseHttpRequestResult = requestHandler.parseHttpRequest(
+			const parseHttpRequestResult = endpoint.parseHttpRequest(
 				httpContext.request,
 			);
 
 			if (parseHttpRequestResult.ok) {
-				const handleResult = await requestHandler.handle(
+				const handleResult = await endpoint.handle(
 					httpContext,
 					parseHttpRequestResult.val,
 				);
@@ -791,11 +791,11 @@ async function main(): Promise<void> {
 
 		switch (descriptor.method) {
 			case 'GET':
-				mapGet(app, endpoint, requestDelegate);
+				mapGet(app, descriptor.endpoint, requestDelegate);
 				break;
 
 			case 'POST':
-				mapPost(app, endpoint, requestDelegate);
+				mapPost(app, descriptor.endpoint, requestDelegate);
 				break;
 		}
 	}
@@ -823,45 +823,45 @@ main();
 `;
 	}
 
-	generateRequestHandlerDescriptorsTS(): string {
-		return `import { RequestHandler } from '@/request-handlers/RequestHandler';
-import { UserGetHandler } from '@/request-handlers/UserGetHandler';
-import { UserLoginHandler } from '@/request-handlers/UserLoginHandler';
-import { UserLogoutHandler } from '@/request-handlers/UserLogoutHandler';
-import { UserSignUpHandler } from '@/request-handlers/UserSignUpHandler';
+	generateEndpointsTS(): string {
+		return `import { Endpoint } from '@/endpoints/Endpoint';
+import { UserGetEndpoint } from '@/endpoints/UserGetEndpoint';
+import { UserLoginEndpoint } from '@/endpoints/UserLoginEndpoint';
+import { UserLogoutEndpoint } from '@/endpoints/UserLogoutEndpoint';
+import { UserSignUpEndpoint } from '@/endpoints/UserSignUpEndpoint';
 import { Ctor } from 'yohira';
 
-export interface RequestHandlerDescriptor {
+export interface EndpointDescriptor {
 	method: 'GET' | 'POST';
 	endpoint: string;
 	serviceType: symbol;
-	implType: Ctor<RequestHandler<unknown, unknown>>;
+	implType: Ctor<Endpoint<unknown, unknown>>;
 }
 
-export const requestHandlerDescriptors: RequestHandlerDescriptor[] = [
+export const endpoints: EndpointDescriptor[] = [
 	{
 		method: 'GET',
 		endpoint: '/users/get',
-		serviceType: Symbol.for('UserGetHandler'),
-		implType: UserGetHandler,
+		serviceType: Symbol.for('UserGetEndpoint'),
+		implType: UserGetEndpoint,
 	},
 	{
 		method: 'POST',
 		endpoint: '/users/login',
-		serviceType: Symbol.for('UserLoginHandler'),
-		implType: UserLoginHandler,
+		serviceType: Symbol.for('UserLoginEndpoint'),
+		implType: UserLoginEndpoint,
 	},
 	{
 		method: 'POST',
 		endpoint: '/users/logout',
-		serviceType: Symbol.for('UserLogoutHandler'),
-		implType: UserLogoutHandler,
+		serviceType: Symbol.for('UserLogoutEndpoint'),
+		implType: UserLogoutEndpoint,
 	},
 	{
 		method: 'POST',
 		endpoint: '/users/signup',
-		serviceType: Symbol.for('UserSignUpHandler'),
-		implType: UserSignUpHandler,
+		serviceType: Symbol.for('UserSignUpEndpoint'),
+		implType: UserSignUpEndpoint,
 	},
 ];
 `;
@@ -1046,33 +1046,33 @@ export class CurrentUserService implements ICurrentUserService {
 		};
 
 		yield {
-			path: 'src/request-handlers/RequestHandler.ts',
-			text: this.generateSrcRequestHandlersRequestHandlerTS(),
+			path: 'src/endpoints/Endpoint.ts',
+			text: this.generateSrcEndpointsEndpointTS(),
 		};
 
 		yield {
-			path: 'src/request-handlers/UserGetHandler.ts',
-			text: this.generateSrcRequestHandlersUserGetHandlerTS(),
+			path: 'src/endpoints/UserGetEndpoint.ts',
+			text: this.generateSrcEndpointsUserGetEndpointTS(),
 		};
 
 		yield {
-			path: 'src/request-handlers/UserLoginHandler.ts',
-			text: this.generateSrcRequestHandlersUserLoginHandlerTS(),
+			path: 'src/endpoints/UserLoginEndpoint.ts',
+			text: this.generateSrcEndpointsUserLoginEndpointTS(),
 		};
 
 		yield {
-			path: 'src/request-handlers/UserLogoutHandler.ts',
-			text: this.generateSrcRequestHandlersUserLogoutHandlerTS(),
+			path: 'src/endpoints/UserLogoutEndpoint.ts',
+			text: this.generateSrcEndpointsUserLogoutEndpointTS(),
 		};
 
 		yield {
-			path: 'src/request-handlers/UserSignUpHandler.ts',
-			text: this.generateSrcRequestHandlersUserSignUpHandlerTS(),
+			path: 'src/endpoints/UserSignUpEndpoint.ts',
+			text: this.generateSrcEndpointsUserSignUpEndpointTS(),
 		};
 
 		yield {
-			path: 'src/requestHandlerDescriptors.ts',
-			text: this.generateRequestHandlerDescriptorsTS(),
+			path: 'src/endpoints.ts',
+			text: this.generateEndpointsTS(),
 		};
 
 		yield {
