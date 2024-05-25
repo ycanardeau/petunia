@@ -715,20 +715,13 @@ async function main(): Promise<void> {
 
 	// TODO: move
 	const orm = await MikroORM.init(config);
-	addSingletonFactory(services, Symbol.for('MikroORM'), () => {
-		return orm;
-	});
+	addSingletonFactory(services, Symbol.for('MikroORM'), () => orm);
 
-	addScopedFactory(
-		services,
-		Symbol.for('EntityManager'),
-		(serviceProvider) => {
-			const orm = getRequiredService<MikroORM>(
-				serviceProvider,
-				Symbol.for('MikroORM'),
-			);
-			return orm.em.fork();
-		},
+	addScopedFactory(services, Symbol.for('EntityManager'), (serviceProvider) =>
+		getRequiredService<MikroORM>(
+			serviceProvider,
+			Symbol.for('MikroORM'),
+		).em.fork(),
 	);
 
 	addSingletonCtor(services, IEmailService, EmailService);
@@ -777,7 +770,7 @@ async function main(): Promise<void> {
 				} else {
 					httpContext.response.statusCode =
 						StatusCodes.Status400BadRequest;
-					return write(
+					await write(
 						httpContext.response,
 						handleResult.val.message,
 					);
@@ -785,7 +778,7 @@ async function main(): Promise<void> {
 			} else {
 				httpContext.response.statusCode =
 					StatusCodes.Status400BadRequest;
-				return write(httpContext.response, '' /* TODO */);
+				await write(httpContext.response, '' /* TODO */);
 			}
 		};
 
