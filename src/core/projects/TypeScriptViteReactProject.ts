@@ -959,6 +959,7 @@ import { icon as arrowLeft } from '@elastic/eui/es/components/icon/assets/arrow_
 import { icon as arrowRight } from '@elastic/eui/es/components/icon/assets/arrow_right';
 import { icon as calendar } from '@elastic/eui/es/components/icon/assets/calendar';
 import { icon as check } from '@elastic/eui/es/components/icon/assets/check';
+import { icon as copyClipboard } from '@elastic/eui/es/components/icon/assets/copy_clipboard';
 import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
 import { icon as dot } from '@elastic/eui/es/components/icon/assets/dot';
 import { icon as editorBold } from '@elastic/eui/es/components/icon/assets/editor_bold';
@@ -974,6 +975,8 @@ import { icon as eye } from '@elastic/eui/es/components/icon/assets/eye';
 import { icon as eyeClosed } from '@elastic/eui/es/components/icon/assets/eye_closed';
 import { icon as lock } from '@elastic/eui/es/components/icon/assets/lock';
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
+import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
+import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
 import { icon as questionInCircle } from '@elastic/eui/es/components/icon/assets/question_in_circle';
 import { icon as quote } from '@elastic/eui/es/components/icon/assets/quote';
 import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return_key';
@@ -998,6 +1001,7 @@ const cachedIcons: IconComponentCacheType = {
 	arrowStart,
 	calendar,
 	check,
+	copyClipboard,
 	cross,
 	dot,
 	editorBold,
@@ -1013,6 +1017,8 @@ const cachedIcons: IconComponentCacheType = {
 	eyeClosed,
 	lock,
 	logoGithub,
+	menu,
+	popout,
 	questionInCircle,
 	quote,
 	returnKey,
