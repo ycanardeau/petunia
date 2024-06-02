@@ -155,10 +155,28 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 			lines.push(
 				`        proxy_pass http://${this.options.projectName}.api/;`,
 			);
+			lines.push(
+				'        proxy_set_header    Host                $http_host;',
+			);
+			lines.push(
+				'        proxy_set_header    X-Real-IP           $remote_addr;',
+			);
+			lines.push(
+				'        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;',
+			);
 			lines.push('    }');
 			lines.push(`    location /${this.options.projectName} {`);
 			lines.push(
 				`        proxy_pass http://${this.options.projectName}.frontend/;`,
+			);
+			lines.push(
+				'        proxy_set_header    Host                $http_host;',
+			);
+			lines.push(
+				'        proxy_set_header    X-Real-IP           $remote_addr;',
+			);
+			lines.push(
+				'        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;',
 			);
 			lines.push('    }');
 			lines.push('}');

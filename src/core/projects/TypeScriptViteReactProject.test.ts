@@ -1127,6 +1127,9 @@ export default defineConfig({
 				target: 'http://localhost:5000',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\\/api/, ''),
+				headers: {
+					'x-real-ip': 'localhost',
+				},
 			},
 		},
 	},

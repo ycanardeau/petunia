@@ -64,9 +64,15 @@ server {
     location /petunia/api {
         rewrite ^/petunia/api/(.*) /$1 break;
         proxy_pass http://petunia.api/;
+        proxy_set_header    Host                $http_host;
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
     }
     location /petunia {
         proxy_pass http://petunia.frontend/;
+        proxy_set_header    Host                $http_host;
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
     }
 }
 `;
@@ -122,9 +128,15 @@ server {
     location /petunia/api {
         rewrite ^/petunia/api/(.*) /$1 break;
         proxy_pass http://petunia.api/;
+        proxy_set_header    Host                $http_host;
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
     }
     location /petunia {
         proxy_pass http://petunia.frontend/;
+        proxy_set_header    Host                $http_host;
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
     }
 }
 `;

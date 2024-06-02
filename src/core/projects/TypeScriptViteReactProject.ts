@@ -718,7 +718,8 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 							new JsonLiteral(
 								"(path) => path.replace(/^\\/api/, '')",
 							),
-						),
+						)
+						.addEntry('headers', new JsonObject().addEntry('x-real-ip', 'localhost')),
 				),
 			);
 		}
