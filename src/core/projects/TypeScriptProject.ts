@@ -49,6 +49,7 @@ export abstract class TypeScriptProject<
 			yield {
 				path: '.eslintrc.cjs',
 				text: new ESLintRcCjsGenerator(this.editorConfig, {
+					sortImports: this.options.sortImports,
 					extendsReactApp: this.isReactProject,
 				}).generate(),
 			};

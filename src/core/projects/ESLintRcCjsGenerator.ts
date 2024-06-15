@@ -2,6 +2,7 @@ import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/core/projects/SourceTextGenerator';
 
 interface ESLintRcCjsOptions {
+	sortImports?: boolean;
 	extendsReactApp?: boolean;
 }
 
@@ -17,6 +18,36 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			extendsArray.addItem('react-app');
 		}
 
+		const pluginsArray = new JsonArray().addItem(
+			'@typescript-eslint/eslint-plugin',
+		);
+
+		if (this.options.sortImports) {
+			pluginsArray.addItem('simple-import-sort').addItem('import');
+		}
+
+		const rulesArray = new JsonObject()
+			.addEntry('@typescript-eslint/interface-name-prefix', 'off')
+			.addEntry(
+				'@typescript-eslint/explicit-function-return-type',
+				'error',
+			)
+			.addEntry(
+				'@typescript-eslint/explicit-module-boundary-types',
+				'off',
+			)
+			.addEntry('@typescript-eslint/no-explicit-any', 'off')
+			.addEntry('@typescript-eslint/no-empty-function', 'off');
+
+		if (this.options.sortImports) {
+			rulesArray
+				.addEntry('simple-import-sort/imports', 'error')
+				.addEntry('simple-import-sort/exports', 'error')
+				.addEntry('import/first', 'error')
+				.addEntry('import/newline-after-import', 'error')
+				.addEntry('import/no-duplicates', 'error');
+		}
+
 		const rootObj = new JsonObject()
 			.addEntry('parser', '@typescript-eslint/parser')
 			.addEntry(
@@ -24,12 +55,10 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 				new JsonObject()
 					.addEntry('project', 'tsconfig.json')
 					.addEntry('sourceType', 'module')
-					.addEntry('tsconfigRootDir', new JsonLiteral('__dirname')),
+					.addEntry('tsconfigRootDir', new JsonLiteral('__dirname'))
+					.addEntry('ecmaVersion', 'latest'),
 			)
-			.addEntry(
-				'plugins',
-				new JsonArray().addItem('@typescript-eslint/eslint-plugin'),
-			)
+			.addEntry('plugins', pluginsArray)
 			.addEntry('extends', extendsArray)
 			.addEntry('root', true)
 			.addEntry(
@@ -40,21 +69,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 				'ignorePatterns',
 				new JsonArray().addItem('.eslintrc.cjs'),
 			)
-			.addEntry(
-				'rules',
-				new JsonObject()
-					.addEntry('@typescript-eslint/interface-name-prefix', 'off')
-					.addEntry(
-						'@typescript-eslint/explicit-function-return-type',
-						'error',
-					)
-					.addEntry(
-						'@typescript-eslint/explicit-module-boundary-types',
-						'off',
-					)
-					.addEntry('@typescript-eslint/no-explicit-any', 'off')
-					.addEntry('@typescript-eslint/no-empty-function', 'off'),
-			);
+			.addEntry('rules', rulesArray);
 
 		return `module.exports = ${rootObj.toFormattedString({
 			tab: tab,

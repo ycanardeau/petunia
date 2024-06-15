@@ -143,7 +143,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 
 			if (this.options.sortImports) {
 				devDependenciesObj.addPackage(
-					'@trivago/prettier-plugin-sort-imports',
+					'eslint-plugin-simple-import-sort',
 				);
 			}
 		}

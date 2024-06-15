@@ -231,7 +231,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 			if (this.options.sortImports) {
 				devDependenciesObj.addPackage(
-					'@trivago/prettier-plugin-sort-imports',
+					'eslint-plugin-simple-import-sort',
 				);
 			}
 		}
@@ -719,7 +719,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 								"(path) => path.replace(/^\\/api/, '')",
 							),
 						)
-						.addEntry('headers', new JsonObject().addEntry('x-real-ip', 'localhost')),
+						.addEntry(
+							'headers',
+							new JsonObject().addEntry('x-real-ip', 'localhost'),
+						),
 				),
 			);
 		}

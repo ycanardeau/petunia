@@ -92,7 +92,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 			if (this.options.sortImports) {
 				devDependenciesObj.addPackage(
-					'@trivago/prettier-plugin-sort-imports',
+					'eslint-plugin-simple-import-sort',
 				);
 			}
 		}

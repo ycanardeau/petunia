@@ -300,11 +300,11 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@trivago/prettier-plugin-sort-imports": "${dependencies['@trivago/prettier-plugin-sort-imports']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"eslint-plugin-simple-import-sort": "${dependencies['eslint-plugin-simple-import-sort']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"

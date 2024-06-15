@@ -7,10 +7,7 @@ describe('PrettierRcJsonGenerator', () => {
 		const actual = generator.generate();
 		const expected = `{
 	"singleQuote": true,
-	"trailingComma": "all",
-	"plugins": [
-		"@trivago/prettier-plugin-sort-imports"
-	]
+	"trailingComma": "all"
 }
 `;
 		expect(actual).toBe(expected);
@@ -23,26 +20,7 @@ describe('PrettierRcJsonGenerator', () => {
 		const actual = generator.generate();
 		const expected = `{
 	"singleQuote": true,
-	"trailingComma": "all",
-	"importOrder": [
-		"^@core/(.*)$",
-		"^@server/(.*)$",
-		"^@ui/(.*)$",
-		"^[./]"
-	],
-	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true,
-	"importOrderParserPlugins": [
-		"jsx",
-		"typescript",
-		"importOrderParserPlugins",
-		"classProperties",
-		"decorators-legacy",
-		"importAssertions"
-	],
-	"plugins": [
-		"@trivago/prettier-plugin-sort-imports"
-	]
+	"trailingComma": "all"
 }
 `;
 		expect(actual).toBe(expected);
