@@ -275,8 +275,7 @@ export function toUserDto(user: User): Result<UserDto, DataNotFoundError> {
 	}
 
 	generateSrcEndpointsEndpointTS(): string {
-		return `import { JSONSchemaType, ValidateFunction } from 'ajv';
-import Ajv from 'ajv';
+		return `import Ajv, { JSONSchemaType, ValidateFunction } from 'ajv';
 import {
 	Err,
 	IActionResult,
@@ -358,7 +357,7 @@ export abstract class Endpoint<TRequest, TResponse> {
 			if (this.validate(json)) {
 				return new Ok(json);
 			}
-			return new Err(new Error() /* TODO */);
+			return new Err(new Error(this.validate.errors?.[0].message));
 		});
 	}
 
@@ -784,7 +783,10 @@ async function main(): Promise<void> {
 			} else {
 				httpContext.response.statusCode =
 					StatusCodes.Status400BadRequest;
-				await write(httpContext.response, '' /* TODO */);
+				await write(
+					httpContext.response,
+					parseHttpRequestResult.val.message,
+				);
 			}
 		};
 
