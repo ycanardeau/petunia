@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-const TypeScriptNestProjectCreateModal = React.lazy(
+const TypeScriptNestProjectCreateModal = lazy(
 	() => import('@/features/typescript/components/TypeScriptNestProjectModal'),
 );
-const TypeScriptNodeConsoleProjectCreateModal = React.lazy(
+const TypeScriptNodeConsoleProjectCreateModal = lazy(
 	() =>
 		import(
 			'@/features/typescript/components/TypeScriptNodeConsoleProjectModal'
 		),
 );
-const TypeScriptViteReactProjectCreateModal = React.lazy(
+const TypeScriptViteReactProjectCreateModal = lazy(
 	() =>
 		import(
 			'@/features/typescript/components/TypeScriptViteReactProjectCreateModal'
 		),
 );
-const TypeScriptYohiraProjectCreateModal = React.lazy(
+const TypeScriptYohiraProjectCreateModal = lazy(
 	() =>
 		import(
 			'@/features/typescript/components/TypeScriptYohiraProjectCreateModal'
 		),
+);
+
+const FSharpFableProjectCreateModal = lazy(
+	() => import('@/features/fsharp/components/FSharpFableProjectCreateModal'),
 );
 
 export const AppRoutes = (): React.ReactElement => {
@@ -54,6 +58,10 @@ export const AppRoutes = (): React.ReactElement => {
 						<Route
 							path="typescript-nest"
 							element={<TypeScriptNestProjectCreateModal />}
+						/>
+						<Route
+							path="fsharp-fable"
+							element={<FSharpFableProjectCreateModal />}
 						/>
 					</Routes>
 				}
