@@ -1,3 +1,5 @@
+import FableIcon from '@/ui/favicons/fable.io.ico';
+import FSharpIcon from '@/ui/favicons/fsharp.org.ico';
 import HydrangeaIcon from '@/ui/favicons/hydrangea.png';
 import NestIcon from '@/ui/favicons/nestjs.com.png';
 import NodeIcon from '@/ui/favicons/nodejs.org.ico';
@@ -64,6 +66,17 @@ export const AppSideNav = (): React.ReactElement => {
 						createItem('NestJS', {
 							icon: <EuiIcon type={NestIcon} />,
 							href: '/projects/typescript-nest',
+						}),
+					],
+				},
+				{
+					id: slugify('F#'),
+					name: 'F#',
+					icon: <EuiIcon type={FSharpIcon} />,
+					items: [
+						createItem('Fable', {
+							icon: <EuiIcon type={FableIcon} />,
+							href: '/projects/fsharp-fable',
 						}),
 					],
 				},
