@@ -1,6 +1,6 @@
+import { ProjectFile } from '@/features/common/projects/Project';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import { TypeScriptNodeConsoleProject } from '@/features/typescript/projects/TypeScriptNodeConsoleProject';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
 import FileSaver from 'file-saver';

@@ -1,8 +1,8 @@
+import { Project, ProjectFile } from '@/features/common/projects/Project';
 import { ESLintRcCjsGenerator } from '@/features/typescript/projects/ESLintRcCjsGenerator';
 import { EditorConfigGenerator } from '@/features/typescript/projects/EditorConfigGenerator';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { PrettierRcJsonGenerator } from '@/features/typescript/projects/PrettierRcJsonGenerator';
-import { Project, ProjectFile } from '@/features/typescript/projects/Project';
 
 export enum TestingFramework {
 	None = 'None',

@@ -1,5 +1,5 @@
+import { ProjectFile } from '@/features/common/projects/Project';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
 import {
 	IconLibrary,

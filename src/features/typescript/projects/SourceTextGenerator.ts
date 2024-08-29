@@ -1,4 +1,4 @@
-import { EditorConfig } from '@/features/typescript/projects/Project';
+import { EditorConfig } from '@/features/common/projects/Project';
 
 export abstract class SourceTextGenerator<TOptions = unknown> {
 	constructor(

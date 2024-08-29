@@ -1,8 +1,8 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { ProjectFile } from '@/features/common/projects/Project';
 import { PackageJsonDependency } from '@/features/typescript/projects/PackageJsonDependency';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import { ReactGitignoreGenerator } from '@/features/typescript/projects/ReactGitignoreGenerator';
 import {
 	TestingFramework,

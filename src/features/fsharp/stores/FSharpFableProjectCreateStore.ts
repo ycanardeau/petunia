@@ -1,5 +1,5 @@
+import { ProjectFile } from '@/features/common/projects/Project';
 import { PackageManager } from '@/features/fsharp/projects/PackageManager';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';

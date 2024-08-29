@@ -1,8 +1,8 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { ProjectFile } from '@/features/common/projects/Project';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageJsonDependency } from '@/features/typescript/projects/PackageJsonDependency';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import {
 	TestingFramework,
 	TypeScriptProject,

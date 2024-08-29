@@ -1,7 +1,4 @@
-import {
-	EditorConfig,
-	ProjectFile,
-} from '@/features/typescript/projects/Project';
+import { EditorConfig, ProjectFile } from '@/features/common/projects/Project';
 import {
 	TypeScriptNodeConsoleProject,
 	TypeScriptNodeConsoleProjectOptions,

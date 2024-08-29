@@ -1,11 +1,11 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { ProjectFile } from '@/features/common/projects/Project';
 import { Database } from '@/features/typescript/projects/Database';
 import { NodeGitignoreGenerator } from '@/features/typescript/projects/NodeGitignoreGenerator';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageJsonDependency } from '@/features/typescript/projects/PackageJsonDependency';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
-import { ProjectFile } from '@/features/typescript/projects/Project';
 import {
 	TestingFramework,
 	TypeScriptProject,

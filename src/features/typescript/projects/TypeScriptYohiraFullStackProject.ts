@@ -1,9 +1,6 @@
+import { EditorConfig, ProjectFile } from '@/features/common/projects/Project';
 import { Database } from '@/features/typescript/projects/Database';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
-import {
-	EditorConfig,
-	ProjectFile,
-} from '@/features/typescript/projects/Project';
 import {
 	TypeScriptProject,
 	TypeScriptProjectOptions,
