@@ -1,10 +1,10 @@
-import FableIcon from '@/ui/favicons/fable.io.ico';
-import FSharpIcon from '@/ui/favicons/fsharp.org.ico';
-import HydrangeaIcon from '@/ui/favicons/hydrangea.png';
-import NestIcon from '@/ui/favicons/nestjs.com.png';
-import NodeIcon from '@/ui/favicons/nodejs.org.ico';
-import ReactIcon from '@/ui/favicons/reactjs.org.ico';
-import TypeScriptIcon from '@/ui/favicons/www.typescriptlang.org.png';
+import FableIcon from '@/features/fsharp/favicons/fable.io.ico';
+import FSharpIcon from '@/features/fsharp/favicons/fsharp.org.ico';
+import HydrangeaIcon from '@/features/typescript/favicons/hydrangea.png';
+import NestIcon from '@/features/typescript/favicons/nestjs.com.png';
+import NodeIcon from '@/features/typescript/favicons/nodejs.org.ico';
+import ReactIcon from '@/features/typescript/favicons/reactjs.org.ico';
+import TypeScriptIcon from '@/features/typescript/favicons/www.typescriptlang.org.png';
 import { EuiIcon, EuiSideNav, EuiSideNavItemType, slugify } from '@elastic/eui';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';

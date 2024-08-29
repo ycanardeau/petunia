@@ -2,16 +2,25 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 const TypeScriptNestProjectCreateModal = React.lazy(
-	() => import('@/ui/components/TypeScriptNestProjectModal'),
+	() => import('@/features/typescript/components/TypeScriptNestProjectModal'),
 );
 const TypeScriptNodeConsoleProjectCreateModal = React.lazy(
-	() => import('@/ui/components/TypeScriptNodeConsoleProjectModal'),
+	() =>
+		import(
+			'@/features/typescript/components/TypeScriptNodeConsoleProjectModal'
+		),
 );
 const TypeScriptViteReactProjectCreateModal = React.lazy(
-	() => import('@/ui/components/TypeScriptViteReactProjectCreateModal'),
+	() =>
+		import(
+			'@/features/typescript/components/TypeScriptViteReactProjectCreateModal'
+		),
 );
 const TypeScriptYohiraProjectCreateModal = React.lazy(
-	() => import('@/ui/components/TypeScriptYohiraProjectCreateModal'),
+	() =>
+		import(
+			'@/features/typescript/components/TypeScriptYohiraProjectCreateModal'
+		),
 );
 
 export const AppRoutes = (): React.ReactElement => {
