@@ -37,24 +37,35 @@ printfn "Hello from F#"
 	}
 
 	generateFsproj(): string {
-		return `<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>my_fable_project</RootNamespace>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Fable.Core" Version="4.3.0" />
-  </ItemGroup>
-
-</Project>
-`;
+		const lines: string[] = [];
+		lines.push('<Project Sdk="Microsoft.NET.Sdk">');
+		lines.push('');
+		lines.push('  <PropertyGroup>');
+		lines.push('    <OutputType>Exe</OutputType>');
+		lines.push('    <TargetFramework>net8.0</TargetFramework>');
+		lines.push('    <RootNamespace>my_fable_project</RootNamespace>');
+		lines.push('  </PropertyGroup>');
+		lines.push('');
+		lines.push('  <ItemGroup>');
+		lines.push('    <Compile Include="Program.fs" />');
+		lines.push('  </ItemGroup>');
+		lines.push('');
+		lines.push('  <ItemGroup>');
+		lines.push(
+			'    <PackageReference Include="Fable.Core" Version="4.3.0" />',
+		);
+		switch (this.options.targetLanguage) {
+			case TargetLanguage.TypeScriptNode:
+				lines.push(
+					'    <PackageReference Include="Fable.Node" Version="1.3.0" />',
+				);
+				break;
+		}
+		lines.push('  </ItemGroup>');
+		lines.push('');
+		lines.push('</Project>');
+		lines.push('');
+		return this.joinLines(lines);
 	}
 
 	generatePackageJson(): string {
