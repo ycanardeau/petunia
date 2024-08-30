@@ -1,6 +1,7 @@
 import { ProjectFile } from '@/features/common/projects/Project';
 import { FSharpFableProject } from '@/features/fsharp/projects/FSharpFableProject';
 import { PackageManager } from '@/features/fsharp/projects/PackageManager';
+import { TargetLanguage } from '@/features/fsharp/projects/TargetLanguage';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -13,6 +14,7 @@ import validate from 'validate-npm-package-name';
 export class FSharpFableProjectCreateStore {
 	@observable projectName = 'fable-app';
 	@observable packageManager = PackageManager.NuGet;
+	@observable targetLanguage = TargetLanguage.TypeScriptBrowser;
 
 	constructor() {
 		makeObservable(this);
@@ -54,6 +56,7 @@ export class FSharpFableProjectCreateStore {
 			{
 				projectName: this.projectName,
 				packageManager: this.packageManager,
+				targetLanguage: this.targetLanguage,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

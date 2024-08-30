@@ -1,10 +1,12 @@
 import { Project, ProjectFile } from '@/features/common/projects/Project';
 import { DotnetGitignoreGenerator } from '@/features/fsharp/projects/DotnetGitignoreGenerator';
 import { PackageManager } from '@/features/fsharp/projects/PackageManager';
+import { TargetLanguage } from '@/features/fsharp/projects/TargetLanguage';
 
 interface FSharpFableProjectOptions {
 	projectName: string;
 	packageManager: PackageManager;
+	targetLanguage: TargetLanguage;
 }
 
 export class FSharpFableProject extends Project<FSharpFableProjectOptions> {

@@ -2,6 +2,10 @@ import {
 	PackageManager,
 	packageManagerNames,
 } from '@/features/fsharp/projects/PackageManager';
+import {
+	TargetLanguage,
+	targetLanguageNames,
+} from '@/features/fsharp/projects/TargetLanguage';
 import { FSharpFableProjectCreateStore } from '@/features/fsharp/stores/FSharpFableProjectCreateStore';
 import {
 	EuiButton,
@@ -64,6 +68,26 @@ const FSharpFableProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.packageManager = e.target
 									.value as PackageManager;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow
+					label="Target language" /* LOC */
+					display="rowCompressed"
+				>
+					<EuiSelect
+						options={Object.values(TargetLanguage).map((value) => ({
+							value: value,
+							text: targetLanguageNames[value],
+						}))}
+						value={projectCreateStore.targetLanguage}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.targetLanguage = e.target
+									.value as TargetLanguage;
 							});
 						}}
 						compressed
