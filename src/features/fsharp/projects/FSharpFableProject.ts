@@ -90,6 +90,17 @@ printfn "Hello from F#"
 			'echo \\"Error: no test specified\\" && exit 1',
 		);
 
+		switch (this.options.targetLanguage) {
+			case TargetLanguage.TypeScriptNode:
+				scriptsObj
+					.addEntry(
+						'build:watch',
+						'dotnet fable watch --lang typescript --run npx tsc Program.fs.ts --target es2022 --skipLibCheck --watch --preserveWatchOutput',
+					)
+					.addEntry('start', 'node Program.fs.js');
+				break;
+		}
+
 		const rootObj = new JsonObject()
 			.addEntry('name', this.options.projectName)
 			.addEntry('version', '1.0.0')
