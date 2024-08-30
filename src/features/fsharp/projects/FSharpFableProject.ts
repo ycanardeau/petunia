@@ -60,6 +60,12 @@ printfn "Hello from F#"
 					'    <PackageReference Include="Fable.Node" Version="1.3.0" />',
 				);
 				break;
+
+			case TargetLanguage.TypeScriptBrowser:
+				lines.push(
+					'    <PackageReference Include="Fable.Browser.Dom" Version="2.17.0" />',
+				);
+				break;
 		}
 		lines.push('  </ItemGroup>');
 		lines.push('');
