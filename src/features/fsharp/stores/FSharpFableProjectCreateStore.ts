@@ -1,4 +1,5 @@
 import { ProjectFile } from '@/features/common/projects/Project';
+import { FSharpFableProject } from '@/features/fsharp/projects/FSharpFableProject';
 import { PackageManager } from '@/features/fsharp/projects/PackageManager';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
@@ -48,7 +49,14 @@ export class FSharpFableProjectCreateStore {
 
 		const zip = new JSZip();
 
-		const projectFiles = Array.from([] as ProjectFile[]).map(
+		const project = new FSharpFableProject(
+			{ tab: '\t', newLine: '\n' },
+			{
+				projectName: this.projectName,
+				packageManager: this.packageManager,
+			},
+		);
+		const projectFiles = Array.from(project.generateProjectFiles()).map(
 			(projectFile) => {
 				return {
 					path: `${this.projectName}/${projectFile.path}`,
