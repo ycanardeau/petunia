@@ -1,5 +1,5 @@
 import { JsonObject } from '@/core/JsonValue';
-import { SourceTextGenerator } from '@/features/typescript/projects/SourceTextGenerator';
+import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface PrettierRcJsonOptions {
 	sortImports?: boolean;

@@ -1,5 +1,5 @@
+import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
-import { SourceTextGenerator } from '@/features/typescript/projects/SourceTextGenerator';
 
 export class NodeGitignoreGenerator extends SourceTextGenerator<{
 	orm?: OrmFramework;

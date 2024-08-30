@@ -1,5 +1,5 @@
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
-import { SourceTextGenerator } from '@/features/typescript/projects/SourceTextGenerator';
+import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface ESLintRcCjsOptions {
 	sortImports?: boolean;

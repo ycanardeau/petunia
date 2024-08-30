@@ -1,4 +1,4 @@
-import { SourceTextGenerator } from '@/features/typescript/projects/SourceTextGenerator';
+import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 export class ReactGitignoreGenerator extends SourceTextGenerator {
 	generate(): string {
