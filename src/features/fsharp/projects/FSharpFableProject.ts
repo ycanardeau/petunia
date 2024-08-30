@@ -190,6 +190,22 @@ printfn "Hello from F#"
 		return this.joinLines(lines);
 	}
 
+	generateIndexHtml(): string {
+		return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fable</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/Program.fs.ts"></script>
+  </body>
+</html>
+`;
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.gitignore',
@@ -228,6 +244,11 @@ printfn "Hello from F#"
 			yield {
 				path: 'vite.config.ts',
 				text: this.generateViteConfigTS(),
+			};
+
+			yield {
+				path: 'index.html',
+				text: this.generateIndexHtml(),
 			};
 		}
 	}
