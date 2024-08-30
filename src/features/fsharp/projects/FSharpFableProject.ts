@@ -1,3 +1,4 @@
+import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/features/common/projects/Project';
@@ -153,6 +154,42 @@ printfn "Hello from F#"
 		})}${newLine}`;
 	}
 
+	generateViteConfigTS(): string {
+		const { tab, newLine } = this.editorConfig;
+
+		const imports = new JavaScriptImports().addNamedImport(
+			'vite',
+			(builder) => builder.addNamedExport('defineConfig'),
+		);
+
+		const configObj = new JsonObject()
+			.addEntry('clearScreen', false)
+			.addEntry(
+				'server',
+				new JsonObject().addEntry(
+					'watch',
+					new JsonObject().addEntry(
+						'ignored',
+						new JsonArray().addItem('**/*.fs'),
+					),
+				),
+			);
+
+		const lines: string[] = [];
+		lines.push(`${imports.toFormattedString({ newLine })}`);
+
+		lines.push('');
+		lines.push('// https://vitejs.dev/config/');
+		lines.push(
+			`export default defineConfig(${configObj.toFormattedString({
+				tab: tab,
+				newLine: newLine,
+				style: 'JavaScript',
+			})});`,
+		);
+		return this.joinLines(lines);
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.gitignore',
@@ -177,14 +214,21 @@ printfn "Hello from F#"
 			text: this.generateFsproj(),
 		};
 
-		switch (this.options.targetLanguage) {
-			case TargetLanguage.TypeScriptNode:
-			case TargetLanguage.TypeScriptBrowser:
-				yield {
-					path: 'package.json',
-					text: this.generatePackageJson(),
-				};
-				break;
+		if (
+			this.options.targetLanguage === TargetLanguage.TypeScriptNode ||
+			this.options.targetLanguage === TargetLanguage.TypeScriptBrowser
+		) {
+			yield {
+				path: 'package.json',
+				text: this.generatePackageJson(),
+			};
+		}
+
+		if (this.options.targetLanguage === TargetLanguage.TypeScriptBrowser) {
+			yield {
+				path: 'vite.config.ts',
+				text: this.generateViteConfigTS(),
+			};
 		}
 	}
 }
