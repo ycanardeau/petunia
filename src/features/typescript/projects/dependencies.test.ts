@@ -1,4 +1,4 @@
-import dependencies from '@/features/typescript/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 import { expect, test } from 'vitest';
 

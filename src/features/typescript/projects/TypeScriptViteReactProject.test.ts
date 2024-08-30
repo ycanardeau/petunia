@@ -1,3 +1,4 @@
+import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
 import {
@@ -7,7 +8,6 @@ import {
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/features/typescript/projects/TypeScriptViteReactProject';
-import dependencies from '@/features/typescript/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptViteReactProject', () => {

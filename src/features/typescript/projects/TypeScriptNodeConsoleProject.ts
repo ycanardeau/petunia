@@ -1,17 +1,17 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
+import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { ProjectFile } from '@/features/common/projects/Project';
+import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
 import { Database } from '@/features/typescript/projects/Database';
 import { NodeGitignoreGenerator } from '@/features/typescript/projects/NodeGitignoreGenerator';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
-import { PackageJsonDependency } from '@/features/typescript/projects/PackageJsonDependency';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import {
 	TestingFramework,
 	TypeScriptProject,
 	TypeScriptProjectOptions,
 } from '@/features/typescript/projects/TypeScriptProject';
-import dependencies from '@/features/typescript/projects/dependencies.json' assert { type: 'json' };
 import validate from 'validate-npm-package-name';
 
 export interface TypeScriptNodeConsoleProjectOptions

@@ -1,7 +1,7 @@
+import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { TypeScriptNestProject } from '@/features/typescript/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
-import dependencies from '@/features/typescript/projects/dependencies.json' assert { type: 'json' };
 import { beforeAll, describe, expect, test } from 'vitest';
 
 describe('TypeScriptNestProject', () => {
