@@ -117,6 +117,13 @@ printfn "Hello from F#"
 					)
 					.addEntry('start', 'node Program.fs.js');
 				break;
+
+			case TargetLanguage.TypeScriptBrowser:
+				scriptsObj.addEntry(
+					'dev',
+					'dotnet fable watch --lang typescript --run npx vite',
+				);
+				break;
 		}
 
 		const rootObj = new JsonObject()
