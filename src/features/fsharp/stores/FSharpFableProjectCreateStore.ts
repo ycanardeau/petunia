@@ -15,6 +15,7 @@ export class FSharpFableProjectCreateStore {
 	@observable projectName = 'fable-app';
 	@observable packageManager = PackageManager.NuGet;
 	@observable targetLanguage = TargetLanguage.TypeScriptBrowser;
+	@observable createSrcAndDistFolders = false;
 	@observable useFableReact = false;
 	@observable useFeliz = false;
 
@@ -59,6 +60,7 @@ export class FSharpFableProjectCreateStore {
 				projectName: this.projectName,
 				packageManager: this.packageManager,
 				targetLanguage: this.targetLanguage,
+				createSrcAndDistFolders: this.createSrcAndDistFolders,
 				useFableReact: this.useFableReact,
 				useFeliz: this.useFeliz,
 			},

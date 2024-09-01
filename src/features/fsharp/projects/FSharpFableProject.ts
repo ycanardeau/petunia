@@ -11,6 +11,7 @@ interface FSharpFableProjectOptions {
 	projectName: string;
 	packageManager: PackageManager;
 	targetLanguage: TargetLanguage;
+	createSrcAndDistFolders: boolean;
 	useFableReact: boolean;
 	useFeliz: boolean;
 }
@@ -129,7 +130,25 @@ printfn "Hello from F#"
 				scriptsObj
 					.addEntry(
 						'build:watch',
-						'dotnet fable watch --lang typescript --run npx tsc Program.fs.ts --target es2022 --skipLibCheck --watch --preserveWatchOutput',
+						[
+							'dotnet',
+							'fable',
+							'watch',
+							...(this.options.createSrcAndDistFolders
+								? ['src', '-o', 'dist']
+								: []),
+							'--lang',
+							'typescript',
+							'--run',
+							'npx',
+							'tsc',
+							'Program.fs.ts',
+							'--target',
+							'es2022',
+							'--skipLibCheck',
+							'--watch',
+							'--preserveWatchOutput',
+						].join(' '),
 					)
 					.addEntry('start', 'node Program.fs.js');
 				break;
@@ -137,7 +156,19 @@ printfn "Hello from F#"
 			case TargetLanguage.TypeScriptBrowser:
 				scriptsObj.addEntry(
 					'dev',
-					'dotnet fable watch --lang typescript --run npx vite',
+					[
+						'dotnet',
+						'fable',
+						'watch',
+						...(this.options.createSrcAndDistFolders
+							? ['src', '-o', 'dist']
+							: []),
+						'--lang',
+						'typescript',
+						'--run',
+						'npx',
+						'vite',
+					].join(' '),
 				);
 				break;
 		}
@@ -214,28 +245,38 @@ printfn "Hello from F#"
 	}
 
 	generateIndexHtml(): string {
-		return `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fable</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/Program.fs.ts"></script>
-  </body>
-</html>
-`;
+		const lines: string[] = [];
+		lines.push('<!DOCTYPE html>');
+		lines.push('<html lang="en">');
+		lines.push('  <head>');
+		lines.push('    <meta charset="UTF-8" />');
+		lines.push(
+			'    <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
+		);
+		lines.push('    <title>Fable</title>');
+		lines.push('  </head>');
+		lines.push('  <body>');
+		lines.push('    <div id="root"></div>');
+		if (this.options.createSrcAndDistFolders) {
+			lines.push(
+				'    <script type="module" src="/dist/Program.ts"></script>',
+			);
+		} else {
+			lines.push(
+				'    <script type="module" src="/Program.fs.ts"></script>',
+			);
+		}
+		lines.push('  </body>');
+		lines.push('</html>');
+		return this.joinLines(lines);
 	}
 
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.gitignore',
-			text: new DotnetGitignoreGenerator(
-				this.editorConfig,
-				{},
-			).generate(),
+			text: new DotnetGitignoreGenerator(this.editorConfig, {}).generate(
+				this.options.createSrcAndDistFolders ? ['dist/'] : [],
+			),
 		};
 
 		yield {
@@ -244,12 +285,16 @@ printfn "Hello from F#"
 		};
 
 		yield {
-			path: `Program.fs`,
+			path: this.options.createSrcAndDistFolders
+				? `src/Program.fs`
+				: `Program.fs`,
 			text: this.generateProgramFS(),
 		};
 
 		yield {
-			path: `${this.options.projectName}.fsproj`,
+			path: this.options.createSrcAndDistFolders
+				? `src/${this.options.projectName}.fsproj`
+				: `${this.options.projectName}.fsproj`,
 			text: this.generateFsproj(),
 		};
 

@@ -23,6 +23,7 @@ import {
 	EuiModalHeaderTitle,
 	EuiSelect,
 	EuiSpacer,
+	EuiSwitch,
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -94,6 +95,20 @@ const FSharpFableProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.targetLanguage = e.target
 									.value as TargetLanguage;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Create src and dist folders" /* LOC */
+						checked={projectCreateStore.createSrcAndDistFolders}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.createSrcAndDistFolders =
+									e.target.checked;
 							});
 						}}
 						compressed

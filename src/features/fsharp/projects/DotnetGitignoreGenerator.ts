@@ -1,7 +1,7 @@
 import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 export class DotnetGitignoreGenerator extends SourceTextGenerator {
-	generate(): string {
+	generate(optionalLines: string[] = []): string {
 		const lines: string[] = [];
 		lines.push(
 			'## Ignore Visual Studio temporary files, build results, and',
@@ -322,6 +322,10 @@ export class DotnetGitignoreGenerator extends SourceTextGenerator {
 		lines.push('*.btm.cs');
 		lines.push('*.odx.cs');
 		lines.push('*.xsd.cs');
+		if (optionalLines.length > 0) {
+			lines.push('');
+			lines.push(...optionalLines);
+		}
 		return this.joinLines(lines);
 	}
 }
