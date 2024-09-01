@@ -89,7 +89,7 @@ printfn "Hello from F#"
 
 		if (this.options.useFelizUseElmish) {
 			lines.push(
-				'    <PackageReference Include="Feliz" Version="2.5.0" />',
+				'    <PackageReference Include="Feliz.UseElmish" Version="2.5.0" />',
 			);
 		}
 
