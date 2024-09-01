@@ -183,7 +183,12 @@ printfn "Hello from F#"
 					: undefined,
 			)
 			.addEntry('description', '')
-			.addEntry('main', 'Program.fs.js')
+			.addEntry(
+				'main',
+				this.options.createSrcAndDistFolders
+					? 'dist/Program.js'
+					: 'Program.fs.js',
+			)
 			.addEntry('scripts', scriptsObj)
 			.addEntry('keywords', new JsonArray())
 			.addEntry('author', '')
