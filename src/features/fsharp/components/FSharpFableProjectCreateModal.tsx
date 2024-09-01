@@ -127,6 +127,33 @@ const FSharpFableProjectCreateForm = observer(
 					>
 						<EuiFlexItem grow={false}>
 							<EuiCheckbox
+								id="useReact"
+								label="React"
+								checked={projectCreateStore.useReact}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useReact =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="AReact is a JavaScript library for building user interfaces."
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
 								id="useFableReact"
 								label="Fable.React"
 								checked={projectCreateStore.useFableReact}

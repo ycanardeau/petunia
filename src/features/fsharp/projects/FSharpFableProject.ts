@@ -1,5 +1,5 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
-import { JsonArray, JsonObject } from '@/core/JsonValue';
+import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { Project, ProjectFile } from '@/features/common/projects/Project';
 import { DotnetGitignoreGenerator } from '@/features/fsharp/projects/DotnetGitignoreGenerator';
@@ -12,6 +12,7 @@ interface FSharpFableProjectOptions {
 	packageManager: PackageManager;
 	targetLanguage: TargetLanguage;
 	createSrcAndDistFolders: boolean;
+	useReact: boolean;
 	useFableReact: boolean;
 	useFeliz: boolean;
 }
@@ -118,6 +119,14 @@ printfn "Hello from F#"
 
 		const dependenciesObj = new PackageJsonDependency();
 
+		if (this.options.useReact) {
+			devDependenciesObj.addPackage('@vitejs/plugin-react');
+
+			dependenciesObj
+				.addPackage('react', '18.3.1')
+				.addPackage('react-dom', '18.3.1');
+		}
+
 		const scriptsObj = new JsonObject();
 
 		scriptsObj.addEntry(
@@ -221,6 +230,14 @@ printfn "Hello from F#"
 			(builder) => builder.addNamedExport('defineConfig'),
 		);
 
+		const pluginsArray = new JsonArray();
+
+		if (this.options.useReact) {
+			imports.addDefaultImport('react', '@vitejs/plugin-react');
+
+			pluginsArray.addItem(new JsonLiteral('react()'));
+		}
+
 		const configObj = new JsonObject()
 			.addEntry('clearScreen', false)
 			.addEntry(
@@ -232,7 +249,8 @@ printfn "Hello from F#"
 						new JsonArray().addItem('**/*.fs'),
 					),
 				),
-			);
+			)
+			.addEntry('plugins', pluginsArray);
 
 		const lines: string[] = [];
 		lines.push(`${imports.toFormattedString({ newLine })}`);
