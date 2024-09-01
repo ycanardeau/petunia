@@ -19,6 +19,7 @@ export class FSharpFableProjectCreateStore {
 	@observable useReact = true;
 	@observable useFableReact = false;
 	@observable useFeliz = false;
+	@observable useFelizUseElmish = false;
 
 	constructor() {
 		makeObservable(this);
@@ -65,6 +66,7 @@ export class FSharpFableProjectCreateStore {
 				useReact: this.useReact,
 				useFableReact: this.useFableReact,
 				useFeliz: this.useFeliz,
+				useFelizUseElmish: this.useFelizUseElmish,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

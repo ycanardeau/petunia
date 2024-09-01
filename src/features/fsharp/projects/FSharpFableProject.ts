@@ -15,6 +15,7 @@ interface FSharpFableProjectOptions {
 	useReact: boolean;
 	useFableReact: boolean;
 	useFeliz: boolean;
+	useFelizUseElmish: boolean;
 }
 
 export class FSharpFableProject extends Project<FSharpFableProjectOptions> {
@@ -83,6 +84,12 @@ printfn "Hello from F#"
 		if (this.options.useFeliz) {
 			lines.push(
 				'    <PackageReference Include="Feliz" Version="2.8.0" />',
+			);
+		}
+
+		if (this.options.useFelizUseElmish) {
+			lines.push(
+				'    <PackageReference Include="Feliz" Version="2.5.0" />',
 			);
 		}
 

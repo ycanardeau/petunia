@@ -141,7 +141,7 @@ const FSharpFableProjectCreateForm = observer(
 
 						<EuiFlexItem grow={false}>
 							<EuiIconTip
-								content="AReact is a JavaScript library for building user interfaces."
+								content="React is a JavaScript library for building user interfaces."
 								position="right"
 							/>
 						</EuiFlexItem>
@@ -189,6 +189,33 @@ const FSharpFableProjectCreateForm = observer(
 						<EuiFlexItem grow={false}>
 							<EuiIconTip
 								content="A fresh retake of the React API in Fable, optimized for happiness"
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useFelizUseElmish"
+								label="Feliz.UseElmish"
+								checked={projectCreateStore.useFelizUseElmish}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useFelizUseElmish =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="useElmish hooks to build Elmish components as React components"
 								position="right"
 							/>
 						</EuiFlexItem>
