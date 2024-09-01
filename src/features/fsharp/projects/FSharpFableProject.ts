@@ -11,6 +11,8 @@ interface FSharpFableProjectOptions {
 	projectName: string;
 	packageManager: PackageManager;
 	targetLanguage: TargetLanguage;
+	useFableReact: boolean;
+	useFeliz: boolean;
 }
 
 export class FSharpFableProject extends Project<FSharpFableProjectOptions> {
@@ -55,6 +57,7 @@ printfn "Hello from F#"
 		lines.push(
 			'    <PackageReference Include="Fable.Core" Version="4.3.0" />',
 		);
+
 		switch (this.options.targetLanguage) {
 			case TargetLanguage.TypeScriptNode:
 				lines.push(
@@ -68,6 +71,19 @@ printfn "Hello from F#"
 				);
 				break;
 		}
+
+		if (this.options.useFableReact) {
+			lines.push(
+				'    <PackageReference Include="Fable.React" Version="9.4.0" />',
+			);
+		}
+
+		if (this.options.useFeliz) {
+			lines.push(
+				'    <PackageReference Include="Feliz" Version="2.8.0" />',
+			);
+		}
+
 		lines.push('  </ItemGroup>');
 		lines.push('');
 		lines.push('</Project>');

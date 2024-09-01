@@ -9,14 +9,20 @@ import {
 import { FSharpFableProjectCreateStore } from '@/features/fsharp/stores/FSharpFableProjectCreateStore';
 import {
 	EuiButton,
+	EuiCheckbox,
 	EuiFieldText,
+	EuiFlexGroup,
+	EuiFlexItem,
 	EuiForm,
+	EuiFormFieldset,
 	EuiFormRow,
+	EuiIconTip,
 	EuiModalBody,
 	EuiModalFooter,
 	EuiModalHeader,
 	EuiModalHeaderTitle,
 	EuiSelect,
+	EuiSpacer,
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -93,6 +99,59 @@ const FSharpFableProjectCreateForm = observer(
 						compressed
 					/>
 				</EuiFormRow>
+
+				<EuiSpacer size="m" />
+
+				<EuiFormFieldset
+					legend={{ children: 'Additional packages' /* LOC */ }}
+				>
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useFableReact"
+								label="Fable.React"
+								checked={projectCreateStore.useFableReact}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useFableReact =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+
+					<EuiFlexGroup
+						alignItems="center"
+						gutterSize="s"
+						responsive={false}
+					>
+						<EuiFlexItem grow={false}>
+							<EuiCheckbox
+								id="useFeliz"
+								label="Feliz"
+								checked={projectCreateStore.useFeliz}
+								onChange={(e): void =>
+									runInAction(() => {
+										projectCreateStore.useFeliz =
+											e.target.checked;
+									})
+								}
+							/>
+						</EuiFlexItem>
+
+						<EuiFlexItem grow={false}>
+							<EuiIconTip
+								content="A fresh retake of the React API in Fable, optimized for happiness"
+								position="right"
+							/>
+						</EuiFlexItem>
+					</EuiFlexGroup>
+				</EuiFormFieldset>
 			</EuiForm>
 		);
 	},
