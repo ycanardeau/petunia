@@ -158,7 +158,9 @@ printfn "Hello from F#"
 							'--run',
 							'npx',
 							'tsc',
-							'Program.fs.ts',
+							this.options.createSrcAndDistFolders
+								? 'Program.ts'
+								: 'Program.fs.ts',
 							'--target',
 							'es2022',
 							'--skipLibCheck',
@@ -166,7 +168,15 @@ printfn "Hello from F#"
 							'--preserveWatchOutput',
 						].join(' '),
 					)
-					.addEntry('start', 'node Program.fs.js');
+					.addEntry(
+						'start',
+						[
+							'node',
+							this.options.createSrcAndDistFolders
+								? 'Program.js'
+								: 'Program.fs.js',
+						].join(' '),
+					);
 				break;
 
 			case TargetLanguage.TypeScriptBrowser:
