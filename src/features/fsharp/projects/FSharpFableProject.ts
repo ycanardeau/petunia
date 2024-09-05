@@ -159,7 +159,7 @@ printfn "Hello from F#"
 							'npx',
 							'tsc',
 							this.options.createSrcAndDistFolders
-								? 'Program.ts'
+								? 'dist/Program.ts'
 								: 'Program.fs.ts',
 							'--target',
 							'es2022',
@@ -173,7 +173,7 @@ printfn "Hello from F#"
 						[
 							'node',
 							this.options.createSrcAndDistFolders
-								? 'Program.js'
+								? 'dist/Program.js'
 								: 'Program.fs.js',
 						].join(' '),
 					);
