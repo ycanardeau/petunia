@@ -2,7 +2,6 @@ import { AppRoutes } from '@/AppRoutes';
 import { AppSideNav } from '@/AppSideNav';
 import '@/icons';
 import { EuiPageTemplate, EuiProvider, EuiSpacer, EuiText } from '@elastic/eui';
-import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
