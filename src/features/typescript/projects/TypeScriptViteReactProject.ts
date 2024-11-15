@@ -80,13 +80,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/node')
-			.addPackage(
-				'typescript',
-				// TODO: remove
-				this.options.ui === UIFramework.ElasticUI
-					? '^4.5.3'
-					: undefined,
-			)
+			.addPackage('typescript')
 			.addPackage('vite');
 
 		const peerDependenciesObj = new PackageJsonDependency();
