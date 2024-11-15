@@ -9,8 +9,8 @@ See https://ycanardeau.github.io/petunia/.
 ## Installation
 
 ```
-yarn
-yarn dev
+pnpm i
+pnpm dev
 ```
 
 ## Screenshot
