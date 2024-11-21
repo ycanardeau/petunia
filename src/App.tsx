@@ -1,5 +1,6 @@
 import { AppRoutes } from '@/AppRoutes';
 import { AppSideNav } from '@/AppSideNav';
+import { Header } from '@/features/header/components/Header';
 import '@/icons';
 import { EuiPageTemplate, EuiProvider, EuiSpacer, EuiText } from '@elastic/eui';
 import createCache from '@emotion/cache';
@@ -17,6 +18,7 @@ const App = (): React.ReactElement => {
 	return (
 		<HashRouter>
 			<EuiProvider colorMode="dark" cache={euiCache}>
+				<Header />
 				<EuiPageTemplate panelled restrictWidth>
 					<EuiPageTemplate.Sidebar sticky>
 						<AppSideNav />

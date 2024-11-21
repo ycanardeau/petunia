@@ -507,13 +507,6 @@ const TypeScriptViteReactProjectCreateModal = observer(
 					>
 						Create{/* LOC */}
 					</EuiButton>
-					<EuiButton
-						size="s"
-						href="https://github.com/ycanardeau/petunia"
-						target="_blank"
-					>
-						GitHub
-					</EuiButton>
 				</EuiModalFooter>
 			</>
 		);
