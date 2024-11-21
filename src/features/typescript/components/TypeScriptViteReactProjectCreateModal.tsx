@@ -36,6 +36,7 @@ const outputTypeNames: Record<OutputType, string> = {
 	[OutputType.ReactApplication]: 'React Application' /* LOC */,
 	[OutputType.ReactLibrary]: 'React Library' /* LOC */,
 	[OutputType.VueApplication]: 'Vue Application' /* LOC */,
+	[OutputType.VueLibrary]: 'Vue Library' /* LOC */,
 };
 
 // TODO: move

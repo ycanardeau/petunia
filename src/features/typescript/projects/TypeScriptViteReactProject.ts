@@ -18,6 +18,7 @@ export enum OutputType {
 	ReactApplication = 'ReactApplication',
 	ReactLibrary = 'ReactLibrary',
 	VueApplication = 'VueApplication',
+	VueLibrary = 'VueLibrary',
 }
 
 export enum UIFramework {
@@ -57,6 +58,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				return true;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				return false;
 
 			default:
@@ -144,6 +146,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				dependenciesObj.addPackage('vue');
 				devDependenciesObj.addPackage('vue-tsc');
 				break;
@@ -161,6 +164,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				devDependenciesObj.addPackage('@vitejs/plugin-vue');
 				break;
 		}
@@ -265,6 +269,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					break;
 
 				case OutputType.ReactLibrary:
+				case OutputType.VueLibrary:
 					devDependenciesObj.addPackage(name);
 					peerDependenciesObj.addPackage(name);
 					break;
@@ -402,6 +407,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				compilerOptionsObj.addEntry('jsx', 'preserve');
 				break;
 		}
@@ -489,6 +495,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				lines.push(
 					`${tab}${tab}<script type="module" src="/src/main.ts"></script>`,
 				);
@@ -521,6 +528,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				imports.addDefaultImport('vue', '@vitejs/plugin-vue');
 				break;
 		}
@@ -631,6 +639,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary /* REVIEW */:
 				pluginsArray.addItem(new JsonLiteral('vue()'));
 
 				if (this.options.useHttps) {
@@ -1194,6 +1203,7 @@ export class PaginationStore {
 				break;
 
 			case OutputType.VueApplication:
+			case OutputType.VueLibrary:
 				yield {
 					path: 'src/App.vue',
 					text: this.generateSrcAppVue(),
