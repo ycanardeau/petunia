@@ -1,3 +1,4 @@
+import CSharpIcon from '@/features/csharp/favicons/image.png';
 import FableIcon from '@/features/fsharp/favicons/fable.io.ico';
 import FSharpIcon from '@/features/fsharp/favicons/fsharp.org.ico';
 import HydrangeaIcon from '@/features/typescript/favicons/hydrangea.png';
@@ -68,6 +69,12 @@ export const AppSideNav = (): React.ReactElement => {
 							href: '/projects/typescript-nest',
 						}),
 					],
+				},
+				{
+					id: slugify('CSharp'),
+					name: 'C#',
+					icon: <EuiIcon type={CSharpIcon} />,
+					items: [],
 				},
 				{
 					id: slugify('F#'),
