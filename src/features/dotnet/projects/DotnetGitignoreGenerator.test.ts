@@ -1,4 +1,4 @@
-import { DotnetGitignoreGenerator } from '@/features/fsharp/projects/DotnetGitignoreGenerator';
+import { DotnetGitignoreGenerator } from '@/features/dotnet/projects/DotnetGitignoreGenerator';
 import { describe, expect, test } from 'vitest';
 
 describe('DotnetGitignoreGenerator', () => {
