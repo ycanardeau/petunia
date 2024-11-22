@@ -74,7 +74,11 @@ export const AppSideNav = (): React.ReactElement => {
 					id: slugify('CSharp'),
 					name: 'C#',
 					icon: <EuiIcon type={CSharpIcon} />,
-					items: [],
+					items: [
+						createItem('Clean Architecture', {
+							href: '/projects/csharp-clean-architecture',
+						}),
+					],
 				},
 				{
 					id: slugify('F#'),

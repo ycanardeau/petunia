@@ -27,7 +27,7 @@ import {
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { ReactElement, useState } from 'react';
 
 interface FSharpFableProjectCreateFormProps {
 	projectCreateStore: FSharpFableProjectCreateStore;
@@ -36,7 +36,7 @@ interface FSharpFableProjectCreateFormProps {
 const FSharpFableProjectCreateForm = observer(
 	({
 		projectCreateStore,
-	}: FSharpFableProjectCreateFormProps): React.ReactElement => {
+	}: FSharpFableProjectCreateFormProps): ReactElement => {
 		return (
 			<EuiForm>
 				<EuiFormRow
@@ -226,8 +226,8 @@ const FSharpFableProjectCreateForm = observer(
 	},
 );
 
-const FSharpFableProjectCreateModal = observer((): React.ReactElement => {
-	const [projectCreateStore] = React.useState(
+const FSharpFableProjectCreateModal = observer((): ReactElement => {
+	const [projectCreateStore] = useState(
 		() => new FSharpFableProjectCreateStore(),
 	);
 

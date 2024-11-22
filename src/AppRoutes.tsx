@@ -27,6 +27,13 @@ const FSharpFableProjectCreateModal = lazy(
 	() => import('@/features/fsharp/components/FSharpFableProjectCreateModal'),
 );
 
+const CSharpCleanArchitectureProjectModal = lazy(
+	() =>
+		import(
+			'@/features/csharp/components/CSharpCleanArchitectureProjectModal'
+		),
+);
+
 export const AppRoutes = (): React.ReactElement => {
 	return (
 		<Routes>
@@ -62,6 +69,10 @@ export const AppRoutes = (): React.ReactElement => {
 						<Route
 							path="fsharp-fable"
 							element={<FSharpFableProjectCreateModal />}
+						/>
+						<Route
+							path="csharp-clean-architecture"
+							element={<CSharpCleanArchitectureProjectModal />}
 						/>
 					</Routes>
 				}

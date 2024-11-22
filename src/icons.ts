@@ -9,6 +9,7 @@ import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as questionInCircle } from '@elastic/eui/es/components/icon/assets/question_in_circle';
+import { icon as warning } from '@elastic/eui/es/components/icon/assets/warning';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
 import { ValuesType } from 'utility-types';
 
@@ -25,6 +26,7 @@ const cachedIcons: IconComponentCacheType = {
 	logoGithub,
 	menu,
 	questionInCircle,
+	warning,
 };
 
 appendIconComponentCache(cachedIcons);
