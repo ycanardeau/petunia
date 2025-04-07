@@ -814,7 +814,6 @@ const jsonSchemaValidator = (): PluginOption => {
 					.addNamedImport('@elastic/eui', (builder) => {
 						builder.addNamedExport('EuiProvider');
 					})
-					.addModuleNameImport('@elastic/eui/dist/eui_theme_dark.css')
 					.addDefaultImport('createCache', '@emotion/cache');
 				break;
 

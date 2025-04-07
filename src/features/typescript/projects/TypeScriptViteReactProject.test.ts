@@ -1178,7 +1178,6 @@ export default App;
 		const actual = project.generateSrcAppTsx();
 		const expected = `import '@/icons';
 import { EuiProvider } from '@elastic/eui';
-import '@elastic/eui/dist/eui_theme_dark.css';
 import createCache from '@emotion/cache';
 import React from 'react';
 
