@@ -93,7 +93,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			case undefined:
 				switch (this.options.reactMajorVersion) {
 					case 17:
-					default:
 						devDependenciesObj
 							.addPackage('@types/react', '^17.0.39')
 							.addPackage('@types/react-dom', '^17.0.11');
@@ -119,6 +118,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 						break;
 
 					case 18:
+					default:
 						devDependenciesObj
 							.addPackage('@types/react')
 							.addPackage('@types/react-dom');
