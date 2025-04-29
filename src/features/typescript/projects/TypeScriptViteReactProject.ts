@@ -95,6 +95,31 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					case 17:
 					default:
 						devDependenciesObj
+							.addPackage('@types/react', '^17.0.39')
+							.addPackage('@types/react-dom', '^17.0.11');
+
+						switch (this.options.outputType) {
+							case OutputType.ReactApplication:
+							case undefined:
+								dependenciesObj
+									.addPackage('react', '^17.0.2')
+									.addPackage('react-dom', '^17.0.2');
+								break;
+
+							case OutputType.ReactLibrary:
+								devDependenciesObj
+									.addPackage('react', '^17.0.2')
+									.addPackage('react-dom', '^17.0.2')
+									.addPackage('vite-plugin-dts');
+								peerDependenciesObj
+									.addPackage('react', '^17.0.2')
+									.addPackage('react-dom', '^17.0.2');
+								break;
+						}
+						break;
+
+					case 18:
+						devDependenciesObj
 							.addPackage('@types/react')
 							.addPackage('@types/react-dom');
 
@@ -114,31 +139,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 								peerDependenciesObj
 									.addPackage('react')
 									.addPackage('react-dom');
-								break;
-						}
-						break;
-
-					case 18:
-						devDependenciesObj
-							.addPackage('@types/react', '^18.3.5')
-							.addPackage('@types/react-dom', '^18.3.0');
-
-						switch (this.options.outputType) {
-							case OutputType.ReactApplication:
-							case undefined:
-								dependenciesObj
-									.addPackage('react', '^18.3.1')
-									.addPackage('react-dom', '^18.3.1');
-								break;
-
-							case OutputType.ReactLibrary:
-								devDependenciesObj
-									.addPackage('react', '^18.3.1')
-									.addPackage('react-dom', '^18.3.1')
-									.addPackage('vite-plugin-dts');
-								peerDependenciesObj
-									.addPackage('react', '^18.3.1')
-									.addPackage('react-dom', '^18.3.1');
 								break;
 						}
 						break;
