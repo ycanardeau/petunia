@@ -20,6 +20,15 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 	@observable enablePrettier = true;
 	@observable sortImports = true;
 	@observable enableESLint = true;
+
+	@observable private _installBoundaries = true;
+	@computed get installBoundaries(): boolean {
+		return this.enableESLint && this._installBoundaries;
+	}
+	set installBoundaries(value: boolean) {
+		this._installBoundaries = value;
+	}
+
 	@observable configurePathAliases = true;
 	@observable generateDockerfile = false;
 	@observable useAjv = false;
@@ -72,6 +81,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				enablePrettier: this.enablePrettier,
 				sortImports: this.sortImports,
 				enableESLint: this.enableESLint,
+				installBoundaries: this.installBoundaries,
 				configurePathAliases: this.configurePathAliases,
 				generateDockerfile: this.generateDockerfile,
 				useAjv: this.useAjv,

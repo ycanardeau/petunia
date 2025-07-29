@@ -3,6 +3,7 @@ import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { ProjectFile } from '@/features/common/projects/Project';
 import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { ReactGitignoreGenerator } from '@/features/typescript/projects/ReactGitignoreGenerator';
 import {
@@ -256,6 +257,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		if (this.options.enablePrettier && this.options.enableESLint) {
 			devDependenciesObj.addPackage('eslint-config-prettier');
 			devDependenciesObj.addPackage('eslint-plugin-prettier');
+		}
+
+		if (this.options.installBoundaries && this.options.enableESLint) {
+			addBoundariesDependencies(devDependenciesObj);
 		}
 
 		const addAdditionalPackage = (

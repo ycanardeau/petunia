@@ -4,6 +4,7 @@ import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenera
 interface ESLintRcCjsOptions {
 	sortImports?: boolean;
 	extendsReactApp?: boolean;
+	installBoundaries?: boolean;
 }
 
 export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions> {
@@ -18,6 +19,10 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			extendsArray.addItem('react-app');
 		}
 
+		if (this.options.installBoundaries) {
+			extendsArray.addItem('plugin:boundaries/recommended');
+		}
+
 		const pluginsArray = new JsonArray().addItem(
 			'@typescript-eslint/eslint-plugin',
 		);
@@ -26,7 +31,25 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			pluginsArray.addItem('simple-import-sort').addItem('import');
 		}
 
-		const rulesArray = new JsonObject()
+		if (this.options.installBoundaries) {
+			pluginsArray.addItem('boundaries');
+		}
+
+		const settingsObj = new JsonObject();
+
+		if (this.options.installBoundaries) {
+			settingsObj
+				.addEntry(
+					'import/resolver',
+					new JsonObject().addEntry(
+						'typescript',
+						new JsonObject().addEntry('alwaysTryTypes', true),
+					),
+				)
+				.addEntry('boundaries/elements', new JsonArray());
+		}
+
+		const rulesObj = new JsonObject()
 			.addEntry('@typescript-eslint/interface-name-prefix', 'off')
 			.addEntry(
 				'@typescript-eslint/explicit-function-return-type',
@@ -40,12 +63,24 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			.addEntry('@typescript-eslint/no-empty-function', 'off');
 
 		if (this.options.sortImports) {
-			rulesArray
+			rulesObj
 				.addEntry('simple-import-sort/imports', 'error')
 				.addEntry('simple-import-sort/exports', 'error')
 				.addEntry('import/first', 'error')
 				.addEntry('import/newline-after-import', 'error')
 				.addEntry('import/no-duplicates', 'error');
+		}
+
+		if (this.options.installBoundaries) {
+			rulesObj.addEntry(
+				'boundaries/element-types',
+				new JsonArray([
+					new JsonLiteral('2'),
+					new JsonObject()
+						.addEntry('default', 'disallow')
+						.addEntry('rules', new JsonArray()),
+				]),
+			);
 		}
 
 		const rootObj = new JsonObject()
@@ -69,7 +104,8 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 				'ignorePatterns',
 				new JsonArray().addItem('.eslintrc.cjs'),
 			)
-			.addEntry('rules', rulesArray);
+			.addEntry('settings', settingsObj)
+			.addEntry('rules', rulesObj);
 
 		return `module.exports = ${rootObj.toFormattedString({
 			tab: tab,

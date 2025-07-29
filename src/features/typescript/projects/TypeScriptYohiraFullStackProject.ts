@@ -73,6 +73,7 @@ export class TypeScriptYohiraFullStackProject extends TypeScriptProject<TypeScri
 				enablePrettier: this.options.enablePrettier,
 				sortImports: this.options.sortImports,
 				enableESLint: this.options.enableESLint,
+				installBoundaries: true,
 				configurePathAliases: this.options.configurePathAliases,
 				useAjv: true,
 				useLodash: true,

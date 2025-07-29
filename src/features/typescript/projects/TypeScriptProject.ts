@@ -17,6 +17,7 @@ export interface TypeScriptProjectOptions {
 	enablePrettier?: boolean;
 	sortImports?: boolean;
 	enableESLint?: boolean;
+	installBoundaries?: boolean;
 	configurePathAliases?: boolean;
 	useAjv?: boolean;
 	useLodash?: boolean;
@@ -51,6 +52,7 @@ export abstract class TypeScriptProject<
 				text: new ESLintRcCjsGenerator(this.editorConfig, {
 					sortImports: this.options.sortImports,
 					extendsReactApp: this.isReactProject,
+					installBoundaries: this.options.installBoundaries,
 				}).generate(),
 			};
 		}

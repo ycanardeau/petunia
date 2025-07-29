@@ -3,6 +3,7 @@ import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { ProjectFile } from '@/features/common/projects/Project';
 import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import {
 	TestingFramework,
@@ -158,6 +159,10 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 		if (this.options.enablePrettier && this.options.enableESLint) {
 			devDependenciesObj.addPackage('eslint-config-prettier');
 			devDependenciesObj.addPackage('eslint-plugin-prettier');
+		}
+
+		if (this.options.installBoundaries && this.options.enableESLint) {
+			addBoundariesDependencies(devDependenciesObj);
 		}
 
 		if (this.options.configurePathAliases) {

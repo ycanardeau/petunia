@@ -171,6 +171,21 @@ const TypeScriptNodeConsoleProjectCreateForm = observer(
 
 				<EuiFormRow display="rowCompressed">
 					<EuiSwitch
+						label="Install eslint-plugin-boundaries" /* LOC */
+						checked={projectCreateStore.installBoundaries}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.installBoundaries =
+									e.target.checked;
+							});
+						}}
+						disabled={!projectCreateStore.enableESLint}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
 						label="Configure path aliases" /* LOC */
 						checked={projectCreateStore.configurePathAliases}
 						onChange={(e): void => {
