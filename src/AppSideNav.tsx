@@ -78,6 +78,9 @@ export const AppSideNav = (): React.ReactElement => {
 						createItem('Clean Architecture', {
 							href: '/projects/csharp-clean-architecture',
 						}),
+						createItem('ASP.NET Core', {
+							href: '/projects/csharp-asp-net-core',
+						}),
 					],
 				},
 				{

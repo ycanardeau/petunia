@@ -34,6 +34,10 @@ const CSharpCleanArchitectureProjectModal = lazy(
 		),
 );
 
+const CSharpAspNetCoreProjectModal = lazy(
+	() => import('@/features/csharp/components/CSharpAspNetCoreProjectModal'),
+);
+
 export const AppRoutes = (): React.ReactElement => {
 	return (
 		<Routes>
@@ -73,6 +77,10 @@ export const AppRoutes = (): React.ReactElement => {
 						<Route
 							path="csharp-clean-architecture"
 							element={<CSharpCleanArchitectureProjectModal />}
+						/>
+						<Route
+							path="csharp-asp-net-core"
+							element={<CSharpAspNetCoreProjectModal />}
 						/>
 					</Routes>
 				}
