@@ -27,6 +27,12 @@ export class CSharpCleanArchitectureProject extends Project<CSharpCleanArchitect
 		};
 
 		yield {
+			path: `${this.options.projectName}.Contracts/GlobalUsings.cs`,
+			text: `global using MediatR;
+`,
+		};
+
+		yield {
 			path: `${this.options.projectName}.Domain/${this.options.projectName}.Domain.csproj`,
 			text: `<Project Sdk="Microsoft.NET.Sdk">
 
@@ -212,6 +218,12 @@ internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optio
 		};
 
 		yield {
+			path: `${this.options.projectName}.Infrastructure/GlobalUsings.cs`,
+			text: `global using MediatR;
+`,
+		};
+
+		yield {
 			path: `${this.options.projectName}.Endpoints/${this.options.projectName}.Endpoints.csproj`,
 			text: `<Project Sdk="Microsoft.NET.Sdk">
 
@@ -256,6 +268,13 @@ internal static class ServiceExtensions
 		return services;
 	}
 }
+`,
+		};
+
+		yield {
+			path: `${this.options.projectName}.Endpoints/GlobalUsings.cs`,
+			text: `global using FastEndpoints;
+global using MediatR;
 `,
 		};
 
