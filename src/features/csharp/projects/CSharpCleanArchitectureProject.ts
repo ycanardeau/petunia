@@ -234,7 +234,7 @@ internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optio
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FastEndpoints" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
@@ -255,8 +255,7 @@ internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optio
 
 		yield {
 			path: `${this.options.projectName}.Endpoints/ServiceExtensions.cs`,
-			text: `using FastEndpoints;
-using Microsoft.Extensions.DependencyInjection;
+			text: `using Microsoft.Extensions.DependencyInjection;
 
 namespace ${this.options.projectName}.Endpoints;
 
@@ -264,7 +263,6 @@ internal static class ServiceExtensions
 {
 	public static IServiceCollection AddEndpoints(this IServiceCollection services)
 	{
-		// TODO: services.AddFastEndpoints();
 		return services;
 	}
 }
@@ -273,8 +271,7 @@ internal static class ServiceExtensions
 
 		yield {
 			path: `${this.options.projectName}.Endpoints/GlobalUsings.cs`,
-			text: `global using FastEndpoints;
-global using MediatR;
+			text: `global using MediatR;
 `,
 		};
 
