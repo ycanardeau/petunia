@@ -970,6 +970,7 @@ import { icon as arrowEnd } from '@elastic/eui/es/components/icon/assets/arrowEn
 import { icon as arrowStart } from '@elastic/eui/es/components/icon/assets/arrowStart';
 import { icon as calendar } from '@elastic/eui/es/components/icon/assets/calendar';
 import { icon as check } from '@elastic/eui/es/components/icon/assets/check';
+import { icon as controls } from '@elastic/eui/es/components/icon/assets/controls';
 import { icon as copyClipboard } from '@elastic/eui/es/components/icon/assets/copy_clipboard';
 import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
 import { icon as dot } from '@elastic/eui/es/components/icon/assets/dot';
@@ -982,6 +983,9 @@ import { icon as editorUnorderedList } from '@elastic/eui/es/components/icon/ass
 import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
 import { icon as eye } from '@elastic/eui/es/components/icon/assets/eye';
 import { icon as eyeClosed } from '@elastic/eui/es/components/icon/assets/eye_closed';
+import { icon as fullScreen } from '@elastic/eui/es/components/icon/assets/full_screen';
+import { icon as fullScreenExit } from '@elastic/eui/es/components/icon/assets/fullScreenExit';
+import { icon as keyboard } from '@elastic/eui/es/components/icon/assets/keyboard';
 import { icon as lock } from '@elastic/eui/es/components/icon/assets/lock';
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
@@ -992,6 +996,8 @@ import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return
 import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
 import { icon as sortDown } from '@elastic/eui/es/components/icon/assets/sort_down';
 import { icon as sortUp } from '@elastic/eui/es/components/icon/assets/sort_up';
+import { icon as starFilled } from '@elastic/eui/es/components/icon/assets/star_filled';
+import { icon as tableDensityNormal } from '@elastic/eui/es/components/icon/assets/table_density_normal';
 import { icon as warning } from '@elastic/eui/es/components/icon/assets/warning';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
 import { ValuesType } from 'utility-types';
@@ -1009,6 +1015,7 @@ const cachedIcons: IconComponentCacheType = {
 	arrowStart,
 	calendar,
 	check,
+	controls,
 	copyClipboard,
 	cross,
 	dot,
@@ -1021,6 +1028,9 @@ const cachedIcons: IconComponentCacheType = {
 	empty,
 	eye,
 	eyeClosed,
+	fullScreen,
+	fullScreenExit,
+	keyboard,
 	lock,
 	logoGithub,
 	menu,
@@ -1031,6 +1041,8 @@ const cachedIcons: IconComponentCacheType = {
 	search,
 	sortDown,
 	sortUp,
+	starFilled,
+	tableDensityNormal,
 	warning,
 };
 
