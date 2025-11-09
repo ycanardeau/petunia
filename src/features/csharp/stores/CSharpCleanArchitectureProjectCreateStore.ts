@@ -1,4 +1,5 @@
 import { CSharpCleanArchitectureProject } from '@/features/csharp/projects/CSharpCleanArchitectureProject';
+import { Database } from '@/features/csharp/projects/Database';
 import { PackageManager } from '@/features/csharp/projects/PackageManager';
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
@@ -7,6 +8,7 @@ import { action, computed, makeObservable, observable } from 'mobx';
 export class CSharpCleanArchitectureProjectCreateStore {
 	@observable projectName = 'CSharp.CleanArchitecture';
 	@observable packageManager = PackageManager.NuGet;
+	@observable database = Database.PostgreSql;
 
 	constructor() {
 		makeObservable(this);
@@ -32,6 +34,7 @@ export class CSharpCleanArchitectureProjectCreateStore {
 			{
 				projectName: this.projectName,
 				packageManager: this.packageManager,
+				database: this.database,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

@@ -1,3 +1,4 @@
+import { Database, databaseNames } from '@/features/csharp/projects/Database';
 import {
 	PackageManager,
 	packageManagerNames,
@@ -64,6 +65,23 @@ const CSharpCleanArchitectureProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.packageManager = e.target
 									.value as PackageManager;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow label="Database" /* LOC */ display="rowCompressed">
+					<EuiSelect
+						options={Object.values(Database).map((value) => ({
+							value: value,
+							text: databaseNames[value],
+						}))}
+						value={projectCreateStore.database}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.database = e.target
+									.value as Database;
 							});
 						}}
 						compressed
