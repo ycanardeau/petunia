@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { TypeScriptNodeConsoleProject } from '@/features/typescript/projects/TypeScriptNodeConsoleProject';
@@ -289,6 +289,7 @@ CMD ["pnpm", "start"]
 		const expected = [
 			'.editorconfig',
 			'.eslintrc.cjs',
+			'eslint.config.js',
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',

@@ -43,7 +43,7 @@ describe('TypeScriptProject', () => {
 		const actual = Array.from(project.generateProjectFiles()).map(
 			(projectFile) => projectFile.path,
 		);
-		const expected = ['.editorconfig', '.eslintrc.cjs'];
+		const expected = ['.editorconfig', '.eslintrc.cjs', 'eslint.config.js'];
 		expect(actual).toEqual(expected);
 	});
 });

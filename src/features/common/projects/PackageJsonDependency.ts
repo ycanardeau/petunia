@@ -1,5 +1,5 @@
 import { JsonObject, JsonObjectEntry } from '@/core/JsonValue';
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { orderBy } from 'lodash-es';
 
 export class PackageJsonDependency {

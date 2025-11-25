@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
 import {
@@ -38,12 +38,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -67,6 +69,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -75,7 +78,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"react": "${dependencies['react']}",
@@ -133,12 +137,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -164,6 +170,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -203,13 +210,15 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"utility-types": "${dependencies['utility-types']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -236,12 +245,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -267,13 +278,15 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -300,6 +313,7 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -307,7 +321,8 @@ describe('TypeScriptViteReactProject', () => {
 		"eslint-plugin-simple-import-sort": "${dependencies['eslint-plugin-simple-import-sort']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -333,6 +348,9 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@eslint/compat": "${dependencies['@eslint/compat']}",
+		"@eslint/eslintrc": "${dependencies['@eslint/eslintrc']}",
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -347,7 +365,8 @@ describe('TypeScriptViteReactProject', () => {
 		"eslint-plugin-react": "${dependencies['eslint-plugin-react']}",
 		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -374,6 +393,9 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@eslint/compat": "${dependencies['@eslint/compat']}",
+		"@eslint/eslintrc": "${dependencies['@eslint/eslintrc']}",
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -391,7 +413,8 @@ describe('TypeScriptViteReactProject', () => {
 		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -418,12 +441,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -446,6 +471,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -455,7 +481,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"ajv": "${dependencies['ajv']}",
@@ -505,13 +532,15 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -534,6 +563,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -544,7 +574,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"lodash-es": "${dependencies['lodash-es']}",
@@ -595,12 +626,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -623,6 +656,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -633,7 +667,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"mobx": "${dependencies['mobx']}",
@@ -684,13 +719,15 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -713,6 +750,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -723,7 +761,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"qs": "${dependencies['qs']}",
@@ -773,12 +812,14 @@ describe('TypeScriptViteReactProject', () => {
 		"react-router-dom": "${dependencies['react-router-dom']}"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
-		"vite": "${dependencies['vite']}"
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
 	}
 }
 `;
@@ -801,6 +842,7 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -810,7 +852,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-router-dom": "${dependencies['react-router-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vitest": "${dependencies['vitest']}"
 	},
 	"peerDependencies": {
 		"react": "${dependencies['react']}",
@@ -844,6 +887,11 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = defaultProject.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
+		"types": [
+			"node",
+			"@testing-library/jest-dom",
+			"vitest/globals"
+		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -858,19 +906,17 @@ describe('TypeScriptViteReactProject', () => {
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
 	"include": [
-		"src"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
+		"src",
+		"test-utils",
+		".storybook/main.ts",
+		".storybook/preview.tsx"
 	]
 }
 `;
@@ -884,6 +930,11 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = project.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
+		"types": [
+			"node",
+			"@testing-library/jest-dom",
+			"vitest/globals"
+		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -898,25 +949,25 @@ describe('TypeScriptViteReactProject', () => {
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"baseUrl": "./",
 		"paths": {
 			"@/*": [
-				"src/*"
+				"./src/*"
+			],
+			"@test-utils": [
+				"./test-utils"
 			]
 		}
 	},
 	"include": [
-		"src"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
+		"src",
+		"test-utils",
+		".storybook/main.ts",
+		".storybook/preview.tsx"
 	]
 }
 `;
@@ -930,6 +981,11 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = project.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
+		"types": [
+			"node",
+			"@testing-library/jest-dom",
+			"vitest/globals"
+		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -944,7 +1000,7 @@ describe('TypeScriptViteReactProject', () => {
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
@@ -952,29 +1008,10 @@ describe('TypeScriptViteReactProject', () => {
 		"experimentalDecorators": true
 	},
 	"include": [
-		"src"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
-	]
-}
-`;
-		expect(actual).toBe(expected);
-	});
-
-	test('generateTSConfigNodeJson', () => {
-		const actual = defaultProject.generateTSConfigNodeJson();
-		const expected = `{
-	"compilerOptions": {
-		"composite": true,
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"allowSyntheticDefaultImports": true
-	},
-	"include": [
-		"vite.config.ts"
+		"src",
+		"test-utils",
+		".storybook/main.ts",
+		".storybook/preview.tsx"
 	]
 }
 `;
@@ -1345,7 +1382,6 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
-			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1368,7 +1404,6 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
-			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1388,10 +1423,10 @@ CMD ["nginx", "-g", "daemon off;"]
 		const expected = [
 			'.editorconfig',
 			'.eslintrc.cjs',
+			'eslint.config.js',
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
-			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1413,7 +1448,6 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
-			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',

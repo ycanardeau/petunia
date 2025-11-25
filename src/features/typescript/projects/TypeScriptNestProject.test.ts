@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { TypeScriptNestProject } from '@/features/typescript/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
@@ -759,6 +759,7 @@ export default {
 		const expected = [
 			'.editorconfig',
 			'.eslintrc.cjs',
+			'eslint.config.js',
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',

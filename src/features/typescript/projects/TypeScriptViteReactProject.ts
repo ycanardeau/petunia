@@ -2,7 +2,7 @@ import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { ProjectFile } from '@/features/common/projects/Project';
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { ReactGitignoreGenerator } from '@/features/typescript/projects/ReactGitignoreGenerator';
@@ -84,7 +84,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/node')
 			.addPackage('typescript')
-			.addPackage('vite');
+			.addPackage('vite')
+			.addPackage('@testing-library/jest-dom')
+			.addPackage('vitest');
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
@@ -176,7 +178,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case TestingFramework.Vitest:
-				devDependenciesObj.addPackage('vitest');
+				// nop
 				break;
 		}
 
@@ -242,6 +244,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			devDependenciesObj.addPackage('eslint-plugin-flowtype');
 			devDependenciesObj.addPackage('eslint-plugin-import');
 			devDependenciesObj.addPackage('eslint-plugin-jsx-a11y');
+
+			devDependenciesObj
+				.addPackage('@eslint/eslintrc')
+				.addPackage('@eslint/compat');
 
 			switch (this.options.outputType) {
 				case OutputType.ReactApplication:
@@ -383,6 +389,13 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const { tab, newLine } = this.editorConfig;
 
 		const compilerOptionsObj = new JsonObject()
+			.addEntry(
+				'types',
+				new JsonArray()
+					.addItem('node')
+					.addItem('@testing-library/jest-dom')
+					.addItem('vitest/globals'),
+			)
 			.addEntry('target', 'ESNext')
 			.addEntry('useDefineForClassFields', true)
 			.addEntry(
@@ -399,7 +412,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addEntry('strict', true)
 			.addEntry('forceConsistentCasingInFileNames', true)
 			.addEntry('module', 'ESNext')
-			.addEntry('moduleResolution', 'Node')
+			.addEntry('moduleResolution', 'bundler')
 			.addEntry('resolveJsonModule', true)
 			.addEntry('isolatedModules', true)
 			.addEntry('noEmit', true);
@@ -418,13 +431,14 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		}
 
 		if (this.options.configurePathAliases) {
-			compilerOptionsObj.addEntry('baseUrl', './');
 			compilerOptionsObj.addEntry(
 				'paths',
-				new JsonObject().addEntry(
-					'@/*',
-					new JsonArray().addItem('src/*'),
-				),
+				new JsonObject()
+					.addEntry('@/*', new JsonArray().addItem('./src/*'))
+					.addEntry(
+						'@test-utils',
+						new JsonArray().addItem('./test-utils'),
+					),
 			);
 		}
 
@@ -434,33 +448,14 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const rootObj = new JsonObject()
 			.addEntry('compilerOptions', compilerOptionsObj)
-			.addEntry('include', new JsonArray().addItem('src'))
 			.addEntry(
-				'references',
-				new JsonArray().addItem(
-					new JsonObject().addEntry('path', './tsconfig.node.json'),
-				),
+				'include',
+				new JsonArray()
+					.addItem('src')
+					.addItem('test-utils')
+					.addItem('.storybook/main.ts')
+					.addItem('.storybook/preview.tsx'),
 			);
-
-		return `${rootObj.toFormattedString({
-			tab: tab,
-			newLine: newLine,
-			style: 'Json',
-		})}${newLine}`;
-	}
-
-	generateTSConfigNodeJson(): string {
-		const { tab, newLine } = this.editorConfig;
-
-		const compilerOptionsObj = new JsonObject()
-			.addEntry('composite', true)
-			.addEntry('module', 'ESNext')
-			.addEntry('moduleResolution', 'Node')
-			.addEntry('allowSyntheticDefaultImports', true);
-
-		const rootObj = new JsonObject()
-			.addEntry('compilerOptions', compilerOptionsObj)
-			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
@@ -990,7 +985,7 @@ import { icon as lock } from '@elastic/eui/es/components/icon/assets/lock';
 import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
 import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
-import { icon as questionInCircle } from '@elastic/eui/es/components/icon/assets/question_in_circle';
+import { icon as question } from '@elastic/eui/es/components/icon/assets/question';
 import { icon as quote } from '@elastic/eui/es/components/icon/assets/quote';
 import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return_key';
 import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
@@ -1035,7 +1030,7 @@ const cachedIcons: IconComponentCacheType = {
 	logoGithub,
 	menu,
 	popout,
-	questionInCircle,
+	question,
 	quote,
 	returnKey,
 	search,
@@ -1183,10 +1178,6 @@ export class PaginationStore {
 		yield {
 			path: 'tsconfig.json',
 			text: this.generateTSConfigJson(),
-		};
-		yield {
-			path: 'tsconfig.node.json',
-			text: this.generateTSConfigNodeJson(),
 		};
 
 		yield {
