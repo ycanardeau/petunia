@@ -60,7 +60,8 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 				'off',
 			)
 			.addEntry('@typescript-eslint/no-explicit-any', 'off')
-			.addEntry('@typescript-eslint/no-empty-function', 'off');
+			.addEntry('@typescript-eslint/no-empty-function', 'off')
+			.addEntry('@typescript-eslint/no-floating-promises', 'error');
 
 		if (this.options.sortImports) {
 			rulesObj

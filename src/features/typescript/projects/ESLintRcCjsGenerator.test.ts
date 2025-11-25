@@ -35,6 +35,7 @@ describe('ESLintRcCjsGenerator', () => {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/no-floating-promises': 'error',
 	},
 };
 `;
@@ -78,6 +79,7 @@ describe('ESLintRcCjsGenerator', () => {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/no-floating-promises': 'error',
 		'simple-import-sort/imports': 'error',
 		'simple-import-sort/exports': 'error',
 		'import/first': 'error',
@@ -125,6 +127,7 @@ describe('ESLintRcCjsGenerator', () => {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/no-floating-promises': 'error',
 	},
 };
 `;
@@ -175,6 +178,7 @@ describe('ESLintRcCjsGenerator', () => {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/no-floating-promises': 'error',
 		'boundaries/element-types': [
 			2,
 			{
