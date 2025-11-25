@@ -49,7 +49,7 @@ export const AppRoutes = (): React.ReactElement => {
 						<Route
 							path=""
 							element={
-								<Navigate to="/projects/typescript-yohira" />
+								<Navigate to="/projects/typescript-vite-react" />
 							}
 						/>
 						<Route
