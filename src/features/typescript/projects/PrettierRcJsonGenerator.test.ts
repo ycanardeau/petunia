@@ -13,6 +13,38 @@ describe('PrettierRcJsonGenerator', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generate sortImports @trivago/prettier-plugin-sort-imports', () => {
+		const generator = new PrettierRcJsonGenerator(undefined, {
+			sortImports: '@trivago/prettier-plugin-sort-imports',
+		});
+		const actual = generator.generate();
+		const expected = `{
+	"singleQuote": true,
+	"trailingComma": "all",
+	"importOrder": [
+		"^@core/(.*)$",
+		"^@server/(.*)$",
+		"^@ui/(.*)$",
+		"^[./]"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderParserPlugins": [
+		"jsx",
+		"typescript",
+		"importOrderParserPlugins",
+		"classProperties",
+		"decorators-legacy",
+		"importAssertions"
+	],
+	"plugins": [
+		"@trivago/prettier-plugin-sort-imports"
+	]
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generate sortImports eslint-plugin-simple-import-sort', () => {
 		const generator = new PrettierRcJsonGenerator(undefined, {
 			sortImports: 'eslint-plugin-simple-import-sort',

@@ -2,7 +2,9 @@ import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface ESLintRcCjsOptions {
-	sortImports?: 'eslint-plugin-simple-import-sort';
+	sortImports?:
+		| '@trivago/prettier-plugin-sort-imports'
+		| 'eslint-plugin-simple-import-sort';
 	extendsReactApp?: boolean;
 	installBoundaries?: boolean;
 }

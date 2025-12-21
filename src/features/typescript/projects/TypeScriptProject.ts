@@ -15,7 +15,9 @@ export interface TypeScriptProjectOptions {
 	packageManager?: PackageManager;
 	test?: TestingFramework;
 	enablePrettier?: boolean;
-	sortImports?: 'eslint-plugin-simple-import-sort';
+	sortImports?:
+		| '@trivago/prettier-plugin-sort-imports'
+		| 'eslint-plugin-simple-import-sort';
 	enableESLint?: boolean;
 	installBoundaries?: boolean;
 	configurePathAliases?: boolean;

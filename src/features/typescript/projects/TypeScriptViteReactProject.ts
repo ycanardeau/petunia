@@ -230,12 +230,18 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		if (this.options.enablePrettier) {
 			devDependenciesObj.addPackage('prettier');
 
-			if (
-				this.options.sortImports === 'eslint-plugin-simple-import-sort'
-			) {
-				devDependenciesObj.addPackage(
-					'eslint-plugin-simple-import-sort',
-				);
+			switch (this.options.sortImports) {
+				case '@trivago/prettier-plugin-sort-imports':
+					devDependenciesObj.addPackage(
+						'@trivago/prettier-plugin-sort-imports',
+					);
+					break;
+
+				case 'eslint-plugin-simple-import-sort':
+					devDependenciesObj.addPackage(
+						'eslint-plugin-simple-import-sort',
+					);
+					break;
 			}
 		}
 

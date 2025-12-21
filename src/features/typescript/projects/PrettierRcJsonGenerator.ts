@@ -1,8 +1,10 @@
-import { JsonObject } from '@/core/JsonValue';
+import { JsonArray, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface PrettierRcJsonOptions {
-	sortImports?: 'eslint-plugin-simple-import-sort';
+	sortImports?:
+		| '@trivago/prettier-plugin-sort-imports'
+		| 'eslint-plugin-simple-import-sort';
 }
 
 export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonOptions> {
@@ -12,6 +14,38 @@ export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonO
 		const rootObj = new JsonObject()
 			.addEntry('singleQuote', true)
 			.addEntry('trailingComma', 'all');
+
+		if (
+			this.options.sortImports === '@trivago/prettier-plugin-sort-imports'
+		) {
+			rootObj
+				.addEntry(
+					'importOrder',
+					new JsonArray()
+						.addItem('^@core/(.*)$')
+						.addItem('^@server/(.*)$')
+						.addItem('^@ui/(.*)$')
+						.addItem('^[./]'),
+				)
+				.addEntry('importOrderSeparation', true)
+				.addEntry('importOrderSortSpecifiers', true)
+				.addEntry(
+					'importOrderParserPlugins',
+					new JsonArray()
+						.addItem('jsx')
+						.addItem('typescript')
+						.addItem('importOrderParserPlugins')
+						.addItem('classProperties')
+						.addItem('decorators-legacy')
+						.addItem('importAssertions'),
+				)
+				.addEntry(
+					'plugins',
+					new JsonArray().addItem(
+						'@trivago/prettier-plugin-sort-imports',
+					),
+				);
+		}
 
 		return `${rootObj.toFormattedString({
 			tab: tab,

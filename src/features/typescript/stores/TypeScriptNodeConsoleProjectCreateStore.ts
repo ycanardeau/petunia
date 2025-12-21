@@ -61,7 +61,7 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				orm: this.orm,
 				enablePrettier: this.enablePrettier,
 				sortImports: this.sortImports
-					? 'eslint-plugin-simple-import-sort'
+					? '@trivago/prettier-plugin-sort-imports'
 					: undefined,
 				enableESLint: this.enableESLint,
 				installBoundaries: this.installBoundaries,

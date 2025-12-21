@@ -99,7 +99,7 @@ export class TypeScriptYohiraProjectCreateStore {
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.enablePrettier,
 				sortImports: this.sortImports
-					? 'eslint-plugin-simple-import-sort'
+					? '@trivago/prettier-plugin-sort-imports'
 					: undefined,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,

@@ -293,6 +293,42 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
+	test('generatePackageJson enablePrettier sortImports @trivago/prettier-plugin-sort-imports', () => {
+		const project = new TypeScriptViteReactProject(undefined, {
+			enablePrettier: true,
+			sortImports: '@trivago/prettier-plugin-sort-imports',
+		});
+		const actual = project.generatePackageJson();
+		const expected = `{
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"react": "${dependencies['react']}",
+		"react-dom": "${dependencies['react-dom']}"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
+		"@trivago/prettier-plugin-sort-imports": "${dependencies['@trivago/prettier-plugin-sort-imports']}",
+		"@types/node": "${dependencies['@types/node']}",
+		"@types/react": "${dependencies['@types/react']}",
+		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
+		"prettier": "${dependencies['prettier']}",
+		"typescript": "${dependencies['typescript']}",
+		"vite": "${dependencies['vite']}",
+		"vitest": "${dependencies['vitest']}"
+	}
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
 	test('generatePackageJson enablePrettier sortImports eslint-plugin-simple-import-sort', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			enablePrettier: true,
