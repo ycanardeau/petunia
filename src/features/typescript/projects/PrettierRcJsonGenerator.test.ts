@@ -13,9 +13,9 @@ describe('PrettierRcJsonGenerator', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generate sortImports', () => {
+	test('generate sortImports eslint-plugin-simple-import-sort', () => {
 		const generator = new PrettierRcJsonGenerator(undefined, {
-			sortImports: true,
+			sortImports: 'eslint-plugin-simple-import-sort',
 		});
 		const actual = generator.generate();
 		const expected = `{

@@ -15,7 +15,7 @@ export interface TypeScriptProjectOptions {
 	packageManager?: PackageManager;
 	test?: TestingFramework;
 	enablePrettier?: boolean;
-	sortImports?: boolean;
+	sortImports?: 'eslint-plugin-simple-import-sort';
 	enableESLint?: boolean;
 	installBoundaries?: boolean;
 	configurePathAliases?: boolean;

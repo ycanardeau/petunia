@@ -60,7 +60,9 @@ export class TypeScriptNodeConsoleProjectCreateStore {
 				test: this.test,
 				orm: this.orm,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.sortImports,
+				sortImports: this.sortImports
+					? 'eslint-plugin-simple-import-sort'
+					: undefined,
 				enableESLint: this.enableESLint,
 				installBoundaries: this.installBoundaries,
 				configurePathAliases: this.configurePathAliases,

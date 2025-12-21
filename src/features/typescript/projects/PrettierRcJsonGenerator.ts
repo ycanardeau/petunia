@@ -2,7 +2,7 @@ import { JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface PrettierRcJsonOptions {
-	sortImports?: boolean;
+	sortImports?: 'eslint-plugin-simple-import-sort';
 }
 
 export class PrettierRcJsonGenerator extends SourceTextGenerator<PrettierRcJsonOptions> {

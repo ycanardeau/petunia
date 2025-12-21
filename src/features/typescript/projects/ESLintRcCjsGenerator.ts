@@ -2,7 +2,7 @@ import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { SourceTextGenerator } from '@/features/common/projects/SourceTextGenerator';
 
 interface ESLintRcCjsOptions {
-	sortImports?: boolean;
+	sortImports?: 'eslint-plugin-simple-import-sort';
 	extendsReactApp?: boolean;
 	installBoundaries?: boolean;
 }
@@ -27,7 +27,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			'@typescript-eslint/eslint-plugin',
 		);
 
-		if (this.options.sortImports) {
+		if (this.options.sortImports === 'eslint-plugin-simple-import-sort') {
 			pluginsArray.addItem('simple-import-sort').addItem('import');
 		}
 
@@ -63,7 +63,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			.addEntry('@typescript-eslint/no-empty-function', 'off')
 			.addEntry('@typescript-eslint/no-floating-promises', 'error');
 
-		if (this.options.sortImports) {
+		if (this.options.sortImports === 'eslint-plugin-simple-import-sort') {
 			rulesObj
 				.addEntry('simple-import-sort/imports', 'error')
 				.addEntry('simple-import-sort/exports', 'error')

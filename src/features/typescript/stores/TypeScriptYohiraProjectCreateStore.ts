@@ -98,7 +98,9 @@ export class TypeScriptYohiraProjectCreateStore {
 				test: this.test,
 				orm: OrmFramework.MikroOrm /* TODO */,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.sortImports,
+				sortImports: this.sortImports
+					? 'eslint-plugin-simple-import-sort'
+					: undefined,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
 				useAjv: true,

@@ -136,7 +136,9 @@ export class TypeScriptViteReactProjectCreateStore {
 				ui: this.ui,
 				icon: this.icon,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.sortImports,
+				sortImports: this.sortImports
+					? 'eslint-plugin-simple-import-sort'
+					: undefined,
 				enableESLint: this.enableESLint,
 				installBoundaries: this.installBoundaries,
 				configurePathAliases: this.configurePathAliases,

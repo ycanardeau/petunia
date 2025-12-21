@@ -91,7 +91,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		if (this.options.enablePrettier) {
 			devDependenciesObj.addPackage('prettier');
 
-			if (this.options.sortImports) {
+			if (
+				this.options.sortImports === 'eslint-plugin-simple-import-sort'
+			) {
 				devDependenciesObj.addPackage(
 					'eslint-plugin-simple-import-sort',
 				);

@@ -46,7 +46,9 @@ export class TypeScriptNestProjectCreateStore {
 				test: this.test,
 				orm: this.orm,
 				enablePrettier: this.enablePrettier,
-				sortImports: this.sortImports,
+				sortImports: this.sortImports
+					? 'eslint-plugin-simple-import-sort'
+					: undefined,
 				enableESLint: this.enableESLint,
 				configurePathAliases: this.configurePathAliases,
 				useAjv: this.useAjv,

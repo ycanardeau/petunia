@@ -42,9 +42,9 @@ describe('ESLintRcCjsGenerator', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generate sortImports', () => {
+	test('generate sortImports eslint-plugin-simple-import-sort', () => {
 		const generator = new ESLintRcCjsGenerator(undefined, {
-			sortImports: true,
+			sortImports: 'eslint-plugin-simple-import-sort',
 		});
 		const actual = generator.generate();
 		const expected = `module.exports = {

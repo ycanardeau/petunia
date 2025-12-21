@@ -293,10 +293,10 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generatePackageJson enablePrettier sortImports', () => {
+	test('generatePackageJson enablePrettier sortImports eslint-plugin-simple-import-sort', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			enablePrettier: true,
-			sortImports: true,
+			sortImports: 'eslint-plugin-simple-import-sort',
 		});
 		const actual = project.generatePackageJson();
 		const expected = `{
