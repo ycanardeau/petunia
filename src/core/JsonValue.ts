@@ -135,7 +135,7 @@ export class JsonArray extends JsonValue {
 					this.items,
 					options,
 					tabCount + 1,
-			  )}${options.newLine}${indent}]`
+				)}${options.newLine}${indent}]`
 			: '[]';
 	}
 }
@@ -235,7 +235,7 @@ export class JsonObject extends JsonValue {
 					this.entries,
 					options,
 					tabCount + 1,
-			  )}${options.newLine}${indent}}`
+				)}${options.newLine}${indent}}`
 			: '{}';
 	}
 }

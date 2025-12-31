@@ -703,8 +703,8 @@ README.md
 
   <ItemGroup>
     <ProjectReference Include="..\\${this.options.projectName}\\${
-				this.options.projectName
-			}.csproj" />
+		this.options.projectName
+	}.csproj" />
   </ItemGroup>
 
 </Project>

@@ -59,14 +59,14 @@ ${sortedPackageReferences
 
   <ItemGroup>
     <ProjectReference Include="..\\${this.options.projectName}.Application\\${
-			this.options.projectName
-		}.Application.csproj" />
+		this.options.projectName
+	}.Application.csproj" />
     <ProjectReference Include="..\\${this.options.projectName}.Contracts\\${
-			this.options.projectName
-		}.Contracts.csproj" />
+		this.options.projectName
+	}.Contracts.csproj" />
     <ProjectReference Include="..\\${this.options.projectName}.Domain\\${
-			this.options.projectName
-		}.Domain.csproj" />
+		this.options.projectName
+	}.Domain.csproj" />
   </ItemGroup>
 
 </Project>
