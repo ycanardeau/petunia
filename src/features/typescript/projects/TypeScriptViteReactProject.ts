@@ -84,8 +84,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const devDependenciesObj = new PackageJsonDependency()
 			.addPackage('@types/node')
 			.addPackage('typescript')
-			.addPackage('vite')
-			.addPackage('vitest');
+			.addPackage('vite');
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
