@@ -324,18 +324,22 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			devDependenciesObj.addPackage('@vitejs/plugin-basic-ssl');
 		}
 
+		const scriptsObj = new JsonObject().addEntry('dev', 'vite');
+
+		if (this.options.enableESLint) {
+			scriptsObj.addEntry('lint', 'eslint .');
+		}
+
+		scriptsObj
+			.addEntry('build', 'tsc && vite build')
+			.addEntry('preview', 'vite preview');
+
 		const rootObj = new JsonObject()
 			.addEntry('name', this.options.projectName)
 			.addEntry('private', true)
 			.addEntry('version', '0.0.0')
 			.addEntry('type', 'module')
-			.addEntry(
-				'scripts',
-				new JsonObject()
-					.addEntry('dev', 'vite')
-					.addEntry('build', 'tsc && vite build')
-					.addEntry('preview', 'vite preview'),
-			)
+			.addEntry('scripts', scriptsObj)
 			.addEntry(
 				'dependencies',
 				dependenciesObj.entries.length > 0

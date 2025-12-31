@@ -86,29 +86,33 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			);
 		}
 
+		const overridesArray = new JsonArray().addItem(
+			new JsonObject()
+				.addEntry('files', new JsonArray().addItem('**/*.{ts,tsx}'))
+				.addEntry('parser', '@typescript-eslint/parser')
+				.addEntry(
+					'parserOptions',
+					new JsonObject()
+						.addEntry('projectService', true)
+						.addEntry(
+							'tsconfigRootDir',
+							new JsonLiteral('__dirname'),
+						),
+				)
+				.addEntry('plugins', pluginsArray)
+				.addEntry('extends', extendsArray)
+				.addEntry('settings', settingsObj)
+				.addEntry('rules', rulesObj),
+		);
+
 		const rootObj = new JsonObject()
-			.addEntry('parser', '@typescript-eslint/parser')
-			.addEntry(
-				'parserOptions',
-				new JsonObject()
-					.addEntry('project', 'tsconfig.json')
-					.addEntry('sourceType', 'module')
-					.addEntry('tsconfigRootDir', new JsonLiteral('__dirname'))
-					.addEntry('ecmaVersion', 'latest'),
-			)
-			.addEntry('plugins', pluginsArray)
-			.addEntry('extends', extendsArray)
 			.addEntry('root', true)
 			.addEntry(
 				'env',
 				new JsonObject().addEntry('node', true).addEntry('jest', true),
 			)
-			.addEntry(
-				'ignorePatterns',
-				new JsonArray().addItem('.eslintrc.cjs'),
-			)
-			.addEntry('settings', settingsObj)
-			.addEntry('rules', rulesObj);
+			.addEntry('ignorePatterns', new JsonArray().addItem('dist'))
+			.addEntry('overrides', overridesArray);
 
 		return `module.exports = ${rootObj.toFormattedString({
 			tab: tab,

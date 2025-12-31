@@ -358,6 +358,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"lint": "eslint .",
 		"build": "tsc && vite build",
 		"preview": "vite preview"
 	},
@@ -401,6 +402,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"lint": "eslint .",
 		"build": "tsc && vite build",
 		"preview": "vite preview"
 	},
