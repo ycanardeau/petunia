@@ -38,7 +38,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -69,7 +68,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -137,7 +135,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -170,7 +167,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -210,7 +206,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -245,7 +240,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -278,7 +272,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -313,7 +306,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@trivago/prettier-plugin-sort-imports": "${dependencies['@trivago/prettier-plugin-sort-imports']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -349,7 +341,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -386,7 +377,6 @@ describe('TypeScriptViteReactProject', () => {
 	"devDependencies": {
 		"@eslint/compat": "${dependencies['@eslint/compat']}",
 		"@eslint/eslintrc": "${dependencies['@eslint/eslintrc']}",
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -431,7 +421,6 @@ describe('TypeScriptViteReactProject', () => {
 	"devDependencies": {
 		"@eslint/compat": "${dependencies['@eslint/compat']}",
 		"@eslint/eslintrc": "${dependencies['@eslint/eslintrc']}",
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -477,7 +466,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -507,7 +495,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -568,7 +555,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -599,7 +585,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/lodash-es": "${dependencies['@types/lodash-es']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -662,7 +647,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -692,7 +676,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -755,7 +738,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -786,7 +768,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
@@ -848,7 +829,6 @@ describe('TypeScriptViteReactProject', () => {
 		"react-router-dom": "${dependencies['react-router-dom']}"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -878,7 +858,6 @@ describe('TypeScriptViteReactProject', () => {
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "${dependencies['@testing-library/jest-dom']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
@@ -923,11 +902,6 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = defaultProject.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
-		"types": [
-			"node",
-			"@testing-library/jest-dom",
-			"vitest/globals"
-		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -949,10 +923,7 @@ describe('TypeScriptViteReactProject', () => {
 		"jsx": "react-jsx"
 	},
 	"include": [
-		"src",
-		"test-utils",
-		".storybook/main.ts",
-		".storybook/preview.tsx"
+		"src"
 	]
 }
 `;
@@ -966,11 +937,6 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = project.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
-		"types": [
-			"node",
-			"@testing-library/jest-dom",
-			"vitest/globals"
-		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -993,17 +959,11 @@ describe('TypeScriptViteReactProject', () => {
 		"paths": {
 			"@/*": [
 				"./src/*"
-			],
-			"@test-utils": [
-				"./test-utils"
 			]
 		}
 	},
 	"include": [
-		"src",
-		"test-utils",
-		".storybook/main.ts",
-		".storybook/preview.tsx"
+		"src"
 	]
 }
 `;
@@ -1017,11 +977,6 @@ describe('TypeScriptViteReactProject', () => {
 		const actual = project.generateTSConfigJson();
 		const expected = `{
 	"compilerOptions": {
-		"types": [
-			"node",
-			"@testing-library/jest-dom",
-			"vitest/globals"
-		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"lib": [
@@ -1044,10 +999,7 @@ describe('TypeScriptViteReactProject', () => {
 		"experimentalDecorators": true
 	},
 	"include": [
-		"src",
-		"test-utils",
-		".storybook/main.ts",
-		".storybook/preview.tsx"
+		"src"
 	]
 }
 `;

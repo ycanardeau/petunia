@@ -85,7 +85,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addPackage('@types/node')
 			.addPackage('typescript')
 			.addPackage('vite')
-			.addPackage('@testing-library/jest-dom')
 			.addPackage('vitest');
 
 		const peerDependenciesObj = new PackageJsonDependency();
@@ -397,13 +396,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const { tab, newLine } = this.editorConfig;
 
 		const compilerOptionsObj = new JsonObject()
-			.addEntry(
-				'types',
-				new JsonArray()
-					.addItem('node')
-					.addItem('@testing-library/jest-dom')
-					.addItem('vitest/globals'),
-			)
 			.addEntry('target', 'ESNext')
 			.addEntry('useDefineForClassFields', true)
 			.addEntry(
@@ -441,12 +433,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		if (this.options.configurePathAliases) {
 			compilerOptionsObj.addEntry(
 				'paths',
-				new JsonObject()
-					.addEntry('@/*', new JsonArray().addItem('./src/*'))
-					.addEntry(
-						'@test-utils',
-						new JsonArray().addItem('./test-utils'),
-					),
+				new JsonObject().addEntry(
+					'@/*',
+					new JsonArray().addItem('./src/*'),
+				),
 			);
 		}
 
@@ -456,14 +446,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const rootObj = new JsonObject()
 			.addEntry('compilerOptions', compilerOptionsObj)
-			.addEntry(
-				'include',
-				new JsonArray()
-					.addItem('src')
-					.addItem('test-utils')
-					.addItem('.storybook/main.ts')
-					.addItem('.storybook/preview.tsx'),
-			);
+			.addEntry('include', new JsonArray().addItem('src'));
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
