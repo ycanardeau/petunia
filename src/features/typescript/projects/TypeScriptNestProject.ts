@@ -2,7 +2,7 @@ import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import { ProjectFile } from '@/features/common/projects/Project';
-import dependencies from '@/features/common/projects/dependencies.json' assert { type: 'json' };
+import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import {

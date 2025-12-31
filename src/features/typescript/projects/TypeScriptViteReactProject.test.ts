@@ -1045,7 +1045,7 @@ export default defineConfig({
 			outputType: OutputType.ReactLibrary,
 		});
 		const actual = project.generateViteConfigTS();
-		const expected = `import pkg from './package.json' assert { type: 'json' };
+		const expected = `import pkg from './package.json' with { type: 'json' };
 import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';

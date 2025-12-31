@@ -540,7 +540,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				.addDefaultImport(
 					'pkg',
 					'./package.json',
-					" assert { type: 'json' }",
+					" with { type: 'json' }",
 				);
 		}
 
