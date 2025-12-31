@@ -30,9 +30,9 @@ export const AppSideNav = (): React.ReactElement => {
 				name: name,
 				icon: data.icon,
 				href: `/#${data.href}`,
-				onClick: (e): void => {
+				onClick: async (e): Promise<void> => {
 					e.preventDefault();
-					navigate(data.href ?? '');
+					await navigate(data.href ?? '');
 				},
 				isSelected: pathname === data.href,
 			};
