@@ -331,7 +331,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		}
 
 		scriptsObj
-			.addEntry('build', 'tsc && vite build')
+			.addEntry('build', 'tsc -b && vite build')
 			.addEntry('preview', 'vite preview');
 
 		const rootObj = new JsonObject()
@@ -398,27 +398,57 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 	generateTSConfigJson(): string {
 		const { tab, newLine } = this.editorConfig;
 
+		const rootObj = new JsonObject()
+			.addEntry('files', new JsonArray())
+			.addEntry(
+				'references',
+				new JsonArray()
+					.addItem(
+						new JsonObject().addEntry(
+							'path',
+							'./tsconfig.app.json',
+						),
+					)
+					.addItem(
+						new JsonObject().addEntry(
+							'path',
+							'./tsconfig.node.json',
+						),
+					),
+			);
+
+		return `${rootObj.toFormattedString({
+			tab: tab,
+			newLine: newLine,
+			style: 'Json',
+		})}${newLine}`;
+	}
+
+	generateTSConfigAppJson(): string {
+		const { tab, newLine } = this.editorConfig;
+
 		const compilerOptionsObj = new JsonObject()
-			.addEntry('target', 'ESNext')
+			.addEntry(
+				'tsBuildInfoFile',
+				'./node_modules/.tmp/tsconfig.app.tsbuildinfo',
+			)
+			.addEntry('target', 'ES2022')
 			.addEntry('useDefineForClassFields', true)
 			.addEntry(
 				'lib',
 				new JsonArray()
+					.addItem('ES2022')
 					.addItem('DOM')
-					.addItem('DOM.Iterable')
-					.addItem('ESNext'),
+					.addItem('DOM.Iterable'),
 			)
-			.addEntry('allowJs', false)
-			.addEntry('skipLibCheck', true)
-			.addEntry('esModuleInterop', false)
-			.addEntry('allowSyntheticDefaultImports', true)
-			.addEntry('strict', true)
-			.addEntry('forceConsistentCasingInFileNames', true)
 			.addEntry('module', 'ESNext')
+			.addEntry('types', new JsonArray().addItem('vite/client'))
+			.addEntry('skipLibCheck', true)
+			/* Bundler mode */
 			.addEntry('moduleResolution', 'bundler')
+			.addEntry('allowImportingTsExtensions', true)
 			.addEntry('verbatimModuleSyntax', true)
-			.addEntry('resolveJsonModule', true)
-			.addEntry('isolatedModules', true)
+			.addEntry('moduleDetection', 'force')
 			.addEntry('noEmit', true);
 
 		switch (this.options.outputType) {
@@ -434,6 +464,15 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 		}
 
+		compilerOptionsObj
+			/* Linting */
+			.addEntry('strict', true)
+			.addEntry('noUnusedLocals', true)
+			.addEntry('noUnusedParameters', true)
+			.addEntry('erasableSyntaxOnly', true)
+			.addEntry('noFallthroughCasesInSwitch', true)
+			.addEntry('noUncheckedSideEffectImports', true);
+
 		if (this.options.configurePathAliases) {
 			compilerOptionsObj.addEntry(
 				'paths',
@@ -444,13 +483,47 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		}
 
-		if (this.options.useMobX) {
-			compilerOptionsObj.addEntry('experimentalDecorators', true);
-		}
-
 		const rootObj = new JsonObject()
 			.addEntry('compilerOptions', compilerOptionsObj)
 			.addEntry('include', new JsonArray().addItem('src'));
+
+		return `${rootObj.toFormattedString({
+			tab: tab,
+			newLine: newLine,
+			style: 'Json',
+		})}${newLine}`;
+	}
+
+	generateTSConfigNodeJson(): string {
+		const { tab, newLine } = this.editorConfig;
+
+		const compilerOptionsObj = new JsonObject()
+			.addEntry(
+				'tsBuildInfoFile',
+				'./node_modules/.tmp/tsconfig.node.tsbuildinfo',
+			)
+			.addEntry('target', 'ES2023')
+			.addEntry('lib', new JsonArray().addItem('ES2023'))
+			.addEntry('module', 'ESNext')
+			.addEntry('types', new JsonArray().addItem('node'))
+			.addEntry('skipLibCheck', true)
+			/* Bundler mode */
+			.addEntry('moduleResolution', 'bundler')
+			.addEntry('allowImportingTsExtensions', true)
+			.addEntry('verbatimModuleSyntax', true)
+			.addEntry('moduleDetection', 'force')
+			.addEntry('noEmit', true)
+			/* Linting */
+			.addEntry('strict', true)
+			.addEntry('noUnusedLocals', true)
+			.addEntry('noUnusedParameters', true)
+			.addEntry('erasableSyntaxOnly', true)
+			.addEntry('noFallthroughCasesInSwitch', true)
+			.addEntry('noUncheckedSideEffectImports', true);
+
+		const rootObj = new JsonObject()
+			.addEntry('compilerOptions', compilerOptionsObj)
+			.addEntry('include', new JsonArray().addItem('vite.config.ts'));
 
 		return `${rootObj.toFormattedString({
 			tab: tab,
@@ -1173,6 +1246,14 @@ export class PaginationStore {
 		yield {
 			path: 'tsconfig.json',
 			text: this.generateTSConfigJson(),
+		};
+		yield {
+			path: 'tsconfig.app.json',
+			text: this.generateTSConfigAppJson(),
+		};
+		yield {
+			path: 'tsconfig.node.json',
+			text: this.generateTSConfigNodeJson(),
 		};
 
 		yield {

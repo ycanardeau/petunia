@@ -30,7 +30,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -63,7 +63,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -125,7 +125,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -156,7 +156,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -187,7 +187,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -226,7 +226,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -258,7 +258,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -291,7 +291,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -325,7 +325,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -359,7 +359,7 @@ describe('TypeScriptViteReactProject', () => {
 	"scripts": {
 		"dev": "vite",
 		"lint": "eslint .",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -403,7 +403,7 @@ describe('TypeScriptViteReactProject', () => {
 	"scripts": {
 		"dev": "vite",
 		"lint": "eslint .",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -448,7 +448,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -481,7 +481,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -535,7 +535,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -569,7 +569,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -624,7 +624,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -658,7 +658,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -714,7 +714,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -748,7 +748,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -803,7 +803,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -836,7 +836,7 @@ describe('TypeScriptViteReactProject', () => {
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc -b && vite build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -882,27 +882,49 @@ describe('TypeScriptViteReactProject', () => {
 	test('generateTSConfigJson', () => {
 		const actual = defaultProject.generateTSConfigJson();
 		const expected = `{
+	"files": [],
+	"references": [
+		{
+			"path": "./tsconfig.app.json"
+		},
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateTSConfigAppJson', () => {
+		const actual = defaultProject.generateTSConfigAppJson();
+		const expected = `{
 	"compilerOptions": {
-		"target": "ESNext",
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "ES2022",
 		"useDefineForClassFields": true,
 		"lib": [
+			"ES2022",
 			"DOM",
-			"DOM.Iterable",
-			"ESNext"
+			"DOM.Iterable"
 		],
-		"allowJs": false,
-		"skipLibCheck": true,
-		"esModuleInterop": false,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
+		"types": [
+			"vite/client"
+		],
+		"skipLibCheck": true,
 		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
+		"moduleDetection": "force",
 		"noEmit": true,
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
 	},
 	"include": [
 		"src"
@@ -912,33 +934,38 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generateTSConfigJson configurePathAliases', () => {
+	test('generateTSConfigAppJson configurePathAliases', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			configurePathAliases: true,
 		});
-		const actual = project.generateTSConfigJson();
+		const actual = project.generateTSConfigAppJson();
 		const expected = `{
 	"compilerOptions": {
-		"target": "ESNext",
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "ES2022",
 		"useDefineForClassFields": true,
 		"lib": [
+			"ES2022",
 			"DOM",
-			"DOM.Iterable",
-			"ESNext"
+			"DOM.Iterable"
 		],
-		"allowJs": false,
-		"skipLibCheck": true,
-		"esModuleInterop": false,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
+		"types": [
+			"vite/client"
+		],
+		"skipLibCheck": true,
 		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
+		"moduleDetection": "force",
 		"noEmit": true,
 		"jsx": "react-jsx",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
 		"paths": {
 			"@/*": [
 				"./src/*"
@@ -953,37 +980,75 @@ describe('TypeScriptViteReactProject', () => {
 		expect(actual).toBe(expected);
 	});
 
-	test('generateTSConfigJson useMobX', () => {
+	test('generateTSConfigAppJson useMobX', () => {
 		const project = new TypeScriptViteReactProject(undefined, {
 			useMobX: true,
 		});
-		const actual = project.generateTSConfigJson();
+		const actual = project.generateTSConfigAppJson();
 		const expected = `{
 	"compilerOptions": {
-		"target": "ESNext",
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "ES2022",
 		"useDefineForClassFields": true,
 		"lib": [
+			"ES2022",
 			"DOM",
-			"DOM.Iterable",
-			"ESNext"
+			"DOM.Iterable"
 		],
-		"allowJs": false,
-		"skipLibCheck": true,
-		"esModuleInterop": false,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
 		"module": "ESNext",
+		"types": [
+			"vite/client"
+		],
+		"skipLibCheck": true,
 		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
+		"moduleDetection": "force",
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"experimentalDecorators": true
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
 	},
 	"include": [
 		"src"
+	]
+}
+`;
+		expect(actual).toBe(expected);
+	});
+
+	test('generateTSConfigNodeJson', () => {
+		const actual = defaultProject.generateTSConfigNodeJson();
+		const expected = `{
+	"compilerOptions": {
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+		"target": "ES2023",
+		"lib": [
+			"ES2023"
+		],
+		"module": "ESNext",
+		"types": [
+			"node"
+		],
+		"skipLibCheck": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
+	},
+	"include": [
+		"vite.config.ts"
 	]
 }
 `;
@@ -1354,6 +1419,8 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'tsconfig.app.json',
+			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1376,6 +1443,8 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'tsconfig.app.json',
+			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1399,6 +1468,8 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'tsconfig.app.json',
+			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
@@ -1420,6 +1491,8 @@ CMD ["nginx", "-g", "daemon off;"]
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',
+			'tsconfig.app.json',
+			'tsconfig.node.json',
 			'index.html',
 			'vite.config.ts',
 			'src/App.tsx',
