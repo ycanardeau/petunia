@@ -416,6 +416,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addEntry('forceConsistentCasingInFileNames', true)
 			.addEntry('module', 'ESNext')
 			.addEntry('moduleResolution', 'bundler')
+			.addEntry('verbatimModuleSyntax', true)
 			.addEntry('resolveJsonModule', true)
 			.addEntry('isolatedModules', true)
 			.addEntry('noEmit', true);
