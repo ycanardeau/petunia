@@ -689,21 +689,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 
 			case OutputType.ReactLibrary:
-				pluginsArray.addItem(
-					new JsonLiteral(
-						`react(${new JsonObject()
-							// https://miyauchi.dev/ja/posts/lib-vite-tailwindcss/
-							.addEntry('jsxRuntime', 'classic')
-							.toFormattedString(
-								{
-									tab: tab,
-									newLine: newLine,
-									style: 'JavaScript',
-								},
-								2,
-							)})`,
-					),
-				);
+				pluginsArray.addItem(new JsonLiteral('react()'));
 				break;
 
 			case OutputType.VueApplication:
