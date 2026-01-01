@@ -4,7 +4,7 @@ import { TestingFramework } from '@/features/typescript/projects/TypeScriptProje
 import {
 	IconLibrary,
 	OutputType,
-	ReactMajorVersion,
+	type ReactMajorVersion,
 	TypeScriptViteReactProject,
 	UIFramework,
 } from '@/features/typescript/projects/TypeScriptViteReactProject';

@@ -11,7 +11,7 @@ import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
 import { icon as question } from '@elastic/eui/es/components/icon/assets/question';
 import { icon as warning } from '@elastic/eui/es/components/icon/assets/warning';
 import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
-import { ValuesType } from 'utility-types';
+import type { ValuesType } from 'utility-types';
 
 type IconComponentNameType = ValuesType<typeof ICON_TYPES>;
 type IconComponentCacheType = Partial<Record<IconComponentNameType, unknown>>;

@@ -1,9 +1,12 @@
-import { EditorConfig, ProjectFile } from '@/features/common/projects/Project';
+import type {
+	EditorConfig,
+	ProjectFile,
+} from '@/features/common/projects/Project';
 import { Database } from '@/features/typescript/projects/Database';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import {
 	TypeScriptProject,
-	TypeScriptProjectOptions,
+	type TypeScriptProjectOptions,
 } from '@/features/typescript/projects/TypeScriptProject';
 import {
 	IconLibrary,

@@ -1,4 +1,4 @@
-import { JsonObject, JsonObjectEntry } from '@/core/JsonValue';
+import { JsonObject, type JsonObjectEntry } from '@/core/JsonValue';
 import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
 import { orderBy } from 'lodash-es';
 

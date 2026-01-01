@@ -1,4 +1,4 @@
-import { Project, ProjectFile } from '@/features/common/projects/Project';
+import { Project, type ProjectFile } from '@/features/common/projects/Project';
 import { ESLintRcCjsGenerator } from '@/features/typescript/projects/ESLintRcCjsGenerator';
 import { EditorConfigGenerator } from '@/features/typescript/projects/EditorConfigGenerator';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';

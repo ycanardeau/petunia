@@ -1,4 +1,4 @@
-import { Project, ProjectFile } from '@/features/common/projects/Project';
+import { Project, type ProjectFile } from '@/features/common/projects/Project';
 import { Database } from '@/features/csharp/projects/Database';
 import { PackageManager } from '@/features/csharp/projects/PackageManager';
 import { sortBy } from 'lodash-es';

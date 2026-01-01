@@ -8,7 +8,7 @@ import {
 	EuiHeaderSectionItemButton,
 	EuiIcon,
 	EuiListGroup,
-	EuiListGroupItemProps,
+	type EuiListGroupItemProps,
 	EuiToolTip,
 	useGeneratedHtmlId,
 } from '@elastic/eui';

@@ -17,7 +17,7 @@ import {
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
 interface CSharpCleanArchitectureProjectCreateFormProps {
 	projectCreateStore: CSharpCleanArchitectureProjectCreateStore;

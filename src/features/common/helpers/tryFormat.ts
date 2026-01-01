@@ -1,4 +1,4 @@
-import { ProjectFile } from '@/features/common/projects/Project';
+import type { ProjectFile } from '@/features/common/projects/Project';
 import prettierPluginBabel from 'prettier/plugins/babel';
 import prettierPluginEstree from 'prettier/plugins/estree';
 import prettierPluginHtml from 'prettier/plugins/html';

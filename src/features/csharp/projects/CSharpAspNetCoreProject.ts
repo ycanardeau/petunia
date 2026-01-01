@@ -1,4 +1,4 @@
-import { Project, ProjectFile } from '@/features/common/projects/Project';
+import { Project, type ProjectFile } from '@/features/common/projects/Project';
 import { PackageManager } from '@/features/csharp/projects/PackageManager';
 
 export interface CSharpAspNetCoreProjectOptions {

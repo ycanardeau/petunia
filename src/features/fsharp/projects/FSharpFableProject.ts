@@ -1,7 +1,7 @@
 import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
-import { Project, ProjectFile } from '@/features/common/projects/Project';
+import { Project, type ProjectFile } from '@/features/common/projects/Project';
 import { DotnetGitignoreGenerator } from '@/features/dotnet/projects/DotnetGitignoreGenerator';
 import { PackageManager } from '@/features/fsharp/projects/PackageManager';
 import { TargetLanguage } from '@/features/fsharp/projects/TargetLanguage';

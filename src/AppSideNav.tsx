@@ -6,7 +6,12 @@ import NestIcon from '@/features/typescript/favicons/nestjs.com.png';
 import NodeIcon from '@/features/typescript/favicons/nodejs.org.ico';
 import ReactIcon from '@/features/typescript/favicons/reactjs.org.ico';
 import TypeScriptIcon from '@/features/typescript/favicons/www.typescriptlang.org.png';
-import { EuiIcon, EuiSideNav, EuiSideNavItemType, slugify } from '@elastic/eui';
+import {
+	EuiIcon,
+	EuiSideNav,
+	type EuiSideNavItemType,
+	slugify,
+} from '@elastic/eui';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 import {
 	TypeScriptProject,
-	TypeScriptProjectOptions,
+	type TypeScriptProjectOptions,
 } from '@/features/typescript/projects/TypeScriptProject';
 import { beforeAll, describe, expect, test } from 'vitest';
 
