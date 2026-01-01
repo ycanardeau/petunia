@@ -1104,6 +1104,7 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
 	plugins: [
 		dts({
+			tsconfigPath: './tsconfig.app.json',
 			insertTypesEntry: true,
 		}),
 		react(),

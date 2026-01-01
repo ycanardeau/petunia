@@ -659,6 +659,8 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			pluginsArray.addItem(
 				new JsonLiteral(
 					`dts(${new JsonObject()
+						// https://github.com/qmhc/unplugin-dts/blob/708056e3ec6444ba3feb2b444bdecf53ac75b152/README.md
+						.addEntry('tsconfigPath', './tsconfig.app.json')
 						.addEntry('insertTypesEntry', true)
 						.toFormattedString(
 							{
