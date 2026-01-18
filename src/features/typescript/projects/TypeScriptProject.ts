@@ -55,6 +55,7 @@ export abstract class TypeScriptProject<
 					sortImports: this.options.sortImports,
 					extendsReactApp: this.isReactProject,
 					installBoundaries: this.options.installBoundaries,
+					configurePathAliases: this.options.configurePathAliases,
 				}).generate(),
 			};
 

@@ -7,6 +7,7 @@ interface ESLintRcCjsOptions {
 		| 'eslint-plugin-simple-import-sort';
 	extendsReactApp?: boolean;
 	installBoundaries?: boolean;
+	configurePathAliases?: boolean;
 }
 
 export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions> {
@@ -39,16 +40,21 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 
 		const settingsObj = new JsonObject();
 
+		if (
+			this.options.installBoundaries ||
+			this.options.configurePathAliases
+		) {
+			settingsObj.addEntry(
+				'import/resolver',
+				new JsonObject().addEntry(
+					'typescript',
+					new JsonObject().addEntry('alwaysTryTypes', true),
+				),
+			);
+		}
+
 		if (this.options.installBoundaries) {
-			settingsObj
-				.addEntry(
-					'import/resolver',
-					new JsonObject().addEntry(
-						'typescript',
-						new JsonObject().addEntry('alwaysTryTypes', true),
-					),
-				)
-				.addEntry('boundaries/elements', new JsonArray());
+			settingsObj.addEntry('boundaries/elements', new JsonArray());
 		}
 
 		const rulesObj = new JsonObject()
@@ -64,6 +70,49 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			.addEntry('@typescript-eslint/no-explicit-any', 'off')
 			.addEntry('@typescript-eslint/no-empty-function', 'off')
 			.addEntry('@typescript-eslint/no-floating-promises', 'error');
+
+		if (this.options.configurePathAliases) {
+			rulesObj
+				.addEntry(
+					'no-restricted-imports',
+					new JsonArray()
+						.addItem('error')
+						.addItem(
+							new JsonObject().addEntry(
+								'patterns',
+								new JsonArray().addItem(
+									new JsonObject()
+										.addEntry(
+											'group',
+											new JsonArray()
+												.addItem('./*')
+												.addItem('../*'),
+										)
+										.addEntry(
+											'message',
+											'Relative imports are not allowed. Use absolute imports.',
+										),
+								),
+							),
+						),
+				)
+				.addEntry(
+					'import/no-internal-modules',
+					new JsonArray()
+						.addItem('error')
+						.addItem(
+							new JsonObject().addEntry(
+								'forbid',
+								new JsonArray()
+									.addItem('**/index')
+									.addItem('**/index.ts')
+									.addItem('**/index.tsx')
+									.addItem('**/index.js')
+									.addItem('**/index.jsx'),
+							),
+						),
+				);
+		}
 
 		if (this.options.sortImports === 'eslint-plugin-simple-import-sort') {
 			rulesObj
