@@ -3,6 +3,7 @@ import { ESLintRcCjsGenerator } from '@/features/typescript/projects/ESLintRcCjs
 import { EditorConfigGenerator } from '@/features/typescript/projects/EditorConfigGenerator';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { PrettierRcJsonGenerator } from '@/features/typescript/projects/PrettierRcJsonGenerator';
+import { VscodeSettingsJsonGenerator } from '@/features/typescript/projects/VscodeSettingsJsonGenerator';
 
 export enum TestingFramework {
 	None = 'None',
@@ -78,6 +79,16 @@ export default [
 	),
 ];
 `,
+			};
+		}
+
+		if (this.options.enablePrettier || this.options.configurePathAliases) {
+			yield {
+				path: '.vscode/settings.json',
+				text: new VscodeSettingsJsonGenerator(this.editorConfig, {
+					enablePrettier: this.options.enablePrettier,
+					configurePathAliases: this.options.configurePathAliases,
+				}).generate(),
 			};
 		}
 	}

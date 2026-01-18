@@ -1439,6 +1439,7 @@ CMD ["nginx", "-g", "daemon off;"]
 		const expected = [
 			'.editorconfig',
 			'.prettierrc.json',
+			'.vscode/settings.json',
 			'.gitignore',
 			'package.json',
 			'tsconfig.json',

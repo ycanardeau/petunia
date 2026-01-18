@@ -32,7 +32,11 @@ describe('TypeScriptProject', () => {
 		const actual = Array.from(project.generateProjectFiles()).map(
 			(projectFile) => projectFile.path,
 		);
-		const expected = ['.editorconfig', '.prettierrc.json'];
+		const expected = [
+			'.editorconfig',
+			'.prettierrc.json',
+			'.vscode/settings.json',
+		];
 		expect(actual).toEqual(expected);
 	});
 
