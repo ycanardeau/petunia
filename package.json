@@ -19,7 +19,7 @@
 		"@emotion/react": "^11.14.0",
 		"file-saver": "^2.0.5",
 		"jszip": "^3.10.1",
-		"lodash-es": "^4.17.21",
+		"lodash-es": "^4.17.23",
 		"mobx": "^6.15.0",
 		"mobx-react-lite": "^4.1.1",
 		"moment": "^2.30.1",
