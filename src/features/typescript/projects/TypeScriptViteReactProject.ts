@@ -866,7 +866,6 @@ const jsonSchemaValidator = (): PluginOption => {
 		switch (this.options.ui) {
 			case UIFramework.ElasticUI:
 				imports
-					.addModuleNameImport('@/icons')
 					.addNamedImport('@elastic/eui', (builder) => {
 						builder.addNamedExport('EuiProvider');
 					})
@@ -1001,104 +1000,6 @@ createApp(App).mount('#root');
 		const lines: string[] = [];
 		lines.push('/// <reference types="vite/client" />');
 		return this.joinLines(lines);
-	}
-
-	generateSrcGlobalDTSForElasticUI(): string {
-		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
-declare module '@elastic/eui/es/components/icon/*';
-`;
-	}
-
-	generateSrcIconsTsForElasticUI(): string {
-		return `// https://github.com/elastic/eui/issues/5463#issuecomment-1107665339
-import { ICON_TYPES } from '@elastic/eui';
-import { icon as alert } from '@elastic/eui/es/components/icon/assets/alert';
-import { icon as apps } from '@elastic/eui/es/components/icon/assets/apps';
-import { icon as arrowDown } from '@elastic/eui/es/components/icon/assets/arrow_down';
-import { icon as arrowLeft } from '@elastic/eui/es/components/icon/assets/arrow_left';
-import { icon as arrowRight } from '@elastic/eui/es/components/icon/assets/arrow_right';
-import { icon as arrowEnd } from '@elastic/eui/es/components/icon/assets/arrowEnd';
-import { icon as arrowStart } from '@elastic/eui/es/components/icon/assets/arrowStart';
-import { icon as calendar } from '@elastic/eui/es/components/icon/assets/calendar';
-import { icon as check } from '@elastic/eui/es/components/icon/assets/check';
-import { icon as controls } from '@elastic/eui/es/components/icon/assets/controls';
-import { icon as copyClipboard } from '@elastic/eui/es/components/icon/assets/copy_clipboard';
-import { icon as cross } from '@elastic/eui/es/components/icon/assets/cross';
-import { icon as dot } from '@elastic/eui/es/components/icon/assets/dot';
-import { icon as editorBold } from '@elastic/eui/es/components/icon/assets/editor_bold';
-import { icon as editorChecklist } from '@elastic/eui/es/components/icon/assets/editor_checklist';
-import { icon as editorItalic } from '@elastic/eui/es/components/icon/assets/editor_italic';
-import { icon as editorLink } from '@elastic/eui/es/components/icon/assets/editor_link';
-import { icon as editorOrderedList } from '@elastic/eui/es/components/icon/assets/editor_ordered_list';
-import { icon as editorUnorderedList } from '@elastic/eui/es/components/icon/assets/editor_unordered_list';
-import { icon as empty } from '@elastic/eui/es/components/icon/assets/empty';
-import { icon as eye } from '@elastic/eui/es/components/icon/assets/eye';
-import { icon as eyeClosed } from '@elastic/eui/es/components/icon/assets/eye_closed';
-import { icon as fullScreen } from '@elastic/eui/es/components/icon/assets/full_screen';
-import { icon as fullScreenExit } from '@elastic/eui/es/components/icon/assets/fullScreenExit';
-import { icon as keyboard } from '@elastic/eui/es/components/icon/assets/keyboard';
-import { icon as lock } from '@elastic/eui/es/components/icon/assets/lock';
-import { icon as logoGithub } from '@elastic/eui/es/components/icon/assets/logo_github';
-import { icon as menu } from '@elastic/eui/es/components/icon/assets/menu';
-import { icon as popout } from '@elastic/eui/es/components/icon/assets/popout';
-import { icon as question } from '@elastic/eui/es/components/icon/assets/question';
-import { icon as quote } from '@elastic/eui/es/components/icon/assets/quote';
-import { icon as returnKey } from '@elastic/eui/es/components/icon/assets/return_key';
-import { icon as search } from '@elastic/eui/es/components/icon/assets/search';
-import { icon as sortDown } from '@elastic/eui/es/components/icon/assets/sort_down';
-import { icon as sortUp } from '@elastic/eui/es/components/icon/assets/sort_up';
-import { icon as starFilled } from '@elastic/eui/es/components/icon/assets/star_filled';
-import { icon as tableDensityNormal } from '@elastic/eui/es/components/icon/assets/table_density_normal';
-import { icon as warning } from '@elastic/eui/es/components/icon/assets/warning';
-import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
-import { ValuesType } from 'utility-types';
-
-type IconComponentNameType = ValuesType<typeof ICON_TYPES>;
-type IconComponentCacheType = Partial<Record<IconComponentNameType, unknown>>;
-
-const cachedIcons: IconComponentCacheType = {
-	alert,
-	apps,
-	arrowDown,
-	arrowEnd,
-	arrowLeft,
-	arrowRight,
-	arrowStart,
-	calendar,
-	check,
-	controls,
-	copyClipboard,
-	cross,
-	dot,
-	editorBold,
-	editorChecklist,
-	editorItalic,
-	editorLink,
-	editorOrderedList,
-	editorUnorderedList,
-	empty,
-	eye,
-	eyeClosed,
-	fullScreen,
-	fullScreenExit,
-	keyboard,
-	lock,
-	logoGithub,
-	menu,
-	popout,
-	question,
-	quote,
-	returnKey,
-	search,
-	sortDown,
-	sortUp,
-	starFilled,
-	tableDensityNormal,
-	warning,
-};
-
-appendIconComponentCache(cachedIcons);
-`;
 	}
 
 	generateSrcAppScssForBootstrap(): string {
@@ -1287,14 +1188,6 @@ export class PaginationStore {
 
 		switch (this.options.ui) {
 			case UIFramework.ElasticUI:
-				yield {
-					path: 'src/global.d.ts',
-					text: this.generateSrcGlobalDTSForElasticUI(),
-				};
-				yield {
-					path: 'src/icons.ts',
-					text: this.generateSrcIconsTsForElasticUI(),
-				};
 				break;
 
 			case UIFramework.Bootstrap:

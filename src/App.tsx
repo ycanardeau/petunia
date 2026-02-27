@@ -1,7 +1,6 @@
 import { AppRoutes } from '@/AppRoutes';
 import { AppSideNav } from '@/AppSideNav';
 import { Header } from '@/features/header/components/Header';
-import '@/icons';
 import { EuiPageTemplate, EuiProvider, EuiSpacer, EuiText } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import React from 'react';

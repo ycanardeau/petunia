@@ -12,8 +12,8 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(moment@2.30.1)
       '@elastic/eui':
-        specifier: ^109.2.0
-        version: 109.2.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
+        specifier: ^113.1.0
+        version: 113.1.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0
@@ -827,12 +827,19 @@ packages:
       react: ^17.0 || ^18.0
       react-dom: ^17.0 || ^18.0
 
-  '@elastic/eui@109.2.0':
-    resolution: {integrity: sha512-DEFfZhORKJeLoVAAAwvXNHTQYo3ts5F//q6N9ODSQK0Rv7z6VTQLfmvvzSobOS6EZ49qeZnda6zlpu+AmWTVSg==}
+  '@elastic/eui-theme-common@8.1.0':
+    resolution: {integrity: sha512-zSmSiCJuXn8eGi5txqP0a+MorJS2YBav9vuzz41ngo9Rwedmm9opvyjOMbz8f5SrXjE6tt6gl25pundY79OMsQ==}
+    peerDependencies:
+      '@emotion/react': 11.x
+      react: ^17.0 || ^18.0
+      react-dom: ^17.0 || ^18.0
+
+  '@elastic/eui@113.1.0':
+    resolution: {integrity: sha512-5OKvEod5YWn5POEUTXAT96O75SODI4o/JM0vVCflVg48bRJeH9WphNWtK6f2/sfm6aEpGbeFJ9L+vwv1t3MYrA==}
     engines: {node: 16.x || 18.x || >=20.x}
     peerDependencies:
       '@elastic/datemath': ^5.0.2
-      '@elastic/eui-theme-borealis': 5.1.0
+      '@elastic/eui-theme-borealis': 6.1.0
       '@emotion/css': 11.x
       '@emotion/react': 11.x
       '@types/react': ^17.0 || ^18.0
@@ -4618,11 +4625,20 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@elastic/eui@109.2.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)':
+  '@elastic/eui-theme-common@8.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)
+      '@types/lodash': 4.17.21
+      chroma-js: 2.6.0
+      lodash: 4.17.21
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@elastic/eui@113.1.0(@elastic/datemath@5.0.3(moment@2.30.1))(@elastic/eui-theme-borealis@5.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@emotion/css@11.13.5)(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(moment@2.30.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)':
     dependencies:
       '@elastic/datemath': 5.0.3(moment@2.30.1)
       '@elastic/eui-theme-borealis': 5.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@elastic/eui-theme-common': 7.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@elastic/eui-theme-common': 8.1.0(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@elastic/prismjs-esql': 1.1.2
       '@emotion/css': 11.13.5
       '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)
@@ -4663,6 +4679,7 @@ snapshots:
       unified: 9.2.2
       unist-util-visit: 2.0.3
       url-parse: 1.5.10
+      use-sync-external-store: 1.6.0(react@18.3.1)
       uuid: 8.3.2
       vfile: 4.2.1
     transitivePeerDependencies:

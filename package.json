@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@elastic/datemath": "^5.0.3",
-		"@elastic/eui": "^109.2.0",
+		"@elastic/eui": "^113.1.0",
 		"@emotion/cache": "^11.14.0",
 		"@emotion/css": "^11.13.5",
 		"@emotion/react": "^11.14.0",

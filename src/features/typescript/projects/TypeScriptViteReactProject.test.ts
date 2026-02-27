@@ -1249,8 +1249,7 @@ export default App;
 			ui: UIFramework.ElasticUI,
 		});
 		const actual = project.generateSrcAppTsx();
-		const expected = `import '@/icons';
-import { EuiProvider } from '@elastic/eui';
+		const expected = `import { EuiProvider } from '@elastic/eui';
 import createCache from '@emotion/cache';
 import React from 'react';
 
@@ -1498,8 +1497,6 @@ CMD ["nginx", "-g", "daemon off;"]
 			'src/App.tsx',
 			'src/main.tsx',
 			'src/vite-env.d.ts',
-			'src/global.d.ts',
-			'src/icons.ts',
 		];
 		expect(actual).toEqual(expected);
 	});
