@@ -75,7 +75,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"react": "${dependencies['react']}",
@@ -494,7 +495,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"ajv": "${dependencies['ajv']}",
@@ -583,7 +585,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"lodash-es": "${dependencies['lodash-es']}",
@@ -672,7 +675,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"mobx": "${dependencies['mobx']}",
@@ -762,7 +766,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-dom": "${dependencies['react-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"qs": "${dependencies['qs']}",
@@ -849,7 +854,8 @@ describe('TypeScriptViteReactProject', () => {
 		"react-router-dom": "${dependencies['react-router-dom']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}",
-		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}"
+		"vite-plugin-dts": "${dependencies['vite-plugin-dts']}",
+		"vite-plugin-externalize-deps": "${dependencies['vite-plugin-externalize-deps']}"
 	},
 	"peerDependencies": {
 		"react": "${dependencies['react']}",
@@ -1094,11 +1100,11 @@ export default defineConfig({
 			outputType: OutputType.ReactLibrary,
 		});
 		const actual = project.generateViteConfigTS();
-		const expected = `import pkg from './package.json' with { type: 'json' };
-import react from '@vitejs/plugin-react';
+		const expected = `import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { externalizeDeps } from 'vite-plugin-externalize-deps';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -1108,6 +1114,7 @@ export default defineConfig({
 			insertTypesEntry: true,
 		}),
 		react(),
+		externalizeDeps(),
 	],
 	build: {
 		lib: {
@@ -1117,12 +1124,6 @@ export default defineConfig({
 				'cjs',
 			],
 			fileName: (format) => \`index.\${format}.js\`,
-		},
-		rollupOptions: {
-			external: [
-				...Object.keys(pkg.peerDependencies ?? []),
-				...Object.keys(pkg.dependencies ?? []),
-			],
 		},
 		sourcemap: true,
 	},

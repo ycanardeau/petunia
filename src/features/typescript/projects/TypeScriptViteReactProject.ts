@@ -104,6 +104,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
+		if (this.isLibrary) {
+			devDependenciesObj.addPackage('vite-plugin-externalize-deps');
+		}
+
 		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
@@ -617,12 +621,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		if (this.isLibrary) {
 			imports
 				.addDefaultImport('dts', 'vite-plugin-dts')
-				// https://rollupjs.org/guide/en/#importing-packagejson
-				.addDefaultImport(
-					'pkg',
-					'./package.json',
-					" with { type: 'json' }",
-				);
+				.addNamedImport('vite-plugin-externalize-deps', (builder) => {
+					builder.addNamedExport('externalizeDeps');
+				});
 		}
 
 		if (this.options.useRouteSphere) {
@@ -707,6 +708,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 		}
 
+		if (this.isLibrary) {
+			pluginsArray.addItem(new JsonLiteral('externalizeDeps()'));
+		}
+
 		configObj.addEntry('plugins', pluginsArray);
 
 		if (this.isLibrary) {
@@ -730,24 +735,6 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 								`(format) => \`index.\${format}.js\``,
 							),
 						),
-				)
-				.addEntry(
-					'rollupOptions',
-					// https://rollupjs.org/guide/en/#importing-packagejson
-					new JsonObject().addEntry(
-						'external',
-						new JsonArray()
-							.addItem(
-								new JsonLiteral(
-									'...Object.keys(pkg.peerDependencies ?? [])',
-								),
-							)
-							.addItem(
-								new JsonLiteral(
-									'...Object.keys(pkg.dependencies ?? [])',
-								),
-							),
-					),
 				)
 				.addEntry('sourcemap', true);
 
