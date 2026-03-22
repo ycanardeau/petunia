@@ -22,6 +22,15 @@ export enum OutputType {
 	VueLibrary = 'VueLibrary',
 }
 
+function isLibrary(
+	outputType: OutputType,
+): outputType is OutputType.ReactLibrary | OutputType.VueLibrary {
+	return (
+		outputType === OutputType.ReactLibrary ||
+		outputType === OutputType.VueLibrary
+	);
+}
+
 export enum UIFramework {
 	None = 'None',
 	ElasticUI = 'ElasticUI',
@@ -70,6 +79,10 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				return _exhaustiveCheck;
 			}
 		}
+	}
+
+	get isLibrary(): boolean {
+		return isLibrary(this.outputType);
 	}
 
 	generatePackageJson(): string {
@@ -356,7 +369,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					: undefined,
 			);
 
-		if (this.outputType === OutputType.ReactLibrary) {
+		if (this.isLibrary) {
 			const cjsFilename = `./dist/index.cjs.js`;
 			const esFilename = `./dist/index.es.js`;
 			rootObj
@@ -595,16 +608,13 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 		}
 
-		if (
-			this.outputType === OutputType.ReactLibrary ||
-			this.options.configurePathAliases
-		) {
+		if (this.isLibrary || this.options.configurePathAliases) {
 			imports.addNamedImport('node:path', (builder) =>
 				builder.addNamedExport('resolve'),
 			);
 		}
 
-		if (this.outputType === OutputType.ReactLibrary) {
+		if (this.isLibrary) {
 			imports
 				.addDefaultImport('dts', 'vite-plugin-dts')
 				// https://rollupjs.org/guide/en/#importing-packagejson
@@ -649,7 +659,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const pluginsArray = new JsonArray();
 
-		if (this.outputType === OutputType.ReactLibrary) {
+		if (this.isLibrary) {
 			pluginsArray.addItem(
 				new JsonLiteral(
 					`dts(${new JsonObject()
@@ -699,7 +709,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		configObj.addEntry('plugins', pluginsArray);
 
-		if (this.outputType === OutputType.ReactLibrary) {
+		if (this.isLibrary) {
 			const buildObj = new JsonObject()
 				.addEntry(
 					'lib',
