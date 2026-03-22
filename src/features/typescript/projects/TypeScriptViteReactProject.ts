@@ -51,21 +51,24 @@ interface TypeScriptViteReactProjectOptions extends TypeScriptProjectOptions {
 }
 
 export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptViteReactProjectOptions> {
+	get outputType(): OutputType {
+		return this.options.outputType ?? OutputType.ReactApplication;
+	}
+
 	get isReactProject(): boolean {
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				return true;
 
 			case OutputType.VueApplication:
 			case OutputType.VueLibrary:
 				return false;
 
-			default:
-				throw new Error(
-					`Invalid outputType: ${this.options.outputType}`,
-				);
+			default: {
+				const _exhaustiveCheck: never = this.outputType;
+				return _exhaustiveCheck;
+			}
 		}
 	}
 
@@ -88,19 +91,17 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const peerDependenciesObj = new PackageJsonDependency();
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				switch (this.options.reactMajorVersion) {
 					case 17:
 						devDependenciesObj
 							.addPackage('@types/react', '^17.0.39')
 							.addPackage('@types/react-dom', '^17.0.11');
 
-						switch (this.options.outputType) {
+						switch (this.outputType) {
 							case OutputType.ReactApplication:
-							case undefined:
 								dependenciesObj
 									.addPackage('react', '^17.0.2')
 									.addPackage('react-dom', '^17.0.2');
@@ -124,9 +125,8 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 							.addPackage('@types/react')
 							.addPackage('@types/react-dom');
 
-						switch (this.options.outputType) {
+						switch (this.outputType) {
 							case OutputType.ReactApplication:
-							case undefined:
 								dependenciesObj
 									.addPackage('react')
 									.addPackage('react-dom');
@@ -153,10 +153,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				break;
 		}
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				if (this.options.useSwc) {
 					devDependenciesObj.addPackage('@vitejs/plugin-react-swc');
 				} else {
@@ -255,10 +254,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 				.addPackage('@eslint/eslintrc')
 				.addPackage('@eslint/compat');
 
-			switch (this.options.outputType) {
+			switch (this.outputType) {
 				case OutputType.ReactApplication:
 				case OutputType.ReactLibrary:
-				case undefined:
 					devDependenciesObj.addPackage('eslint-config-react-app');
 					devDependenciesObj.addPackage('eslint-plugin-react');
 					devDependenciesObj.addPackage('eslint-plugin-react-hooks');
@@ -278,10 +276,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		const addAdditionalPackage = (
 			name: keyof typeof dependencies,
 		): void => {
-			switch (this.options.outputType) {
+			switch (this.outputType) {
 				case OutputType.ReactApplication:
 				case OutputType.VueApplication:
-				case undefined:
 					dependenciesObj.addPackage(name);
 					break;
 
@@ -359,7 +356,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 					: undefined,
 			);
 
-		if (this.options.outputType === OutputType.ReactLibrary) {
+		if (this.outputType === OutputType.ReactLibrary) {
 			const cjsFilename = `./dist/index.cjs.js`;
 			const esFilename = `./dist/index.es.js`;
 			rootObj
@@ -451,10 +448,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			.addEntry('moduleDetection', 'force')
 			.addEntry('noEmit', true);
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				compilerOptionsObj.addEntry('jsx', 'react-jsx');
 				break;
 
@@ -553,10 +549,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		lines.push(`${tab}<body>`);
 		lines.push(`${tab}${tab}<div id="root"></div>`);
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				lines.push(
 					`${tab}${tab}<script type="module" src="/src/main.tsx"></script>`,
 				);
@@ -583,10 +578,9 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			(builder) => builder.addNamedExport('defineConfig'),
 		);
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				imports.addDefaultImport(
 					'react',
 					this.options.useSwc
@@ -602,7 +596,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 		}
 
 		if (
-			this.options.outputType === OutputType.ReactLibrary ||
+			this.outputType === OutputType.ReactLibrary ||
 			this.options.configurePathAliases
 		) {
 			imports.addNamedImport('node:path', (builder) =>
@@ -610,7 +604,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		}
 
-		if (this.options.outputType === OutputType.ReactLibrary) {
+		if (this.outputType === OutputType.ReactLibrary) {
 			imports
 				.addDefaultImport('dts', 'vite-plugin-dts')
 				// https://rollupjs.org/guide/en/#importing-packagejson
@@ -655,7 +649,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const pluginsArray = new JsonArray();
 
-		if (this.options.outputType === OutputType.ReactLibrary) {
+		if (this.outputType === OutputType.ReactLibrary) {
 			pluginsArray.addItem(
 				new JsonLiteral(
 					`dts(${new JsonObject()
@@ -674,9 +668,8 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			);
 		}
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
-			case undefined:
 				pluginsArray.addItem(new JsonLiteral('react()'));
 
 				if (this.options.useRouteSphere) {
@@ -706,7 +699,7 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		configObj.addEntry('plugins', pluginsArray);
 
-		if (this.options.outputType === OutputType.ReactLibrary) {
+		if (this.outputType === OutputType.ReactLibrary) {
 			const buildObj = new JsonObject()
 				.addEntry(
 					'lib',
@@ -1154,10 +1147,9 @@ export class PaginationStore {
 			text: this.generateViteConfigTS(),
 		};
 
-		switch (this.options.outputType) {
+		switch (this.outputType) {
 			case OutputType.ReactApplication:
 			case OutputType.ReactLibrary:
-			case undefined:
 				yield {
 					path: 'src/App.tsx',
 					text: this.generateSrcAppTsx(),
