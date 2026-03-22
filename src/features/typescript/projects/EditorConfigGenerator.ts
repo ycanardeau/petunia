@@ -4,6 +4,7 @@ export class EditorConfigGenerator extends SourceTextGenerator {
 	generate(): string {
 		const lines: string[] = [];
 		lines.push('root = true');
+
 		lines.push('');
 		lines.push('[*]');
 		lines.push('end_of_line = lf');
@@ -12,6 +13,12 @@ export class EditorConfigGenerator extends SourceTextGenerator {
 		lines.push('insert_final_newline = true');
 		lines.push('indent_style = tab');
 		lines.push('indent_size = 4');
+
+		lines.push('');
+		lines.push('[{*.yml,*.yaml}]');
+		lines.push('indent_style = space');
+		lines.push('indent_size = 2');
+
 		return this.joinLines(lines);
 	}
 }

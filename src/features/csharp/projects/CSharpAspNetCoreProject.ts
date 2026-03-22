@@ -314,6 +314,10 @@ insert_final_newline = true
 indent_style = tab
 indent_size = 4
 
+[{*.yml,*.yaml}]
+indent_style = space
+indent_size = 2
+
 [*.cs]
 csharp_style_namespace_declarations=file_scoped:suggestion
 `,
