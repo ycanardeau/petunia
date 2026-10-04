@@ -5,7 +5,6 @@ interface ESLintRcCjsOptions {
 	sortImports?:
 		| '@trivago/prettier-plugin-sort-imports'
 		| 'eslint-plugin-simple-import-sort';
-	extendsReactApp?: boolean;
 	installBoundaries?: boolean;
 	configurePathAliases?: boolean;
 }
@@ -18,20 +17,19 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 			.addItem('plugin:@typescript-eslint/recommended')
 			.addItem('plugin:prettier/recommended');
 
-		if (this.options.extendsReactApp) {
-			extendsArray.addItem('react-app');
-		}
-
-		if (this.options.installBoundaries) {
-			extendsArray.addItem('plugin:boundaries/recommended');
-		}
-
 		const pluginsArray = new JsonArray().addItem(
 			'@typescript-eslint/eslint-plugin',
 		);
 
+		if (
+			this.options.configurePathAliases ||
+			this.options.sortImports === 'eslint-plugin-simple-import-sort'
+		) {
+			pluginsArray.addItem('import');
+		}
+
 		if (this.options.sortImports === 'eslint-plugin-simple-import-sort') {
-			pluginsArray.addItem('simple-import-sort').addItem('import');
+			pluginsArray.addItem('simple-import-sort');
 		}
 
 		if (this.options.installBoundaries) {
@@ -125,7 +123,7 @@ export class ESLintRcCjsGenerator extends SourceTextGenerator<ESLintRcCjsOptions
 
 		if (this.options.installBoundaries) {
 			rulesObj.addEntry(
-				'boundaries/element-types',
+				'boundaries/dependencies',
 				new JsonArray([
 					new JsonLiteral('2'),
 					new JsonObject()

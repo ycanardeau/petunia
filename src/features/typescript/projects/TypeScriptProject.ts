@@ -34,6 +34,10 @@ export abstract class TypeScriptProject<
 		return false;
 	}
 
+	get useCatalog(): boolean {
+		return this.options.packageManager === PackageManager.Pnpm;
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
 		yield {
 			path: '.editorconfig',
@@ -54,7 +58,6 @@ export abstract class TypeScriptProject<
 				path: '.eslintrc.cjs',
 				text: new ESLintRcCjsGenerator(this.editorConfig, {
 					sortImports: this.options.sortImports,
-					extendsReactApp: this.isReactProject,
 					installBoundaries: this.options.installBoundaries,
 					configurePathAliases: this.options.configurePathAliases,
 				}).generate(),

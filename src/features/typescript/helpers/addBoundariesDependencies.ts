@@ -4,5 +4,4 @@ export function addBoundariesDependencies(
 	devDependenciesObj: PackageJsonDependency,
 ): void {
 	devDependenciesObj.addPackage('eslint-plugin-boundaries');
-	devDependenciesObj.addPackage('eslint-import-resolver-typescript');
 }

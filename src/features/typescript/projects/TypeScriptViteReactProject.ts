@@ -2,9 +2,10 @@ import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import type { ProjectFile } from '@/features/common/projects/Project';
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
+import { PnpmWorkspaceYamlGenerator } from '@/features/typescript/projects/PnpmWorkspaceYamlGenerator';
 import { ReactGitignoreGenerator } from '@/features/typescript/projects/ReactGitignoreGenerator';
 import {
 	TestingFramework,
@@ -95,14 +96,14 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 
 		const { tab, newLine } = this.editorConfig;
 
-		const dependenciesObj = new PackageJsonDependency();
+		const dependenciesObj = new PackageJsonDependency(this.useCatalog);
 
-		const devDependenciesObj = new PackageJsonDependency()
+		const devDependenciesObj = new PackageJsonDependency(this.useCatalog)
 			.addPackage('@types/node')
-			.addPackage('typescript')
+			.addTypeScript()
 			.addPackage('vite');
 
-		const peerDependenciesObj = new PackageJsonDependency();
+		const peerDependenciesObj = new PackageJsonDependency(this.useCatalog);
 
 		if (this.isLibrary) {
 			devDependenciesObj.addPackage('vite-plugin-externalize-deps');
@@ -263,21 +264,19 @@ export class TypeScriptViteReactProject extends TypeScriptProject<TypeScriptVite
 			devDependenciesObj.addPackage('@typescript-eslint/eslint-plugin');
 			devDependenciesObj.addPackage('@typescript-eslint/parser');
 			devDependenciesObj.addPackage('eslint');
-			devDependenciesObj.addPackage('eslint-plugin-flowtype');
 			devDependenciesObj.addPackage('eslint-plugin-import');
-			devDependenciesObj.addPackage('eslint-plugin-jsx-a11y');
 
 			devDependenciesObj
 				.addPackage('@eslint/eslintrc')
 				.addPackage('@eslint/compat');
 
-			switch (this.outputType) {
-				case OutputType.ReactApplication:
-				case OutputType.ReactLibrary:
-					devDependenciesObj.addPackage('eslint-config-react-app');
-					devDependenciesObj.addPackage('eslint-plugin-react');
-					devDependenciesObj.addPackage('eslint-plugin-react-hooks');
-					break;
+			if (
+				this.options.installBoundaries ||
+				this.options.configurePathAliases
+			) {
+				devDependenciesObj.addPackage(
+					'eslint-import-resolver-typescript',
+				);
 			}
 		}
 
@@ -1055,6 +1054,12 @@ export class PaginationStore {
 `;
 	}
 
+	generatePnpmWorkspaceYaml(): string {
+		return new PnpmWorkspaceYamlGenerator(this.editorConfig, {
+			packageJson: this.generatePackageJson(),
+		}).generate();
+	}
+
 	generateDockerfile(): string {
 		const lines: string[] = [];
 
@@ -1078,7 +1083,9 @@ export class PaginationStore {
 
 			case PackageManager.Pnpm:
 				lines.push('');
-				lines.push('COPY package.json pnpm-lock.yaml ./');
+				lines.push(
+					'COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./',
+				);
 				lines.push('RUN pnpm install --frozen-lockfile');
 				break;
 		}
@@ -1122,6 +1129,13 @@ export class PaginationStore {
 			path: 'package.json',
 			text: this.generatePackageJson(),
 		};
+
+		if (this.useCatalog) {
+			yield {
+				path: 'pnpm-workspace.yaml',
+				text: this.generatePnpmWorkspaceYaml(),
+			};
+		}
 		yield {
 			path: 'tsconfig.json',
 			text: this.generateTSConfigJson(),

@@ -13,11 +13,10 @@ module.exports = {
 				projectService: true,
 				tsconfigRootDir: __dirname,
 			},
-			plugins: ['@typescript-eslint/eslint-plugin'],
+			plugins: ['@typescript-eslint/eslint-plugin', 'import'],
 			extends: [
 				'plugin:@typescript-eslint/recommended',
 				'plugin:prettier/recommended',
-				'react-app',
 			],
 			settings: {
 				'import/resolver': {

@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import validate from 'validate-npm-package-name';
 import { expect, test } from 'vitest';
 

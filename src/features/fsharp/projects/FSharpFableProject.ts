@@ -114,9 +114,7 @@ printfn "Hello from F#"
 
 		switch (this.options.targetLanguage) {
 			case TargetLanguage.TypeScriptNode:
-				devDependenciesObj
-					.addPackage('typescript')
-					.addPackage('@types/node');
+				devDependenciesObj.addTypeScript().addPackage('@types/node');
 				break;
 
 			case TargetLanguage.TypeScriptBrowser:

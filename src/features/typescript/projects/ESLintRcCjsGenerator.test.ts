@@ -120,8 +120,8 @@ describe('ESLintRcCjsGenerator', () => {
 			},
 			plugins: [
 				'@typescript-eslint/eslint-plugin',
-				'simple-import-sort',
 				'import',
+				'simple-import-sort',
 			],
 			extends: [
 				'plugin:@typescript-eslint/recommended',
@@ -140,54 +140,6 @@ describe('ESLintRcCjsGenerator', () => {
 				'import/first': 'error',
 				'import/newline-after-import': 'error',
 				'import/no-duplicates': 'error',
-			},
-		},
-	],
-};
-`;
-		expect(actual).toBe(expected);
-	});
-
-	test('generate extendsReactApp', () => {
-		const generator = new ESLintRcCjsGenerator(undefined, {
-			extendsReactApp: true,
-		});
-		const actual = generator.generate();
-		const expected = `module.exports = {
-	root: true,
-	env: {
-		node: true,
-		jest: true,
-	},
-	ignorePatterns: [
-		'dist',
-	],
-	overrides: [
-		{
-			files: [
-				'**/*.{ts,tsx}',
-			],
-			parser: '@typescript-eslint/parser',
-			parserOptions: {
-				projectService: true,
-				tsconfigRootDir: __dirname,
-			},
-			plugins: [
-				'@typescript-eslint/eslint-plugin',
-			],
-			extends: [
-				'plugin:@typescript-eslint/recommended',
-				'plugin:prettier/recommended',
-				'react-app',
-			],
-			settings: {},
-			rules: {
-				'@typescript-eslint/interface-name-prefix': 'off',
-				'@typescript-eslint/explicit-function-return-type': 'error',
-				'@typescript-eslint/explicit-module-boundary-types': 'off',
-				'@typescript-eslint/no-explicit-any': 'off',
-				'@typescript-eslint/no-empty-function': 'off',
-				'@typescript-eslint/no-floating-promises': 'error',
 			},
 		},
 	],
@@ -227,7 +179,6 @@ describe('ESLintRcCjsGenerator', () => {
 			extends: [
 				'plugin:@typescript-eslint/recommended',
 				'plugin:prettier/recommended',
-				'plugin:boundaries/recommended',
 			],
 			settings: {
 				'import/resolver': {
@@ -244,7 +195,7 @@ describe('ESLintRcCjsGenerator', () => {
 				'@typescript-eslint/no-explicit-any': 'off',
 				'@typescript-eslint/no-empty-function': 'off',
 				'@typescript-eslint/no-floating-promises': 'error',
-				'boundaries/element-types': [
+				'boundaries/dependencies': [
 					2,
 					{
 						default: 'disallow',
@@ -285,6 +236,7 @@ describe('ESLintRcCjsGenerator', () => {
 			},
 			plugins: [
 				'@typescript-eslint/eslint-plugin',
+				'import',
 			],
 			extends: [
 				'plugin:@typescript-eslint/recommended',

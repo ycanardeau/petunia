@@ -6,21 +6,15 @@ const TypeScriptNestProjectCreateModal = lazy(
 );
 const TypeScriptNodeConsoleProjectCreateModal = lazy(
 	() =>
-		import(
-			'@/features/typescript/components/TypeScriptNodeConsoleProjectModal'
-		),
+		import('@/features/typescript/components/TypeScriptNodeConsoleProjectModal'),
 );
 const TypeScriptViteReactProjectCreateModal = lazy(
 	() =>
-		import(
-			'@/features/typescript/components/TypeScriptViteReactProjectCreateModal'
-		),
+		import('@/features/typescript/components/TypeScriptViteReactProjectCreateModal'),
 );
 const TypeScriptYohiraProjectCreateModal = lazy(
 	() =>
-		import(
-			'@/features/typescript/components/TypeScriptYohiraProjectCreateModal'
-		),
+		import('@/features/typescript/components/TypeScriptYohiraProjectCreateModal'),
 );
 
 const FSharpFableProjectCreateModal = lazy(
@@ -29,9 +23,7 @@ const FSharpFableProjectCreateModal = lazy(
 
 const CSharpCleanArchitectureProjectModal = lazy(
 	() =>
-		import(
-			'@/features/csharp/components/CSharpCleanArchitectureProjectModal'
-		),
+		import('@/features/csharp/components/CSharpCleanArchitectureProjectModal'),
 );
 
 const CSharpAspNetCoreProjectModal = lazy(

@@ -2,7 +2,7 @@ import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import type { ProjectFile } from '@/features/common/projects/Project';
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import {
@@ -89,7 +89,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			.addPackage('ts-loader')
 			.addPackage('ts-node')
 			.addPackage('tsconfig-paths')
-			.addPackage('typescript');
+			.addTypeScript();
 
 		const dependenciesObj = new PackageJsonDependency()
 			.addPackage('@nestjs/common')
@@ -162,6 +162,19 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			devDependenciesObj.addPackage('@typescript-eslint/parser');
 			devDependenciesObj.addPackage('eslint');
 			devDependenciesObj.addPackage('eslint-plugin-import');
+
+			devDependenciesObj
+				.addPackage('@eslint/eslintrc')
+				.addPackage('@eslint/compat');
+
+			if (
+				this.options.installBoundaries ||
+				this.options.configurePathAliases
+			) {
+				devDependenciesObj.addPackage(
+					'eslint-import-resolver-typescript',
+				);
+			}
 		}
 
 		if (this.options.enablePrettier && this.options.enableESLint) {
@@ -378,7 +391,6 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 			.addEntry('target', 'es2017')
 			.addEntry('sourceMap', true)
 			.addEntry('outDir', './dist')
-			.addEntry('baseUrl', './')
 			.addEntry('incremental', true)
 			.addEntry('skipLibCheck', true)
 			.addEntry('strict', true)
@@ -390,7 +402,7 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 				'paths',
 				new JsonObject().addEntry(
 					'@/*',
-					new JsonArray().addItem('src/*'),
+					new JsonArray().addItem('./src/*'),
 				),
 			);
 		}
@@ -416,6 +428,10 @@ export class TypeScriptNestProject extends TypeScriptProject<TypeScriptNestProje
 
 		const rootObj = new JsonObject()
 			.addEntry('extends', './tsconfig.json')
+			.addEntry(
+				'compilerOptions',
+				new JsonObject().addEntry('rootDir', './src'),
+			)
 			.addEntry(
 				'exclude',
 				new JsonArray()

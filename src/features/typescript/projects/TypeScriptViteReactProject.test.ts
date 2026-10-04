@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
 import {
@@ -41,6 +41,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -70,6 +71,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"react": "${dependencies['react']}",
 		"react-dom": "${dependencies['react-dom']}",
@@ -137,6 +139,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -168,6 +171,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -206,6 +210,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"utility-types": "${dependencies['utility-types']}",
@@ -239,6 +244,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -270,6 +276,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
@@ -304,6 +311,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
@@ -337,6 +345,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"eslint-plugin-simple-import-sort": "${dependencies['eslint-plugin-simple-import-sort']}",
 		"prettier": "${dependencies['prettier']}",
@@ -375,14 +384,10 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
 		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"eslint": "${dependencies['eslint']}",
-		"eslint-config-react-app": "${dependencies['eslint-config-react-app']}",
-		"eslint-plugin-flowtype": "${dependencies['eslint-plugin-flowtype']}",
 		"eslint-plugin-import": "${dependencies['eslint-plugin-import']}",
-		"eslint-plugin-jsx-a11y": "${dependencies['eslint-plugin-jsx-a11y']}",
-		"eslint-plugin-react": "${dependencies['eslint-plugin-react']}",
-		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
 	}
@@ -419,16 +424,12 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
 		"@typescript-eslint/eslint-plugin": "${dependencies['@typescript-eslint/eslint-plugin']}",
 		"@typescript-eslint/parser": "${dependencies['@typescript-eslint/parser']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"eslint": "${dependencies['eslint']}",
 		"eslint-config-prettier": "${dependencies['eslint-config-prettier']}",
-		"eslint-config-react-app": "${dependencies['eslint-config-react-app']}",
-		"eslint-plugin-flowtype": "${dependencies['eslint-plugin-flowtype']}",
 		"eslint-plugin-import": "${dependencies['eslint-plugin-import']}",
-		"eslint-plugin-jsx-a11y": "${dependencies['eslint-plugin-jsx-a11y']}",
 		"eslint-plugin-prettier": "${dependencies['eslint-plugin-prettier']}",
-		"eslint-plugin-react": "${dependencies['eslint-plugin-react']}",
-		"eslint-plugin-react-hooks": "${dependencies['eslint-plugin-react-hooks']}",
 		"prettier": "${dependencies['prettier']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -461,6 +462,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -489,6 +491,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"ajv": "${dependencies['ajv']}",
 		"react": "${dependencies['react']}",
@@ -550,6 +553,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -579,6 +583,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"lodash-es": "${dependencies['lodash-es']}",
 		"react": "${dependencies['react']}",
@@ -640,6 +645,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -668,6 +674,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"mobx": "${dependencies['mobx']}",
 		"mobx-react-lite": "${dependencies['mobx-react-lite']}",
@@ -731,6 +738,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -760,6 +768,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/qs": "${dependencies['@types/qs']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"qs": "${dependencies['qs']}",
 		"react": "${dependencies['react']}",
@@ -820,6 +829,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"typescript": "${dependencies['typescript']}",
 		"vite": "${dependencies['vite']}"
@@ -848,6 +858,7 @@ describe('TypeScriptViteReactProject', () => {
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/react": "${dependencies['@types/react']}",
 		"@types/react-dom": "${dependencies['@types/react-dom']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"@vitejs/plugin-react": "${dependencies['@vitejs/plugin-react']}",
 		"react": "${dependencies['react']}",
 		"react-dom": "${dependencies['react-dom']}",
@@ -1391,7 +1402,7 @@ WORKDIR /app
 
 RUN npm i -g pnpm
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .

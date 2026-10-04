@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
 import { TypeScriptNodeConsoleProject } from '@/features/typescript/projects/TypeScriptNodeConsoleProject';
@@ -22,6 +22,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"version": "1.0.0",
 	"private": true,
 	"devDependencies": {
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"rimraf": "${dependencies['rimraf']}",
 		"typescript": "${dependencies['typescript']}"
 	},
@@ -43,6 +44,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"version": "1.0.0",
 	"private": true,
 	"devDependencies": {
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"concurrently": "${dependencies['concurrently']}",
 		"rimraf": "${dependencies['rimraf']}",
 		"tsc-alias": "${dependencies['tsc-alias']}",
@@ -69,10 +71,11 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"version": "1.0.0",
 	"private": true,
 	"devDependencies": {
+		"@typescript/typescript6": "catalog:",
 		"concurrently": "${dependencies['concurrently']}",
-		"rimraf": "${dependencies['rimraf']}",
+		"rimraf": "catalog:",
 		"tsc-alias": "${dependencies['tsc-alias']}",
-		"typescript": "${dependencies['typescript']}"
+		"typescript": "catalog:"
 	},
 	"scripts": {
 		"clean": "rimraf ./dist",
@@ -96,6 +99,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"devDependencies": {
 		"@mikro-orm/cli": "${dependencies['@mikro-orm/cli']}",
 		"@mikro-orm/migrations": "${dependencies['@mikro-orm/migrations']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"cross-env": "${dependencies['cross-env']}",
 		"rimraf": "${dependencies['rimraf']}",
 		"ts-node": "${dependencies['ts-node']}",
@@ -130,6 +134,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"compilerOptions": {
 		"target": "es2016",
 		"module": "commonjs",
+		"rootDir": "./src",
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -150,6 +155,7 @@ describe('TypeScriptNodeConsoleProject', () => {
 	"compilerOptions": {
 		"target": "es2016",
 		"module": "commonjs",
+		"rootDir": "./src",
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -224,7 +230,7 @@ WORKDIR /app
 
 RUN npm i -g pnpm
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .

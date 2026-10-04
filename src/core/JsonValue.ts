@@ -9,6 +9,7 @@ interface FormatOptions {
 abstract class JsonValue {
 	abstract toString(): string;
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	toFormattedString(_options: FormatOptions, _tabCount?: number): string {
 		return this.toString();
 	}

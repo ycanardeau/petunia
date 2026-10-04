@@ -16,8 +16,7 @@ import {
 } from '@/features/typescript/projects/TypeScriptViteReactProject';
 import { TypeScriptYohiraBackendProject } from '@/features/typescript/projects/TypeScriptYohiraBackendProject';
 
-interface TypeScriptYohiraFullStackProjectOptions
-	extends TypeScriptProjectOptions {
+interface TypeScriptYohiraFullStackProjectOptions extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
 	database?: Database;
 	useYohira?: boolean;

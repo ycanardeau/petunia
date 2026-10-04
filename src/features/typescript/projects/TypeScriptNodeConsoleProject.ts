@@ -2,12 +2,13 @@ import { JavaScriptImports } from '@/core/JavaScriptImport';
 import { JsonArray, JsonLiteral, JsonObject } from '@/core/JsonValue';
 import { PackageJsonDependency } from '@/features/common/projects/PackageJsonDependency';
 import type { ProjectFile } from '@/features/common/projects/Project';
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { addBoundariesDependencies } from '@/features/typescript/helpers/addBoundariesDependencies';
 import { Database } from '@/features/typescript/projects/Database';
 import { NodeGitignoreGenerator } from '@/features/typescript/projects/NodeGitignoreGenerator';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { PackageManager } from '@/features/typescript/projects/PackageManager';
+import { PnpmWorkspaceYamlGenerator } from '@/features/typescript/projects/PnpmWorkspaceYamlGenerator';
 import {
 	TestingFramework,
 	TypeScriptProject,
@@ -15,8 +16,7 @@ import {
 } from '@/features/typescript/projects/TypeScriptProject';
 import validate from 'validate-npm-package-name';
 
-export interface TypeScriptNodeConsoleProjectOptions
-	extends TypeScriptProjectOptions {
+export interface TypeScriptNodeConsoleProjectOptions extends TypeScriptProjectOptions {
 	orm?: OrmFramework;
 	database?: Database;
 	useYohira?: boolean;
@@ -26,9 +26,7 @@ export interface TypeScriptNodeConsoleProjectOptions
 
 export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNodeConsoleProjectOptions> {
 	getMikroOrmDriverPackage():
-		| '@mikro-orm/mysql'
-		| '@mikro-orm/postgresql'
-		| '@mikro-orm/mariadb' {
+		'@mikro-orm/mysql' | '@mikro-orm/postgresql' | '@mikro-orm/mariadb' {
 		switch (this.options.database) {
 			case Database.MySql:
 			default:
@@ -52,11 +50,11 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 		const { tab, newLine } = this.editorConfig;
 
-		const devDependenciesObj = new PackageJsonDependency()
-			.addPackage('typescript')
+		const devDependenciesObj = new PackageJsonDependency(this.useCatalog)
+			.addTypeScript()
 			.addPackage('rimraf');
 
-		const dependenciesObj = new PackageJsonDependency();
+		const dependenciesObj = new PackageJsonDependency(this.useCatalog);
 
 		switch (this.options.test) {
 			case TestingFramework.None:
@@ -111,6 +109,19 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			devDependenciesObj.addPackage('@typescript-eslint/parser');
 			devDependenciesObj.addPackage('eslint');
 			devDependenciesObj.addPackage('eslint-plugin-import');
+
+			devDependenciesObj
+				.addPackage('@eslint/eslintrc')
+				.addPackage('@eslint/compat');
+
+			if (
+				this.options.installBoundaries ||
+				this.options.configurePathAliases
+			) {
+				devDependenciesObj.addPackage(
+					'eslint-import-resolver-typescript',
+				);
+			}
 		}
 
 		if (this.options.enablePrettier && this.options.enableESLint) {
@@ -238,6 +249,7 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		const compilerOptionsObj = new JsonObject()
 			.addEntry('target', 'es2016')
 			.addEntry('module', 'commonjs')
+			.addEntry('rootDir', './src')
 			.addEntry('outDir', './dist')
 			.addEntry('esModuleInterop', true)
 			.addEntry('forceConsistentCasingInFileNames', true)
@@ -245,12 +257,11 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			.addEntry('skipLibCheck', true);
 
 		if (this.options.configurePathAliases) {
-			compilerOptionsObj.addEntry('baseUrl', './');
 			compilerOptionsObj.addEntry(
 				'paths',
 				new JsonObject().addEntry(
 					'@/*',
-					new JsonArray().addItem('src/*'),
+					new JsonArray().addItem('./src/*'),
 				),
 			);
 		}
@@ -397,6 +408,12 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 		return this.joinLines(lines);
 	}
 
+	generatePnpmWorkspaceYaml(): string {
+		return new PnpmWorkspaceYamlGenerator(this.editorConfig, {
+			packageJson: this.generatePackageJson(),
+		}).generate();
+	}
+
 	generateDockerfile(): string {
 		const lines: string[] = [];
 
@@ -420,7 +437,9 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 
 			case PackageManager.Pnpm:
 				lines.push('');
-				lines.push('COPY package.json pnpm-lock.yaml ./');
+				lines.push(
+					'COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./',
+				);
 				lines.push('RUN pnpm install --frozen-lockfile');
 				break;
 		}
@@ -499,6 +518,13 @@ export class TypeScriptNodeConsoleProject extends TypeScriptProject<TypeScriptNo
 			path: 'package.json',
 			text: this.generatePackageJson(),
 		};
+
+		if (this.useCatalog) {
+			yield {
+				path: 'pnpm-workspace.yaml',
+				text: this.generatePnpmWorkspaceYaml(),
+			};
+		}
 
 		yield {
 			path: 'tsconfig.json',

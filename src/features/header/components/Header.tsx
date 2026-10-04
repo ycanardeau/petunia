@@ -77,6 +77,7 @@ export const Header = (): React.ReactElement => {
 				{
 					items: [
 						<EuiHeaderLinks
+							key="links"
 							popoverProps={{ repositionOnScroll: true }}
 						>
 							<EuiToolTip content="GitHub">

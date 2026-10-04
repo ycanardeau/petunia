@@ -1,4 +1,4 @@
-import dependencies from '@/features/common/projects/dependencies.json' with { type: 'json' };
+import { dependencies } from '@/features/common/projects/dependencies';
 import { OrmFramework } from '@/features/typescript/projects/OrmFramework';
 import { TypeScriptNestProject } from '@/features/typescript/projects/TypeScriptNestProject';
 import { TestingFramework } from '@/features/typescript/projects/TypeScriptProject';
@@ -135,6 +135,7 @@ lerna-debug.log*
 		"@types/express": "${dependencies['@types/express']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/supertest": "${dependencies['@types/supertest']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"source-map-support": "${dependencies['source-map-support']}",
 		"supertest": "${dependencies['supertest']}",
 		"ts-loader": "${dependencies['ts-loader']}",
@@ -189,6 +190,7 @@ lerna-debug.log*
 		"@types/jest": "${dependencies['@types/jest']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/supertest": "${dependencies['@types/supertest']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"jest": "${dependencies['jest']}",
 		"source-map-support": "${dependencies['source-map-support']}",
 		"supertest": "${dependencies['supertest']}",
@@ -263,6 +265,7 @@ lerna-debug.log*
 		"@types/express": "${dependencies['@types/express']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/supertest": "${dependencies['@types/supertest']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"cross-env": "${dependencies['cross-env']}",
 		"source-map-support": "${dependencies['source-map-support']}",
 		"supertest": "${dependencies['supertest']}",
@@ -333,6 +336,7 @@ lerna-debug.log*
 		"@types/jest": "${dependencies['@types/jest']}",
 		"@types/node": "${dependencies['@types/node']}",
 		"@types/supertest": "${dependencies['@types/supertest']}",
+		"@typescript/typescript6": "${dependencies['@typescript/typescript6']}",
 		"cross-env": "${dependencies['cross-env']}",
 		"jest": "${dependencies['jest']}",
 		"source-map-support": "${dependencies['source-map-support']}",
@@ -385,7 +389,6 @@ lerna-debug.log*
 		"target": "es2017",
 		"sourceMap": true,
 		"outDir": "./dist",
-		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strict": true,
@@ -413,7 +416,6 @@ lerna-debug.log*
 		"target": "es2017",
 		"sourceMap": true,
 		"outDir": "./dist",
-		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strict": true,
@@ -421,7 +423,7 @@ lerna-debug.log*
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
 			"@/*": [
-				"src/*"
+				"./src/*"
 			]
 		}
 	}
@@ -446,7 +448,6 @@ lerna-debug.log*
 		"target": "es2017",
 		"sourceMap": true,
 		"outDir": "./dist",
-		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strict": true,
@@ -463,6 +464,9 @@ lerna-debug.log*
 		const actual = defaultProject.generateTSConfigBuildJson();
 		const expected = `{
 	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"rootDir": "./src"
+	},
 	"exclude": [
 		"node_modules",
 		"test",
