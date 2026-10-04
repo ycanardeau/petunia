@@ -7,6 +7,8 @@ import { action, computed, makeObservable, observable } from 'mobx';
 export class CSharpAspNetCoreProjectCreateStore {
 	@observable projectName = 'WebApp';
 	@observable packageManager = PackageManager.NuGet;
+	@observable useAigamoMatchGenerator = true;
+	@observable useAigamoResults = true;
 
 	constructor() {
 		makeObservable(this);
@@ -32,6 +34,8 @@ export class CSharpAspNetCoreProjectCreateStore {
 			{
 				projectName: this.projectName,
 				packageManager: this.packageManager,
+				useAigamoMatchGenerator: this.useAigamoMatchGenerator,
+				useAigamoResults: this.useAigamoResults,
 			},
 		);
 		const projectFiles = Array.from(project.generateProjectFiles()).map(

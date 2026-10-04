@@ -4,10 +4,189 @@ import { PackageManager } from '@/features/csharp/projects/PackageManager';
 export interface CSharpAspNetCoreProjectOptions {
 	projectName: string;
 	packageManager: PackageManager;
+	useAigamoMatchGenerator: boolean;
+	useAigamoResults: boolean;
 }
 
 export class CSharpAspNetCoreProject extends Project<CSharpAspNetCoreProjectOptions> {
+	generateEditorConfig(): string {
+		const lines: string[] = [];
+		lines.push('root = true');
+		lines.push('');
+		lines.push('[*]');
+		lines.push('end_of_line = lf');
+		lines.push('charset = utf-8');
+		lines.push('trim_trailing_whitespace = true');
+		lines.push('insert_final_newline = true');
+		lines.push('indent_style = tab');
+		lines.push('indent_size = 4');
+		lines.push('');
+		lines.push('[{*.yml,*.yaml}]');
+		lines.push('indent_style = space');
+		lines.push('indent_size = 2');
+		lines.push('');
+		lines.push('[*.cs]');
+		lines.push(
+			'csharp_style_namespace_declarations=file_scoped:suggestion',
+		);
+		if (this.options.useAigamoResults) {
+			lines.push('');
+			lines.push(
+				'# Aigamo.Results conversion-style analyzer (ARS001/ARS002): prefer the implicit',
+			);
+			lines.push(
+				'# conversion to Result over explicit Result.Ok/Result.Error factory calls.',
+			);
+			lines.push('aigamo_results_conversion_style = implicit');
+		}
+		return this.joinLines(lines);
+	}
+
+	generateDirectoryBuildProps(): string {
+		const { tab } = this.editorConfig;
+		const lines: string[] = [];
+		lines.push('<Project>');
+		lines.push(`${tab}<PropertyGroup>`);
+		lines.push(`${tab}${tab}<TargetFramework>net10.0</TargetFramework>`);
+		lines.push(`${tab}${tab}<ImplicitUsings>enable</ImplicitUsings>`);
+		lines.push(`${tab}${tab}<Nullable>enable</Nullable>`);
+		lines.push(`${tab}</PropertyGroup>`);
+		if (
+			this.options.useAigamoMatchGenerator ||
+			this.options.useAigamoResults
+		) {
+			lines.push('');
+			lines.push(`${tab}<ItemGroup>`);
+			if (this.options.useAigamoMatchGenerator) {
+				lines.push(
+					`${tab}${tab}<PackageReference Include="Aigamo.MatchGenerator" />`,
+				);
+				lines.push(
+					`${tab}${tab}<Using Include="Aigamo.MatchGenerator" />`,
+				);
+			}
+			if (this.options.useAigamoResults) {
+				lines.push(
+					`${tab}${tab}<PackageReference Include="Aigamo.Results" />`,
+				);
+				lines.push(`${tab}${tab}<Using Include="Aigamo.Results" />`);
+			}
+			lines.push(`${tab}</ItemGroup>`);
+		}
+		lines.push('</Project>');
+		return this.joinLines(lines);
+	}
+
+	generateDirectoryPackagesProps(): string {
+		const packageVersions: Record<string, string> = {
+			'Aspire.Hosting.AppHost': '9.3.1',
+			'Microsoft.AspNetCore.OpenApi': '9.0.8',
+			'Microsoft.Extensions.Http.Resilience': '9.4.0',
+			'Microsoft.Extensions.ServiceDiscovery': '9.3.1',
+			'Microsoft.VisualStudio.Azure.Containers.Tools.Targets': '1.22.1',
+			'OpenTelemetry.Exporter.OpenTelemetryProtocol': '1.12.0',
+			'OpenTelemetry.Extensions.Hosting': '1.12.0',
+			'OpenTelemetry.Instrumentation.AspNetCore': '1.12.0',
+			'OpenTelemetry.Instrumentation.Http': '1.12.0',
+			'OpenTelemetry.Instrumentation.Runtime': '1.12.0',
+		};
+		if (this.options.useAigamoMatchGenerator) {
+			packageVersions['Aigamo.MatchGenerator'] = '0.0.0-preview026';
+		}
+		if (this.options.useAigamoResults) {
+			packageVersions['Aigamo.Results'] = '0.0.0-preview005';
+		}
+
+		const lines: string[] = [];
+		lines.push('<Project>');
+		lines.push('  <PropertyGroup>');
+		lines.push(
+			'    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>',
+		);
+		lines.push('  </PropertyGroup>');
+		lines.push('  <ItemGroup>');
+		for (const [name, version] of Object.entries(packageVersions).sort(
+			([a], [b]) => a.localeCompare(b),
+		)) {
+			lines.push(
+				`    <PackageVersion Include="${name}" Version="${version}" />`,
+			);
+		}
+		lines.push('  </ItemGroup>');
+		lines.push('</Project>');
+		return this.joinLines(lines);
+	}
+
 	*generateProjectFiles(): Generator<ProjectFile> {
+		yield {
+			path: `CLAUDE.md`,
+			text: `# Code style
+
+- Order definitions bottom-up (dependency-first), like a functional-programming source file where you can't reference something before it's bound: define a function/method/property only after everything it depends on is already defined above it. The entry point / top-level caller goes last, the leaves (depending on nothing else local) go first. Applies to properties and fields as well as functions and methods — order them by the same dependency rule (e.g. a computed property goes after the properties it reads).
+
+    Example — correct order:
+
+    \`\`\`
+    void C() { }
+
+    void B() { C(); }
+
+    void A() { B(); }
+    \`\`\`
+
+    Incorrect (caller-first) order:
+
+    \`\`\`
+    void A() { B(); }
+
+    void B() { C(); }
+
+    void C() { }
+    \`\`\`
+
+    Apply this whenever touching a file: when writing new files, when adding new members to existing ones, and when editing an existing file whose members are out of order — reorder the existing members too so the whole file follows dependency order, not just the new additions.
+`,
+		};
+
+		yield {
+			path: `.config/dotnet-tools.json`,
+			text: `{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "csharpier": {
+      "version": "1.3.0",
+      "commands": [
+        "csharpier"
+      ],
+      "rollForward": false
+    }
+  }
+}
+`,
+		};
+
+		yield {
+			path: `.vscode/extensions.json`,
+			text: `{
+  "recommendations": [
+    "csharpier.csharpier-vscode"
+  ]
+}
+`,
+		};
+
+		yield {
+			path: `.vscode/settings.json`,
+			text: `{
+  "[csharp]": {
+    "editor.defaultFormatter": "csharpier.csharpier-vscode",
+    "editor.formatOnSave": true
+  }
+}
+`,
+		};
+
 		yield {
 			path: `.gitignore`,
 			text: `## Ignore Visual Studio temporary files, build results, and
@@ -60,7 +239,9 @@ artifacts/
 **/Properties/launchSettings.json
 
 # VS Code
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 
 *_i.c
 *_p.c
@@ -304,45 +485,17 @@ __pycache__/
 
 		yield {
 			path: `.editorconfig`,
-			text: `root = true
+			text: this.generateEditorConfig(),
+		};
 
-[*]
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-indent_style = tab
-indent_size = 4
-
-[{*.yml,*.yaml}]
-indent_style = space
-indent_size = 2
-
-[*.cs]
-csharp_style_namespace_declarations=file_scoped:suggestion
-`,
+		yield {
+			path: `Directory.Build.props`,
+			text: this.generateDirectoryBuildProps(),
 		};
 
 		yield {
 			path: `Directory.Packages.props`,
-			text: `<Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.4.0" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
-    <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
-  </ItemGroup>
-</Project>
-`,
+			text: this.generateDirectoryPackagesProps(),
 		};
 
 		yield {
@@ -350,9 +503,6 @@ csharp_style_namespace_declarations=file_scoped:suggestion
 			text: `<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <IsAspireSharedProject>true</IsAspireSharedProject>
   </PropertyGroup>
 
@@ -509,9 +659,6 @@ public static class Extensions
 			text: `<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>${window.crypto.randomUUID()}</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
@@ -695,9 +842,6 @@ README.md
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <UserSecretsId>${window.crypto.randomUUID()}</UserSecretsId>
   </PropertyGroup>
 

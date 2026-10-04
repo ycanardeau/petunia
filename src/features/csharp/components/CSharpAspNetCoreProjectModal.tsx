@@ -13,6 +13,7 @@ import {
 	EuiModalHeader,
 	EuiModalHeaderTitle,
 	EuiSelect,
+	EuiSwitch,
 } from '@elastic/eui';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -64,6 +65,34 @@ const CSharpAspNetCoreProjectCreateForm = observer(
 							runInAction(() => {
 								projectCreateStore.packageManager = e.target
 									.value as PackageManager;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Use Aigamo.MatchGenerator" /* LOC */
+						checked={projectCreateStore.useAigamoMatchGenerator}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.useAigamoMatchGenerator =
+									e.target.checked;
+							});
+						}}
+						compressed
+					/>
+				</EuiFormRow>
+
+				<EuiFormRow display="rowCompressed">
+					<EuiSwitch
+						label="Use Aigamo.Results" /* LOC */
+						checked={projectCreateStore.useAigamoResults}
+						onChange={(e): void => {
+							runInAction(() => {
+								projectCreateStore.useAigamoResults =
+									e.target.checked;
 							});
 						}}
 						compressed
